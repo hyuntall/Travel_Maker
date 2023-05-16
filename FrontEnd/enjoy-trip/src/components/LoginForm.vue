@@ -16,9 +16,8 @@
           <a href="">Forgot Password?</a>
         </div>
       </div>
-      <button variant="outline-success" @click="login">submit</button>
       <div class="submit">
-        <input type="submit" value="submit" />
+        <button variant="outline-success" @click="login">submit</button>
       </div>
     </div>
   </div>
@@ -151,7 +150,7 @@ h2 {
   margin-top: 50px;
   width: 80%;
 }
-.submit input {
+.submit button {
   width: 100%;
   height: 50px;
   border: 0;

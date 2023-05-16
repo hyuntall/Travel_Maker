@@ -51,7 +51,7 @@ export default {
 /* header */
 #header {
   z-index: 200;
-  position: fixed;
+  /* position: fixed; */
   top: 0;
   width: 100%;
   border-bottom: 1px solid #c6c6c6;
