@@ -49,6 +49,14 @@ const routes = [
     path: "/board",
     name: "BoardView",
     component: BoardView,
+    redirect: "/board/list",
+    children: [
+      {
+        path: "list",
+        name: "BoardList",
+        component: () => import("@/components/board/BoardList"),
+      },
+    ],
   },
 ];
 

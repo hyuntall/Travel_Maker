@@ -13,7 +13,7 @@
               </li>
               <li v-if="getUser"><router-link to="/">MyPlan</router-link></li>
               <li>
-                <router-link to="/">이용방법???</router-link>
+                <router-link to="/board">자유게시판</router-link>
               </li>
               <li>
                 <a href="#" v-if="getUser" @click="logout">로그아웃</a>
