@@ -9,7 +9,7 @@
           <nav class="nav">
             <ul class="main-menu">
               <li>
-                <router-link to="/">여행지</router-link>
+                <router-link to="/trip">여행지</router-link>
               </li>
               <li v-if="getUser"><router-link to="/">MyPlan</router-link></li>
               <li>

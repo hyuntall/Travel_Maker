@@ -1,16 +1,14 @@
 <template>
-  <div>
-    <router-view />
-  </div>
+  <div></div>
 </template>
 
 <script>
 export default {
-  name: "TripView",
+  name: 'TripSearch',
   components: {},
   data() {
     return {
-      message: "",
+      message: '',
     };
   },
   created() {},

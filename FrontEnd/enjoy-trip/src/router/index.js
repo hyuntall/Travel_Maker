@@ -2,6 +2,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import UserView from "../views/UserView";
+import TripView from "../views/TripView";
+import BoardView from "../views/BoardView";
 
 Vue.use(VueRouter);
 
@@ -11,16 +13,6 @@ const routes = [
     name: "home",
     component: HomeView,
   },
-  // {
-  //   path: "/plan",
-  //   name: "plan",
-  //   component: () => import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
-  // },
-  // {
-  //   path: "/board",
-  //   name: "board",
-  //   component: () => import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
-  // },
   {
     path: "/login",
     name: "login",
@@ -33,9 +25,30 @@ const routes = [
       {
         path: "regist",
         name: "UserRegist",
-        component: () => import(/* webpackChunkName: "about" */ "@/components/uesr/UserWrite"),
+        component: () => import(/* webpackChunkName: "about" */ "@/components/user/UserWrite"),
       },
     ],
+  },
+  {
+    path: "/trip",
+    component: TripView,
+    children: [
+      {
+        path: "",
+        name: "TripSearch",
+        component: () => import(/* webpackChunkName: "about" */ "@/components/trip/TripSearch"),
+      },
+      {
+        path: "make",
+        name: "TripMake",
+        component: () => import(/* webpackChunkName: "about" */ "@/components/trip/TripMake"),
+      },
+    ],
+  },
+  {
+    path: "/board",
+    name: "BoardView",
+    component: BoardView,
   },
 ];
 
