@@ -2,12 +2,18 @@
     <div class="container">
       <div class="row">
         <div class="search">
-          <h2 class="mt-5">여행지 검색</h2>
-          <b-form-input class="w-50 mt-4 mx-auto" v-model="text" placeholder="여행지 검색"></b-form-input>
+          <h2 class="mt-5">어디로 여행을 떠나시나요?</h2>
+          <b-form-input class="w-50 mt-4 mx-auto" v-model="text" placeholder="여행지를 검색해주세요"></b-form-input>
           <ul class="select">
             <li tabindex="1">서울</li>
             <li tabindex="1">경기</li>
             <li tabindex="1">강원</li>
+            <li tabindex="1">충북</li>
+            <li tabindex="1">충남</li>
+            <li tabindex="1">전북</li>
+            <li tabindex="1">전남</li>
+            <li tabindex="1">경북</li>
+            <li tabindex="1">경남</li>
             <li tabindex="1">제주</li>
           </ul>
 
@@ -38,7 +44,7 @@
                       <p>
                       섬 전체가 하나의 거대한 관광자원인 제주도. 에메랄드빛 물빛이 인상적인 협재 해수욕장은 제주 대표 여행지며, 파도가 넘보는 주상절리와 바다 위 산책로인 용머리 해안은 제주에서만 볼 수 있는 천혜의 자연경관으로 손꼽힌다. 드라마 촬영지로 알려진 섭지코스는 꾸준한 사랑을 받고 있으며 한라봉과 흑돼지, 은갈치 등은 제주를 대표하는 음식이다.
                       </p>
-                      <b-link to="/trip/make">Home</b-link>
+                      <b-link to="/trip/make">플랜 만들기</b-link>
                     </div>
                   </div>
                 </b-modal>
@@ -169,24 +175,28 @@
 </template>
 
 <script>
+import http from "@/util/http-common.js"
 export default {
   name: 'TripSearch',
   components: {},
   data() {
     return {
       message: '',
+      num:''
     };
   },
-  created() {},
+  created() {
+    http.get("/test").then(({data})=>{console.log(data)})
+  },
   methods: {},
 };
 </script>
 
 <style scoped>
-.search {margin-top: 100px;}
+.search {margin-top: 100px; text-align: center;}
 .search h2 {font-weight: 700;}
-.search input {height: 60px}
-.search .select {display: flex; justify-content: center;}
+.search input {height: 60px; text-align: center; font-size: 16px;}
+.search .select {display: flex; justify-content: center; padding-right: 25px;}
 .search .select li {padding: 15px;font-size: 18px;}
 .search .select li:focus {background-color: #000; color: #fff;}
 .search .regions {display: flex; flex-wrap: wrap; padding-left: 40px;}
@@ -198,4 +208,5 @@ export default {
 .body .bg {width: 30%;}
 .body .desc {width: 65%; padding: 20px; margin-left: auto;}
 .body .desc p {margin-top: 3px; font-size: 8px;}
+.body .desc a {text-decoration: none; float: right ; margin-top: 10px;}
 </style>
