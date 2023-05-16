@@ -13,7 +13,7 @@
               </li>
               <li v-if="getUser"><router-link to="/">MyPlan</router-link></li>
               <li>
-                <router-link to="/">이용방법???</router-link>
+                <router-link to="/">이용방법</router-link>
               </li>
               <li>
                 <a href="#" v-if="getUser" @click="logout">로그아웃</a>
@@ -82,7 +82,7 @@ export default {
 }
 .header nav .main-menu li {
   text-align: center;
-  padding: 10px;
+  padding-top: 10px;
 }
 .header nav .main-menu li:hover {
   background-color: #dad7d7;
@@ -98,4 +98,6 @@ export default {
   display: inline-block;
   color: #039be5;
 }
+
+a {text-decoration: none; color: #000}
 </style>
