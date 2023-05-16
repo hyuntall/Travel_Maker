@@ -2,17 +2,6 @@
   <div class="wrap">
     <div class="login">
       <h2>Log-in</h2>
-      <!-- <div class="login_sns">
-        <li>
-          <a href=""><i class="fab fa-instagram"></i></a>
-        </li>
-        <li>
-          <a href=""><i class="fab fa-facebook-f"></i></a>
-        </li>
-        <li>
-          <a href=""><i class="fab fa-twitter"></i></a>
-        </li>
-      </div> -->
       <div class="login_id">
         <h4>ID</h4>
         <input type="text" v-model="id" name="id" id="id" placeholder="id" />

@@ -4,16 +4,20 @@
       <div class="row">
         <div class="header clearfix">
           <div>
-            <a href="#"> <b>MYRO</b>&nbsp;&nbsp;<span>MAKE YOUR ROUTE OPTIMIZED</span> </a>
+            <router-link to="/"> <b>MYRO</b>&nbsp;&nbsp;<span>MAKE YOUR ROUTE OPTIMIZED</span> </router-link>
           </div>
           <nav class="nav">
             <ul class="main-menu">
-              <li><a href="#">여행지</a></li>
-              <li v-if="getUser"><router-link>MyPlan</router-link></li>
-              <li><a href="#">이용방법</a></li>
               <li>
-                <router-link v-if="getUser" @click="logout">로그아웃</router-link>
-                <router-link v-else to="/login">로그인</router-link>
+                <router-link to="/">여행지</router-link>
+              </li>
+              <li v-if="getUser"><router-link to="/">MyPlan</router-link></li>
+              <li>
+                <router-link to="/">이용방법???</router-link>
+              </li>
+              <li>
+                <a href="#" v-if="getUser" @click="logout">로그아웃</a>
+                <router-link to="/login" v-else>로그인</router-link>
               </li>
             </ul>
           </nav>
