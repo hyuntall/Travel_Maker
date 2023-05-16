@@ -82,7 +82,7 @@ export default {
 }
 .header nav .main-menu li {
   text-align: center;
-  padding: 10px;
+  padding-top: 10px;
 }
 .header nav .main-menu li:hover {
   background-color: #dad7d7;
@@ -97,5 +97,10 @@ export default {
 .header nav .main-menu li a:hover {
   display: inline-block;
   color: #039be5;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
 }
 </style>
