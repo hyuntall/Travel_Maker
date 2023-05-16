@@ -56,6 +56,11 @@ const routes = [
         name: "BoardList",
         component: () => import("@/components/board/BoardList"),
       },
+      {
+        path: "regist",
+        name: "BoardRegist",
+        component: () => import(/* webpackChunkName: "about" */ "@/components/board/BoardWrite"),
+      },
     ],
   },
 ];

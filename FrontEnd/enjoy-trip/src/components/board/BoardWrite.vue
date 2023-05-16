@@ -1,44 +1,37 @@
 <template>
-  <b-row class="mb-1">
-    <b-col style="text-align: left">
-      <b-form @submit="onSubmit" @reset="onReset">
-        <b-form-group id="userid-group" label="작성자:" label-for="userid" description="작성자를 입력하세요.">
-          <b-form-input
-            id="userid"
-            :disabled="isUserid"
-            v-model="article.userid"
-            type="text"
-            required
-            placeholder="작성자 입력..."
-          ></b-form-input>
-        </b-form-group>
-
-        <b-form-group id="subject-group" label="제목:" label-for="subject" description="제목을 입력하세요.">
-          <b-form-input
-            id="subject"
-            v-model="article.subject"
-            type="text"
-            required
-            placeholder="제목 입력..."
-          ></b-form-input>
-        </b-form-group>
-
-        <b-form-group id="content-group" label="내용:" label-for="content">
-          <b-form-textarea
-            id="content"
-            v-model="article.content"
-            placeholder="내용 입력..."
-            rows="10"
-            max-rows="15"
-          ></b-form-textarea>
-        </b-form-group>
-
-        <b-button type="submit" variant="primary" class="m-1" v-if="this.type === 'register'">글작성</b-button>
-        <b-button type="submit" variant="primary" class="m-1" v-else>글수정</b-button>
-        <b-button type="reset" variant="danger" class="m-1">초기화</b-button>
-      </b-form>
-    </b-col>
-  </b-row>
+  <div class="wrap">
+    <div class="board">
+      <h2>글쓰기</h2>
+      <div class="board_input user_id">
+        <label for="id" class="label">작성자</label>
+        <br />
+        <input type="text" v-model="user_id" name="user_id" id="user_id" />
+      </div>
+      <div class="board_input title">
+        <label for="title" class="label">제목</label>
+        <input type="text" v-model="title" name="title" id="title" />
+      </div>
+      <div class="board_input content">
+        <label for="content" class="label">내용</label>
+        <textarea v-model="content" name="title" id="title"> </textarea>
+      </div>
+      <div class="board_input image">
+        <label for="image" class="label">내용</label>
+        <input type="file" name="image" id="image" @change="uploadImage" />
+      </div>
+      <div v-if="post.image">
+        <h3>이미지</h3>
+        <img :src="post.image" alt="Uploaded Image" />
+      </div>
+      <div v-if="post.content">
+        <h3>게시글 내용</h3>
+        <div v-html="renderedContent"></div>
+      </div>
+      <div class="submit">
+        <button class="btn btn-dark" @click="login">작성하기</button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -47,17 +40,154 @@ export default {
   components: {},
   data() {
     return {
-      content: "",
-      name: "",
-      password: "",
-      phone_number: "",
-      gender: 0,
-      age: 0,
+      post: {
+        user_id: "",
+        title: "",
+        content: "",
+        image: null,
+      },
     };
   },
-  created() {},
-  methods: {},
+  computed: {
+    renderedContent() {
+      return this.post.content.replace(/!\[(.*?)\]\((.*?)\)/g, '<img src="$2" alt="$1">');
+    },
+  },
+  methods: {
+    uploadImage(event) {
+      const file = event.target.files[0];
+      // 이미지 업로드 로직
+      // 서버로 이미지 업로드 요청을 보내고, 응답으로 받은 이미지 경로를 post.image에 저장
+      console.log(file);
+      console.log(this.post);
+      this.renderedContent();
+    },
+  },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+li {
+  list-style: none;
+}
+
+.wrap {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.board {
+  width: 60%;
+  height: 600px;
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+h2 {
+  color: black;
+  font-size: 2em;
+}
+
+.board_input {
+  margin-top: 20px;
+  width: 80%;
+}
+.board_input label {
+  float: left;
+}
+.user_id input {
+  width: 200px;
+  height: 50px;
+  border-radius: 5px;
+  margin-top: 10px;
+  padding: 0px 20px;
+  border: 1px solid lightgray;
+  outline: none;
+}
+
+.title input {
+  width: 100%;
+  height: 50px;
+  border-radius: 5px;
+  margin-top: 10px;
+  padding: 0px 20px;
+  border: 1px solid lightgray;
+  outline: none;
+}
+
+.board_input textarea {
+  width: 100%;
+  height: 200px;
+  border-radius: 5px;
+  margin-top: 10px;
+  padding: 0px 20px;
+  border: 1px solid lightgray;
+  outline: none;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0 30px;
+  font-size: 15px;
+  font-weight: 400;
+  background: transparent;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: 1px solid transparent;
+  text-transform: uppercase;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.submit {
+  margin-top: 15px;
+  width: 100%;
+}
+
+.btn-dark {
+  float: right;
+  margin-right: 15px;
+  background: #555;
+  color: #fff;
+}
+
+.btn-dark:hover,
+.btn-dark:focus {
+  background: #373737;
+  border-color: #373737;
+  color: #fff;
+}
+</style>

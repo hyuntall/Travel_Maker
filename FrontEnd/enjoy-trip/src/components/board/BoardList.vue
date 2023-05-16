@@ -47,7 +47,7 @@
               </tr>
             </tbody>
           </table>
-          <button class="btn btn-dark write">글쓰기</button>
+          <button class="btn btn-dark write" @click="moveWrite()">글쓰기</button>
         </div>
       </div>
       <nav aria-label="Page navigation">
@@ -150,7 +150,11 @@ export default {
     };
   },
   created() {},
-  methods: {},
+  methods: {
+    moveWrite() {
+      this.$router.push({ name: "BoardRegist" });
+    },
+  },
 };
 </script>
 
