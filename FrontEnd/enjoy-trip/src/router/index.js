@@ -10,17 +10,16 @@ const routes = [
     name: "home",
     component: HomeView,
   },
-
-  {
-    path: "/plan",
-    name: "plan",
-    component: () => import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
-  },
-  {
-    path: "/board",
-    name: "board",
-    component: () => import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
-  },
+  // {
+  //   path: "/plan",
+  //   name: "plan",
+  //   component: () => import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+  // },
+  // {
+  //   path: "/board",
+  //   name: "board",
+  //   component: () => import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+  // },
   {
     path: "/login",
     name: "login",
