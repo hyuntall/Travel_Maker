@@ -2,19 +2,13 @@
   <div class="wrap">
     <div class="login">
       <h2>Log-in</h2>
-      <div class="login_id">
-        <h4>ID</h4>
+      <div class="login_input login_id">
+        <label for="id" class="label">ID</label>
         <input type="text" v-model="id" name="id" id="id" placeholder="id" />
       </div>
-      <div class="login_pw">
-        <h4>Password</h4>
+      <div class="login_input login_pw">
+        <label for="password" class="label">Password</label>
         <input type="password" v-model="password" name="password" id="password" placeholder="Password" />
-      </div>
-      <div class="login_etc">
-        <div class="checkbox"><input type="checkbox" name="" id="" /> Remember Me?</div>
-        <div class="forgot_pw">
-          <a href="">Forgot Password?</a>
-        </div>
       </div>
       <div class="submit">
         <button variant="outline-success" @click="login">submit</button>
@@ -73,7 +67,6 @@ li {
   width: 30%;
   height: 600px;
   background: white;
-  border-radius: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -81,55 +74,21 @@ li {
 }
 
 h2 {
-  color: tomato;
+  color: black;
   font-size: 2em;
 }
-.login_sns {
-  padding: 20px;
-  display: flex;
-}
 
-.login_sns li {
-  padding: 0px 15px;
-}
-
-.login_sns a {
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
-  border-radius: 50px;
-  background: white;
-  font-size: 20px;
-  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.4), -3px -3px 5px rgba(0, 0, 0, 0.1);
-}
-
-.login_id {
+.login_input {
   margin-top: 20px;
   width: 80%;
 }
-
-.login_id input {
+.login_input label {
+  float: left;
+}
+.login_input input {
   width: 100%;
   height: 50px;
-  border-radius: 30px;
-  margin-top: 10px;
-  padding: 0px 20px;
-  border: 1px solid lightgray;
-  outline: none;
-}
-
-.login_pw {
-  margin-top: 20px;
-  width: 80%;
-}
-
-.login_pw input {
-  width: 100%;
-  height: 50px;
-  border-radius: 30px;
+  border-radius: 5px;
   margin-top: 10px;
   padding: 0px 20px;
   border: 1px solid lightgray;
@@ -155,8 +114,9 @@ h2 {
   height: 50px;
   border: 0;
   outline: none;
-  border-radius: 40px;
-  background: linear-gradient(to left, rgb(255, 77, 46), rgb(255, 155, 47));
+  border-radius: 10px;
+  background: skyblue;
+  /* background: linear-gradient(to left, rgb(255, 77, 46), rgb(255, 155, 47)); */
   color: white;
   font-size: 1.2em;
   letter-spacing: 2px;

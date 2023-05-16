@@ -19,6 +19,9 @@
                 <a href="#" v-if="getUser" @click="logout">로그아웃</a>
                 <router-link to="/login" v-else>로그인</router-link>
               </li>
+              <li v-if="!getUser">
+                <router-link to="/user/regist">회원가입</router-link>
+              </li>
             </ul>
           </nav>
         </div>

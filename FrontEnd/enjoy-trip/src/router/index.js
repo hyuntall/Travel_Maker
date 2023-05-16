@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import UserView from "../views/UserView";
 
 Vue.use(VueRouter);
 
@@ -24,6 +25,17 @@ const routes = [
     path: "/login",
     name: "login",
     component: () => import(/* webpackChunkName: "about" */ "@/components/LoginForm"),
+  },
+  {
+    path: "/user",
+    component: UserView,
+    children: [
+      {
+        path: "regist",
+        name: "UserRegist",
+        component: () => import(/* webpackChunkName: "about" */ "@/components/uesr/UserWrite"),
+      },
+    ],
   },
 ];
 
