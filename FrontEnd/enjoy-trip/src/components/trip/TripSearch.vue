@@ -175,7 +175,7 @@
 </template>
 
 <script>
-import http from "@/util/http-common.js"
+// import http from "@/util/http-common.js"
 export default {
   name: 'TripSearch',
   components: {},
@@ -186,7 +186,7 @@ export default {
     };
   },
   created() {
-    http.get("/test").then(({data})=>{console.log(data)})
+    // http.get("/test").then(({data})=>{console.log(data)})
   },
   methods: {},
 };

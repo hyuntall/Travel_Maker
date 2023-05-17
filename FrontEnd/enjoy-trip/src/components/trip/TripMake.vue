@@ -1,32 +1,14 @@
 <template>
   <div>
-    <div>하하하하하하하하ㅏ</div>
-    <div>하하하하하하하하ㅏ</div>
-    <div>하하하하하하하하ㅏ</div>
-    <div>하하하하하하하하ㅏ</div>
-    <div>하하하하하하하하ㅏ</div>
-    <div>하하하하하하하하ㅏ</div>
-    <div>하하하하하하하하ㅏ</div>
-    <div>하하하하하하하하ㅏ</div>
-    <div>하하하하하하하하ㅏ</div>
-    <div>하하하하하하하하ㅏ</div>
-    <div>하하하하하하하하ㅏ</div>
-    <div>하하하하하하하하ㅏ</div>
-    <div>하하하하하하하하ㅏ</div>
-    <div>하하하하하하하하ㅏ</div>
-    <div>하하하하하하하하ㅏ</div>
-    <div>하하하하하하하하ㅏ</div>
-    <div>하하하하하하하하ㅏ</div>
-    <div>하하하하하하하하ㅏ</div>
-    <div>하하하하하하하하ㅏ</div>
-    <div>하하하하하하하하ㅏ</div>
-    <div>하하하하하하하하ㅏ</div>
-    <div>하하하하하하하하ㅏ</div>
-    <div>하하하하하하하하ㅏ</div>
-    <div>하하하하하하하하ㅏ</div>
-    <div>하하하하하하하하ㅏ</div>
-    <div>하하하하하하하하ㅏ</div>
-    <div>하하하하하하하하ㅏ</div>
+    <div class="container">
+      <div class="row">
+        <div class="plan">
+          <div class="planner"></div>
+          <div class="map"></div>
+          <div class="result"></div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
