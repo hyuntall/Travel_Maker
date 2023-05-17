@@ -70,7 +70,7 @@
 </template>
 
 <script>
-// import http from "@/util/http-common";
+import http from "@/util/http-common";
 export default {
   name: "QnAList",
   components: {},
@@ -151,9 +151,10 @@ export default {
     };
   },
   created() {
-    // qna 질문 리스트 요청
-    // http.get("/qna").then(({ data }) => {
-    // });
+    //qna 질문 리스트 요청
+    http.get("/qna/list").then(({ data }) => {
+      console.log(data)
+    });
   },
   methods: {},
 };

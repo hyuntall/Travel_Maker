@@ -3,6 +3,8 @@ package com.ssafy.model.service;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.ibatis.jdbc.SQL;
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,24 +17,26 @@ import lombok.RequiredArgsConstructor;
 public class QnaServiceImpl implements QnaService{
 	
 	@Autowired
-	private QnaRepository qnaRepository;
+	private SqlSession sqlsession;
 
 	@Override
 	public List<QnaDto> selectAll() throws SQLException {
 		// TODO Auto-generated method stub
-		return qnaRepository.selectAll();
+		return sqlsession.getMapper(QnaRepository.class).selectAll();
+				
 	}
 
 	@Override
 	public void insert(QnaDto dto) throws SQLException {
 		// TODO Auto-generated method stub
-		qnaRepository.insert(dto);
+		sqlsession.getMapper(QnaRepository.class).insert(dto);
 	}
 
 	@Override
 	public void update(QnaDto dto) throws SQLException {
 		// TODO Auto-generated method stub
-		qnaRepository.update(dto);
+		sqlsession.getMapper(QnaRepository.class).update(dto);
+		
 	}
 
 
@@ -40,13 +44,14 @@ public class QnaServiceImpl implements QnaService{
 	@Override
 	public void delete(int id) throws SQLException {
 		// TODO Auto-generated method stub
-		qnaRepository.delete(id);
+		sqlsession.getMapper(QnaRepository.class).delete(id);
+		
 	}
 
 	@Override
 	public QnaDto selectById(int id) throws SQLException {
 		// TODO Auto-generated method stub
-		return qnaRepository.selectById(id);
+		return sqlsession.getMapper(QnaRepository.class).selectById(id);
 	}
 	
 }
