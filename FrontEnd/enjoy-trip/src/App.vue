@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <header-nav user="id" @logout="logout" />
+    <header-nav :user="user" @logout="logout" />
     <router-view @login="login" />
   </div>
 </template>

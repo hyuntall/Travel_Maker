@@ -47,7 +47,8 @@ export default {
   },
   computed: {
     getUser() {
-      if (this.user) return true;
+      console.log(this.user)
+      if (localStorage.getItem("user")) return true;
       return false;
     },
   },
