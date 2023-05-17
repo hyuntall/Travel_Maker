@@ -4,23 +4,29 @@
       <h2>Sign Up</h2>
       <div class="form_input user_id">
         <label for="id" class="label">ID</label>
-        <input type="text" v-model="id" name="id" id="id" placeholder="id" />
+        <input type="text" v-model="user.id" name="id" id="id" placeholder="id" />
       </div>
       <div class="form_input user_pw">
         <label for="password" class="label">Password</label>
-        <input type="password" v-model="password" name="password" id="password" placeholder="Password" />
+        <input type="password" v-model="user.password" name="password" id="password" placeholder="Password" />
       </div>
       <div class="form_input user_name">
         <label for="name" class="label">Name</label>
-        <input type="text" v-model="name" name="password" id="name" placeholder="name" />
+        <input type="text" v-model="user.name" name="password" id="name" placeholder="name" />
       </div>
       <div class="form_input phone_number">
         <label for="phone_number" class="label">Phone Number</label>
-        <input type="text" v-model="phone_number" name="phone_number" id="phone_number" placeholder="phone_number" />
+        <input
+          type="text"
+          v-model="user.phone_number"
+          name="phone_number"
+          id="phone_number"
+          placeholder="phone_number"
+        />
       </div>
       <div class="form_input age">
         <label for="name" class="label">Age</label>
-        <input type="number" v-model="age" name="password" id="age" placeholder="age" />
+        <input type="number" v-model="user.age" name="password" id="age" placeholder="age" />
       </div>
       <div class="form_input gender">
         <label for="name" class="label">gender</label>
@@ -30,7 +36,7 @@
         </select>
       </div>
       <div class="submit row">
-        <button class="col-5" variant="outline-success">SignUp</button>
+        <button class="col-5" variant="outline-success" @click="checkValue">SignUp</button>
         <button class="col-5" variant="outline-success">LogIn</button>
       </div>
     </div>
@@ -38,6 +44,8 @@
 </template>
 
 <script>
+import http from "@/util/http-common";
+
 export default {
   name: "WriteForm",
   props: {
@@ -45,12 +53,14 @@ export default {
   },
   data() {
     return {
-      id: "",
-      name: "",
-      password: "",
-      phone_number: "",
-      gender: 0,
-      age: 0,
+      user: {
+        id: "",
+        name: "",
+        password: "",
+        phone_number: "",
+        gender: "M",
+        age: 0,
+      },
     };
   },
   created() {
@@ -72,17 +82,25 @@ export default {
       // isbn, 제목, 저자, 가격, 설명이 없을 경우 각 항목에 맞는 메세지를 출력
       let err = true;
       let msg = "";
-      !this.id && ((msg = "ID를 입력해주세요"), (err = false), this.$refs.id.focus());
-      err && !this.name && ((msg = "이름을 입력해주세요"), (err = false), this.$refs.name.focus());
-      err && !this.password && ((msg = "패스워드를 입력해주세요"), (err = false), this.$refs.password.focus());
-      err &&
-        !this.phone_number &&
-        ((msg = "휴대폰 번호를 입력해주세요"), (err = false), this.$refs.phone_number.focus());
+      !this.user.id && ((msg = "ID를 입력해주세요"), (err = false));
+      err && !this.user.name && ((msg = "이름을 입력해주세요"), (err = false));
+      err && !this.user.password && ((msg = "패스워드를 입력해주세요"), (err = false));
+      err && !this.user.phone_number && ((msg = "휴대폰 번호를 입력해주세요"), (err = false));
       if (!err) alert(msg);
       // 만약, 내용이 다 입력되어 있다면 modifyBook 호출
-      else this.type === "regist" ? this.registBook() : this.modifyBook();
+      else this.type === "modify" ? this.modifyUser() : this.registUser();
     },
-    registUser() {},
+    registUser() {
+      http
+        .post("/user/regist", this.user)
+        .then(({ data }) => {
+          alert(data);
+          this.$router.push({ name: "home" });
+        })
+        .catch((data) => {
+          alert("error! " + data.response.data);
+        });
+    },
     modifyUser() {},
   },
 };

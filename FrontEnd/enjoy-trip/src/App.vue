@@ -1,12 +1,13 @@
 <template>
   <div id="app">
-    <header-nav :user="user" @logout="logout" />
+    <header-nav user="id" @logout="logout" />
     <router-view @login="login" />
   </div>
 </template>
 
 <script>
 import HeaderNav from "./components/common/HeaderNav.vue";
+import http from "@/util/http-common";
 export default {
   components: { HeaderNav },
   data() {
@@ -16,14 +17,24 @@ export default {
   },
   methods: {
     logout() {
+      localStorage.removeItem("user");
       this.user = null;
+      console.log("adsds");
+      window.location.reload();
     },
-    login(user) {
-      if (user.id === "admin" && user.password === "1234") {
-        this.user = user;
-        alert("로그인 성공");
-        this.$router.push("/");
-      }
+    login(id, password) {
+      http
+        .post("/user/login", {
+          id: id,
+          password: password,
+        })
+        .then(({ data }) => {
+          console.log(data);
+          this.user = id;
+          localStorage.setItem("user", id);
+          alert("로그인 성공");
+          this.$router.push("/");
+        });
     },
   },
 };

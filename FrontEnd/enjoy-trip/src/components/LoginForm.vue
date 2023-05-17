@@ -27,13 +27,12 @@ export default {
   },
   methods: {
     login() {
-      let user = {
-        id: this.id,
-        password: this.password,
-      };
-
-      this.$emit("login", user);
+      this.$emit("login", this.id, this.password);
     },
+    // let user = {
+    //   id: this.id,
+    //   password: this.password,
+    // };
   },
 };
 </script>

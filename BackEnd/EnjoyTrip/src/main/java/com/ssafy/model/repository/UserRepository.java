@@ -15,4 +15,6 @@ import com.ssafy.dto.UserDto;
 public interface UserRepository {
 	public UserDto selectByIdx(int idx) throws SQLException;
 	public UserDto selectById(String id) throws SQLException;
+	public int insertUser(UserDto user) throws SQLException;
+	public int checkUser(String id) throws SQLException;
 }

@@ -8,4 +8,8 @@
 	<select id="selectById" resultType="UserDto">
 		select * from user where id=#{id}
 	</select>
+	
+	<insert id="insertUser">
+		insert into user (id, password, name, age, phone_number, gender) values(#{id}, #{password}, #{name}, #{age}, #{phone_number}, #{gender})
+	</insert>
 </mapper>

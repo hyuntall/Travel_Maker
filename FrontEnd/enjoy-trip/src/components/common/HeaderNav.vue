@@ -37,10 +37,11 @@
 export default {
   name: "HeaderNav",
   props: {
-    user: null,
+    user: String,
   },
   methods: {
     logout() {
+      // localStorage.removeItem("user");
       this.$emit("logout");
     },
   },
