@@ -6,9 +6,20 @@
 	</select>
 	
 	<select id="selectById" resultType="QnaDto">
-		select * from qna where id=#{id};
+		select * from qna where idx=#{idx};
 	</select>
 	
+	<delete id="delete">
+		delete from qna where idx=#{idx}
+	</delete>
+	
+	<update id="update">
+		update qna set title=#{title} set content=#{content} where idx=#{idx}
+	</update>
+	
+	<insert id="insert">
+		insert into qna(title,content,user_idx) values(#{title},#{content},#{user_idx})
+	</insert>
 	
 
 </mapper>
