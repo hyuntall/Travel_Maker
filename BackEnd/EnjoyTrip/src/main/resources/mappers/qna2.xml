@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.model.repository.QnaRepository">
+	<select id="selectAll" resultType="QnaDto">
+		select * from qna
+	</select>
+	
+	<select id="selectById" resultType="QnaDto">
+		select * from qna where id=#{id}
+	</select>
+	
+	<insert id="insert">
+		insert into qna(title, content, userId) values(#{title}, #{content), #{userId})
+	</insert>
+	
+	<delete id="delete">
+		delete from qna where id=#{id}
+	</delete>
+	
+	<update id="update">
+		update qna
+		set title = #{title}, content = #{content}
+		where id = #{id}
+	</update>
+
+</mapper>
