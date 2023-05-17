@@ -8,8 +8,8 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class QnaDto {
-	private int id;
+	private int idx;
 	private String title;
 	private String content;
-	private int userId;
+	private int user_idx;
 }

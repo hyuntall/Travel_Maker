@@ -9,6 +9,6 @@ public interface QnaService {
 	public List<QnaDto> selectAll() throws SQLException;
 	public void insert(QnaDto dto) throws SQLException; 
 	public void update(QnaDto dto) throws SQLException;
-	public QnaDto selectById(int id) throws SQLException;
-	public void delete(int id) throws SQLException;
+	public QnaDto selectById(int idx) throws SQLException;
+	public void delete(int idx) throws SQLException;
 }
