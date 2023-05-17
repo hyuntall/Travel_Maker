@@ -4,4 +4,8 @@
 	<select id="selectByIdx" resultType="UserDto">
 		select * from user where idx=#{idx}
 	</select>
+	
+	<select id="selectById" resultType="UserDto">
+		select * from user where id=#{id}
+	</select>
 </mapper>

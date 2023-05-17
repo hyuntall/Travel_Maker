@@ -16,5 +16,11 @@ public class UserServiceImpl implements UserService{
 	
 	public UserDto selectByIdx(int idx) throws SQLException {
 		return urepo.selectByIdx(idx);
+	}
+
+	@Override
+	public UserDto selectById(String id) throws SQLException {
+		// TODO Auto-generated method stub
+		return urepo.selectById(id);
 	};
 }
