@@ -13,4 +13,5 @@ import com.ssafy.dto.UserDto;
 
 public interface UserService {
 	public UserDto selectByIdx(int idx) throws SQLException;
+	public UserDto selectById(String id) throws SQLException;
 }

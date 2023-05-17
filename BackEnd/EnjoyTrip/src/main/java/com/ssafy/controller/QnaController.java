@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.dto.QnaDto;
+import com.ssafy.dto.QnaUserDto;
 import com.ssafy.model.service.QnaService;
 import com.ssafy.model.service.QnaServiceImpl;
+import com.ssafy.model.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,6 +29,9 @@ public class QnaController {
 	
 	@Autowired
 	private QnaService qnasvc;
+	
+	@Autowired
+	private UserService usvc;
 	
 	@GetMapping("/list")
 	public ResponseEntity<?> qnaList() throws SQLException {
@@ -44,13 +49,14 @@ public class QnaController {
 	}
 	
 	@PutMapping("/update")
-	public void update(@RequestBody QnaDto dto) throws SQLException {
-		qnasvc.update(dto);
+	public void update(@RequestBody QnaUserDto dto) throws SQLException {
+		QnaDto qna = new QnaDto(0,dto.getTitle(),dto.getContent(),usvc.selectById(dto.getUser_id()).getIdx());
+		qnasvc.update(qna);
 	}
 	
 	@PostMapping("/write")
-	public void write(@RequestBody QnaDto dto) throws SQLException{
-		System.out.println("ddddddd");
-		qnasvc.insert(dto);
+	public void write(@RequestBody QnaUserDto dto) throws SQLException{
+		QnaDto qna = new QnaDto(0,dto.getTitle(),dto.getContent(),usvc.selectById(dto.getUser_id()).getIdx());
+		qnasvc.insert(qna);
 	}
 }
