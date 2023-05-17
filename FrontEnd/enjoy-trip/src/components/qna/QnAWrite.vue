@@ -16,10 +16,10 @@
         <textarea v-model="content" name="title" id="title"> </textarea>
       </div>
       <div class="submit">
-        <button v-if="id" class="btn btn-dark">수정</button>
+        <button v-if="id" class="btn btn-dark" @click="updateQnA">수정</button>
         <button v-else class="btn btn-dark" @click="writeQnA">작성하기</button>
 
-        <button v-if="id" class="btn btn-dark">삭제</button>
+        <button v-if="id" class="btn btn-dark" @click="deleteQnA">삭제</button>
       </div>
     </div>
   </div>
@@ -58,26 +58,37 @@ export default {
   },
   methods: {
     writeQnA() {
-      http.post(`/qna/write`, {
-        title: this.title,
-        content: this.content,
-        user_id: this.user_id,
-      });
-    },
-    updateQnA() {
       http
-        .put(`/qna/update`, {
+        .post(`/qna/write`, {
           title: this.title,
           content: this.content,
           user_id: this.user_id,
         })
         .then(({ data }) => {
           console.log(data);
+          alert("게시글이 등록되었습니다.");
+          this.$router.push({ name: "QnAList" });
+        });
+    },
+    updateQnA() {
+      http
+        .put(`/qna/update`, {
+          idx: this.id,
+          title: this.title,
+          content: this.content,
+          user_id: this.user_id,
+        })
+        .then(({ data }) => {
+          console.log(data);
+          alert("게시글이 수정되었습니다.");
+          this.$router.push({ name: "QnAList" });
         });
     },
     deleteQnA() {
       http.delete(`/qna/delete/${this.id}`).then(({ data }) => {
         console.log(data);
+        alert("삭제되었습니다.");
+        this.$router.push({ name: "QnAList" });
       });
     },
   },
