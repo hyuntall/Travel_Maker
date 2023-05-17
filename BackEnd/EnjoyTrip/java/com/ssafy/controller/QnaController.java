@@ -30,8 +30,8 @@ public class QnaController {
 		return new ResponseEntity<List<QnaDto>>(qnasvc.selectAll(), HttpStatus.OK);
 	}
 	
-	@GetMapping("/detail")
-	public ResponseEntity<?> detail(@PathVariable int id) throws SQLException {
-		return new ResponseEntity<QnaDto>(qnasvc.selectById(id), HttpStatus.OK);
+	@GetMapping("/detail/{idx}")
+	public ResponseEntity<?> detail(@PathVariable int idx) throws SQLException {
+		return new ResponseEntity<QnaDto>(qnasvc.selectById(idx), HttpStatus.OK);
 	}
 }

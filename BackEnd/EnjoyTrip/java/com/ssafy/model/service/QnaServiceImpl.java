@@ -38,15 +38,15 @@ public class QnaServiceImpl implements QnaService{
 
 
 	@Override
-	public void delete(int id) throws SQLException {
+	public void delete(int idx) throws SQLException {
 		// TODO Auto-generated method stub
-		qnaRepository.delete(id);
+		qnaRepository.delete(idx);
 	}
 
 	@Override
-	public QnaDto selectById(int id) throws SQLException {
+	public QnaDto selectById(int idx) throws SQLException {
 		// TODO Auto-generated method stub
-		return qnaRepository.selectById(id);
+		return qnaRepository.selectById(idx);
 	}
 	
 }

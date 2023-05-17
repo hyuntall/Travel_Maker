@@ -14,7 +14,7 @@
 	</delete>
 	
 	<update id="update">
-		update qna set title=#{title} set content=#{content} where idx=#{idx}
+		update qna set title=#{title}, content=#{content} where idx=#{idx}
 	</update>
 	
 	<insert id="insert">

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class QnaUserDto {
+	private int idx;
 	private String title;
 	private String content;
 	private String user_id;

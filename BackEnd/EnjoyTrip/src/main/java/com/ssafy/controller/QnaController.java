@@ -55,7 +55,7 @@ public class QnaController {
 	
 	@PutMapping("/update")
 	public ResponseEntity<?> update(@RequestBody QnaUserDto dto) throws SQLException {
-		QnaDto qna = new QnaDto(0,dto.getTitle(),dto.getContent(),usvc.selectById(dto.getUser_id()).getIdx());
+		QnaDto qna = new QnaDto(dto.getIdx(),dto.getTitle(),dto.getContent(),usvc.selectById(dto.getUser_id()).getIdx());
 		qnasvc.update(qna);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
