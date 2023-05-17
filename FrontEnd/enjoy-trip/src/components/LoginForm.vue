@@ -64,7 +64,8 @@ li {
 }
 
 .login {
-  width: 30%;
+  width: 40%;
+  min-width: 600px;
   height: 600px;
   background: white;
   display: flex;

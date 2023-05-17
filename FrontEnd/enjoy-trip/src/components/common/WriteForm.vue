@@ -115,7 +115,8 @@ li {
 }
 
 .form {
-  width: 30%;
+  width: 40%;
+  min-width: 600px;
   height: 750px;
   background: white;
   display: flex;

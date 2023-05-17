@@ -1,6 +1,6 @@
 <template>
   <div class="home row">
-    <div class="col-5 align-self-center">
+    <div class="col-5 align-self-center main-text">
       <h2>Enjoy Trip</h2>
       <p>enjoy trip 프로젝트 설명</p>
       <button class="rounded p-3 mb-2 bg-info text-dark border border-info">시작하기</button>
@@ -21,5 +21,8 @@ export default {
 <style scoped>
 .home {
   height: 100vh;
+}
+.main-text {
+  text-align: center;
 }
 </style>

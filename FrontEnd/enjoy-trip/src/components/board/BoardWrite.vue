@@ -16,19 +16,18 @@
         <textarea v-model="content" name="title" id="title"> </textarea>
       </div>
       <div class="board_input image">
-        <label for="image" class="label">내용</label>
         <input type="file" name="image" id="image" @change="uploadImage" />
       </div>
-      <div v-if="post.image">
+      <div v-if="image">
         <h3>이미지</h3>
-        <img :src="post.image" alt="Uploaded Image" />
+        <img :src="image" alt="Uploaded Image" />
       </div>
-      <div v-if="post.content">
+      <div v-if="content">
         <h3>게시글 내용</h3>
         <div v-html="renderedContent"></div>
       </div>
       <div class="submit">
-        <button class="btn btn-dark" @click="login">작성하기</button>
+        <button class="btn btn-dark">작성하기</button>
       </div>
     </div>
   </div>
@@ -40,17 +39,15 @@ export default {
   components: {},
   data() {
     return {
-      post: {
-        user_id: "",
-        title: "",
-        content: "",
-        image: null,
-      },
+      user_id: "",
+      title: "",
+      content: "",
+      image: null,
     };
   },
   computed: {
     renderedContent() {
-      return this.post.content.replace(/!\[(.*?)\]\((.*?)\)/g, '<img src="$2" alt="$1">');
+      return this.content.replace(/!\[(.*?)\]\((.*?)\)/g, '<img src="$2" alt="$1">');
     },
   },
   methods: {
@@ -59,7 +56,6 @@ export default {
       // 이미지 업로드 로직
       // 서버로 이미지 업로드 요청을 보내고, 응답으로 받은 이미지 경로를 post.image에 저장
       console.log(file);
-      console.log(this.post);
       this.renderedContent();
     },
   },
@@ -89,22 +85,27 @@ li {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.1);
+  /* background: rgba(0, 0, 0, 0.1); */
 }
 
 .board {
-  width: 60%;
-  height: 600px;
+  border: #555 solid 1px;
+  border-radius: 5px;
+  width: 80%;
   background: white;
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
 }
 
 h2 {
+  width: 100%;
+  height: 50px;
   color: black;
   font-size: 2em;
+  background: rgba(0, 0, 0, 0.1);
+  padding-left: 8%;
+  padding-top: 5px;
 }
 
 .board_input {
@@ -175,6 +176,7 @@ h2 {
 .submit {
   margin-top: 15px;
   width: 100%;
+  margin-bottom: 15px;
 }
 
 .btn-dark {
@@ -182,6 +184,7 @@ h2 {
   margin-right: 15px;
   background: #555;
   color: #fff;
+  height: 30px;
 }
 
 .btn-dark:hover,
