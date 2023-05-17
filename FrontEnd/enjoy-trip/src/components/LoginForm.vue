@@ -64,6 +64,8 @@ li {
 }
 
 .login {
+  border-radius: 2px;
+  border: 1px solid rgb(218, 217, 217);
   width: 40%;
   min-width: 600px;
   height: 600px;
