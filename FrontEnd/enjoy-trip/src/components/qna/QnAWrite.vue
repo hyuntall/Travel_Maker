@@ -15,13 +15,9 @@
         <label for="content" class="label">내용</label>
         <textarea v-model="content" name="title" id="title"> </textarea>
       </div>
-      <div v-if="content">
-        <h3>게시글 내용</h3>
-        <div v-html="renderedContent"></div>
-      </div>
       <div class="submit">
         <button v-if="id" class="btn btn-dark">수정하기</button>
-        <button v-else class="btn btn-dark" @click="click()">작성하기</button>
+        <button v-else class="btn btn-dark" @click="writeQnA">작성하기</button>
 
         <button v-if="id" class="btn btn-dark">삭제하기</button>
       </div>
@@ -30,18 +26,17 @@
 </template>
 
 <script>
-// import http from "@/util/http-common";
+import http from "@/util/http-common";
 
 export default {
   name: "qnaWrite",
   components: {},
   data() {
     return {
-      id: null,
+      id: 0,
       user_id: "",
       title: "",
       content: "",
-      image: null,
     };
   },
   computed: {
@@ -53,11 +48,43 @@ export default {
     this.id = this.$route.params.id;
     console.log(this.id);
     if (this.id) {
-      // http.get(`/qna/${this.id}`).then(({ data }) => {
-      // })
+      http.get(`/qna/detail/${this.id}`).then(({ data }) => {
+        this.id = data.idx;
+        this.user_id = data.userId;
+        this.title = data.title;
+        this.content = data.content;
+      });
     }
   },
-  methods: {},
+  methods: {
+    writeQnA() {
+      http
+        .post(`/qna/write`, {
+          title: this.title,
+          content: this.content,
+          user_idx: this.user_id,
+        })
+        .then(({ data }) => {
+          console.log(data);
+        });
+    },
+    updateQnA() {
+      http
+        .put(`/qna/update`, {
+          title: this.title,
+          content: this.content,
+          user_idx: this.user_id,
+        })
+        .then(({ data }) => {
+          console.log(data);
+        });
+    },
+    deleteQnA() {
+      http.delete(`/qna/delete/${this.id}`).then(({ data }) => {
+        console.log(data);
+      });
+    },
+  },
 };
 </script>
 

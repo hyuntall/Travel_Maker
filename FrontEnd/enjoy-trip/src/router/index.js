@@ -16,7 +16,7 @@ const routes = [
   {
     path: "/login",
     name: "login",
-    component: () => import(/* webpackChunkName: "about" */ "@/components/LoginForm"),
+    component: () => import(/* webpackChunkName: "user" */ "@/components/LoginForm"),
   },
   {
     path: "/user",
@@ -25,7 +25,7 @@ const routes = [
       {
         path: "regist",
         name: "UserRegist",
-        component: () => import(/* webpackChunkName: "about" */ "@/components/user/UserWrite"),
+        component: () => import(/* webpackChunkName: "user" */ "@/components/user/UserWrite"),
       },
     ],
   },
@@ -36,12 +36,12 @@ const routes = [
       {
         path: "",
         name: "TripSearch",
-        component: () => import(/* webpackChunkName: "about" */ "@/components/trip/TripSearch"),
+        component: () => import(/* webpackChunkName: "trip" */ "@/components/trip/TripSearch"),
       },
       {
         path: "make",
         name: "TripMake",
-        component: () => import(/* webpackChunkName: "about" */ "@/components/trip/TripMake"),
+        component: () => import(/* webpackChunkName: "trip" */ "@/components/trip/TripMake"),
       },
     ],
   },
@@ -54,17 +54,17 @@ const routes = [
       {
         path: "list",
         name: "BoardList",
-        component: () => import("@/components/board/BoardList"),
+        component: () => import(/* webpackChunkName: "board" */ "@/components/board/BoardList"),
       },
       {
         path: "regist",
         name: "BoardRegist",
-        component: () => import(/* webpackChunkName: "about" */ "@/components/board/BoardWrite"),
+        component: () => import(/* webpackChunkName: "board" */ "@/components/board/BoardWrite"),
       },
       {
         path: "detail",
         name: "BoardDetail",
-        component: () => import(/* webpackChunkName: "about" */ "@/components/board/BoardDetail"),
+        component: () => import(/* webpackChunkName: "board" */ "@/components/board/BoardDetail"),
       },
     ],
   },
@@ -77,17 +77,17 @@ const routes = [
       {
         path: "list",
         name: "QnAList",
-        component: () => import("@/components/qna/QnAList"),
+        component: () => import(/* webpackChunkName: "qna" */ "@/components/qna/QnAList"),
       },
       {
         path: "regist",
         name: "QnARegist",
-        component: () => import(/* webpackChunkName: "about" */ "@/components/qna/QnAWrite"),
+        component: () => import(/* webpackChunkName: "qna" */ "@/components/qna/QnAWrite"),
       },
       {
         path: "detail/:id",
         name: "QnADetail",
-        component: () => import(/* webpackChunkName: "about" */ "@/components/qna/QnAWrite"),
+        component: () => import(/* webpackChunkName: "qna" */ "@/components/qna/QnAWrite"),
       },
     ],
   },

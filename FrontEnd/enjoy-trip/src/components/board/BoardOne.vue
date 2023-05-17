@@ -12,7 +12,7 @@
           </div>
           <h3>작성자</h3>
         </div>
-        <div>작성일</div>
+        <div class="date">2023-05-17</div>
       </div>
       <div class="title">글 제목</div>
       <div class="swiper">
@@ -189,6 +189,11 @@ body {
   width: 100%;
   display: flex;
   align-items: center;
+}
+
+.date {
+  width: 100%;
+  text-align: right;
 }
 
 .profilepic {

@@ -31,19 +31,15 @@
                 <th scope="col" class="th-num">번호</th>
                 <th scope="col" class="th-title">제목</th>
                 <th scope="col" class="th-date">작성자</th>
-                <th scope="col" class="th-date">등록일</th>
-                <th scope="col" class="th-date">조회수</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="board in boards" :key="board.board_id">
-                <td>{{ board.board_id }}</td>
+              <tr v-for="board in boards" :key="board.idx">
+                <td>{{ board.idx }}</td>
                 <td>
-                  <router-link :to="`detail/${board.board_id}`">{{ board.title }}</router-link>
+                  <router-link :to="`detail/${board.idx}`">{{ board.title }}</router-link>
                 </td>
-                <td>{{ board.user_id }}</td>
-                <td>{{ board.written_date }}</td>
-                <td>{{ board.view }}</td>
+                <td>{{ board.userId }}</td>
               </tr>
             </tbody>
           </table>
@@ -76,84 +72,14 @@ export default {
   components: {},
   data() {
     return {
-      boards: [
-        {
-          board_id: 1,
-          title: "test1",
-          user_id: "박현철",
-          written_date: "2023-05-16",
-          view: 11,
-        },
-        {
-          board_id: 2,
-          title: "test2",
-          user_id: "박현철",
-          written_date: "2023-05-17",
-          view: 2,
-        },
-        {
-          board_id: 3,
-          title: "test1",
-          user_id: "박현철",
-          written_date: "2023-05-186",
-          view: 1,
-        },
-        {
-          board_id: 4,
-          title: "test1",
-          user_id: "박현철",
-          written_date: "2023-05-16",
-          view: 11,
-        },
-        {
-          board_id: 5,
-          title: "test2",
-          user_id: "박현철",
-          written_date: "2023-05-17",
-          view: 2,
-        },
-        {
-          board_id: 6,
-          title: "test1",
-          user_id: "박현철",
-          written_date: "2023-05-186",
-          view: 1,
-        },
-        {
-          board_id: 7,
-          title: "test1",
-          user_id: "박현철",
-          written_date: "2023-05-16",
-          view: 11,
-        },
-        {
-          board_id: 8,
-          title: "test2",
-          user_id: "박현철",
-          written_date: "2023-05-17",
-          view: 2,
-        },
-        {
-          board_id: 9,
-          title: "test1",
-          user_id: "박현철",
-          written_date: "2023-05-186",
-          view: 1,
-        },
-        {
-          board_id: 10,
-          title: "test1",
-          user_id: "박현철",
-          written_date: "2023-05-16",
-          view: 11,
-        },
-      ],
+      boards: [],
     };
   },
   created() {
     //qna 질문 리스트 요청
     http.get("/qna/list").then(({ data }) => {
-      console.log(data)
+      console.log(data);
+      this.boards = data;
     });
   },
   methods: {},
