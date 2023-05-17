@@ -24,12 +24,7 @@
             </div>
             <h3>작성자</h3>
           </div>
-          <div>작성일</div>
-          <div>
-            <span class="dot">
-              <i class="fas fa-ellipsis-h"></i>
-            </span>
-          </div>
+          <div class="date">2023-05-17</div>
         </div>
         <div class="bottom">
           <a href="#">
@@ -300,9 +295,9 @@ body {
   font-size: 0.75em;
 }
 
-.dot {
-  transform: scale(0.6);
-  cursor: pointer;
+.date {
+  width: 100%;
+  text-align: right;
 }
 
 .imgBx {

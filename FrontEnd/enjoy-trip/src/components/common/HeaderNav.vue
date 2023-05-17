@@ -4,7 +4,7 @@
       <div class="row">
         <div class="header clearfix">
           <div>
-            <router-link to="/"> <b>MYRO</b>&nbsp;&nbsp;<span>MAKE YOUR ROUTE OPTIMIZED</span> </router-link>
+            <router-link to="/"> <b>Enjoy Trip</b>&nbsp;&nbsp;<span>YOUR TRIP PLAN MANAGER</span> </router-link>
           </div>
           <nav class="nav">
             <ul class="main-menu">
@@ -14,6 +14,9 @@
               <li v-if="getUser"><router-link to="/">MyPlan</router-link></li>
               <li>
                 <router-link to="/board">자유게시판</router-link>
+              </li>
+              <li>
+                <router-link to="/qna">QnA</router-link>
               </li>
               <li>
                 <a href="#" v-if="getUser" @click="logout">로그아웃</a>

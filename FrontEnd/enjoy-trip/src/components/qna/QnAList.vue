@@ -1,20 +1,79 @@
 <template>
-  <div class="container row">
-    <div>
-      <div>
-        <router-link to="regist">글쓰기</router-link>
+  <div class="wrap">
+    <div class="board">
+      <div class="page-title">
+        <div class="container">
+          <h3>QnA</h3>
+        </div>
       </div>
-      <board-one v-for="board in boards" :key="board.board_id" board="board" />
+
+      <!-- board seach area -->
+      <div id="board-search">
+        <div class="container">
+          <div class="search-window">
+            <form action="">
+              <div class="search-wrap">
+                <label for="search" class="blind">공지사항 내용 검색</label>
+                <input id="search" type="search" name="" placeholder="검색어를 입력해주세요." value="" />
+                <button type="submit" class="btn btn-dark">검색</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- board list area -->
+      <div id="board-list">
+        <div class="container">
+          <table class="board-table">
+            <thead>
+              <tr>
+                <th scope="col" class="th-num">번호</th>
+                <th scope="col" class="th-title">제목</th>
+                <th scope="col" class="th-date">작성자</th>
+                <th scope="col" class="th-date">등록일</th>
+                <th scope="col" class="th-date">조회수</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="board in boards" :key="board.board_id">
+                <td>{{ board.board_id }}</td>
+                <td>
+                  <router-link :to="`detail/${board.board_id}`">{{ board.title }}</router-link>
+                </td>
+                <td>{{ board.user_id }}</td>
+                <td>{{ board.written_date }}</td>
+                <td>{{ board.view }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <router-link class="btn btn-dark write" to="regist">글쓰기</router-link>
+        </div>
+      </div>
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center pagination-lg">
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&lt;&lt;</a>
+          </li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item"><a class="page-link" href="#">4</a></li>
+          <li class="page-item"><a class="page-link" href="#">5</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#">>></a>
+          </li>
+        </ul>
+      </nav>
     </div>
   </div>
 </template>
 
 <script>
-// import BoardDetail from "./BoardDetail.vue";
-import BoardOne from "./BoardOne.vue";
+// import http from "@/util/http-common";
 export default {
-  name: "BoardList",
-  components: { BoardOne },
+  name: "QnAList",
+  components: {},
   data() {
     return {
       boards: [
@@ -91,12 +150,12 @@ export default {
       ],
     };
   },
-  created() {},
-  methods: {
-    moveWrite() {
-      this.$router.push({ name: "BoardRegist" });
-    },
+  created() {
+    // qna 질문 리스트 요청
+    // http.get("/qna").then(({ data }) => {
+    // });
   },
+  methods: {},
 };
 </script>
 
@@ -253,6 +312,18 @@ table {
   color: #fff;
 }
 
+.btn-dark {
+  background: #555;
+  color: #fff;
+}
+
+.btn-dark:hover,
+.btn-dark:focus {
+  background: #373737;
+  border-color: #373737;
+  color: #fff;
+}
+
 .write {
   float: right;
   height: 30px;
@@ -274,7 +345,7 @@ table {
 }
 .container {
   width: 1100px;
-  margin: 100px auto;
+  margin: 0 auto;
 }
 .blind {
   position: absolute;

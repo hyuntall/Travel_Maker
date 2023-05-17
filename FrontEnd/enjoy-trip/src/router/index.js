@@ -68,6 +68,29 @@ const routes = [
       },
     ],
   },
+  {
+    path: "/qna",
+    name: "QnAView",
+    component: BoardView,
+    redirect: "/qna/list",
+    children: [
+      {
+        path: "list",
+        name: "QnAList",
+        component: () => import("@/components/qna/QnAList"),
+      },
+      {
+        path: "regist",
+        name: "QnARegist",
+        component: () => import(/* webpackChunkName: "about" */ "@/components/qna/QnAWrite"),
+      },
+      {
+        path: "detail/:id",
+        name: "QnADetail",
+        component: () => import(/* webpackChunkName: "about" */ "@/components/qna/QnAWrite"),
+      },
+    ],
+  },
 ];
 
 const router = new VueRouter({
