@@ -50,7 +50,7 @@ public class BoardController {
 		return new ResponseEntity<List<BoardDto>>(bsvc.selectBoard(), HttpStatus.OK);
 	}
 
-	@GetMapping("/list/{idx}")
+	@GetMapping("/{idx}")
 	public ResponseEntity<?> selectBoardByIdx(@PathVariable int idx) throws SQLException {
 		return new ResponseEntity<BoardDto>(bsvc.selectBoardByIdx(idx), HttpStatus.OK);
 	}
@@ -62,6 +62,7 @@ public class BoardController {
             @RequestPart(required = false) MultipartFile image
             ) throws SQLException, IOException{
 		BoardDto board = new BoardDto();
+		System.out.println(user_id + " " + title + " " + content);
 		if (image != null && image.getSize() > 0) {
 
 			File imgDir = new File(uploadPath + "board/");

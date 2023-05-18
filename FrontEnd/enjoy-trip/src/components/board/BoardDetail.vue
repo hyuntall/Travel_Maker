@@ -5,7 +5,7 @@
         <div class="swiper">
           <div class="swiper-wrapper">
             <div class="imgBx swiper-slide">
-              <img src="../../assets/main_page.jpg" alt="post-1" class="cover" />
+              <img :src="img" alt="post-1" class="cover" />
             </div>
           </div>
         </div>
@@ -15,27 +15,18 @@
             <div class="profilepic">
               <div class="profile_img">
                 <div class="image">
-                  <img
-                    src="https://media.geeksforgeeks.org/wp-content/uploads/20220609093229/g-200x200.png"
-                    alt="img8"
-                  />
+                  <img src="../../assets/tmp_profile.jpg" alt="img8" />
                 </div>
               </div>
             </div>
-            <h3>작성자</h3>
+            <h3>{{ board.user_id }}</h3>
           </div>
-          <div class="date">2023-05-17</div>
+          <div class="date">{{ board.written_date }}</div>
         </div>
         <div class="bottom">
-          <a href="#">
-            <p class="likes">1 likes</p>
-          </a>
-          <a href="#">
-            <p class="message">
-              <b>게시글 내용</b>
-              <br />게시글 내용
-            </p>
-          </a>
+          <div class="title">{{ board.title }}</div>
+          <p class="likes">{{ board.view }} views</p>
+          <div class="message" v-html="enterToBr"></div>
           <div class="addComments">
             <div class="reaction">
               <h3>
@@ -66,19 +57,40 @@
 </template>
 
 <script>
+import http from "@/util/http-common";
+
 export default {
   name: "BoardDetail",
-  props: {
-    board: null,
-  },
   components: {},
   data() {
     return {
       message: "",
+      comment: [],
+      board: null,
+      profile_img: "",
+      img: "",
     };
   },
-  created() {},
+  created() {
+    console.log(this.$route.params.idx);
+    http
+      .get(`/board/${this.$route.params.idx}`)
+      .then(({ data }) => {
+        console.log(data);
+        this.board = data;
+        this.img = require(`C:/EnjoyTrip/board/${this.board.image}`);
+      })
+      .catch(() => {
+        alert("게시글 호출 실패");
+      });
+  },
   methods: {},
+  computed: {
+    enterToBr() {
+      // 문자열에 enter값을 <br />로 변경.(html상에서 줄바꿈 처리)
+      return String(this.board.content).replace(/(?:\r\n|\r|\n)/g, "<br />");
+    },
+  },
 };
 </script>
 
@@ -243,8 +255,8 @@ body {
   justify-content: center;
   border-radius: 50%;
   overflow: hidden;
-  width: 30px;
-  height: 30px;
+  width: 50px;
+  height: 50px;
   background: linear-gradient(to right, red, orange);
   padding: 2px;
   margin-right: 8px;
@@ -326,6 +338,7 @@ body {
   margin-top: 5px;
   font-size: 14px;
   color: #4d4d4f;
+  float: right;
 }
 
 .message {

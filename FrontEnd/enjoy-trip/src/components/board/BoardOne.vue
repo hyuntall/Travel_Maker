@@ -6,20 +6,20 @@
           <div class="profilepic">
             <div class="profile_img">
               <div class="image">
-                <img src="https://media.geeksforgeeks.org/wp-content/uploads/20220609093229/g-200x200.png" alt="img8" />
+                <img src="../../assets/tmp_profile.jpg" alt="img8" />
               </div>
             </div>
           </div>
-          <h3>작성자</h3>
+          <h3>{{ board.user_id }}</h3>
         </div>
-        <div class="date">2023-05-17</div>
+        <div class="date">{{ board.written_date }}</div>
       </div>
-      <div class="title">글 제목</div>
+      <div class="title">{{ board.title }}</div>
       <div class="swiper">
         <div class="swiper-wrapper">
           <div class="imgBx swiper-slide">
-            <router-link to="detail">
-              <img src="../../assets/main_page.jpg" alt="post-1" class="cover" />
+            <router-link :to="{ name: 'BoardDetail', params: { idx } }">
+              <img :src="imgUrl" alt="post-1" class="cover" />
             </router-link>
           </div>
         </div>
@@ -37,10 +37,18 @@ export default {
   components: {},
   data() {
     return {
-      message: "",
+      imgUrl: "",
+      idx: 0,
     };
   },
-  created() {},
+  created() {
+    console.log(this.board);
+    this.imgUrl = require(`C:/EnjoyTrip/board/${this.board.image}`);
+    this.idx = this.board.idx;
+  },
+  filters: {
+    //todo 날짜포맷 변경하기
+  },
   methods: {},
 };
 </script>
@@ -59,8 +67,10 @@ body {
 }
 
 .col-9 {
-  width: 100%;
+  width: 100px;
   margin-top: 30px;
+  margin-top: 4px;
+  min-width: 100px;
 }
 
 .statuses {
@@ -74,6 +84,7 @@ body {
   border-radius: 2px;
   border: 1px solid rgb(218, 217, 217);
   overflow: auto;
+  margin-bottom: 0px;
 }
 
 .statuses .status {
@@ -121,11 +132,12 @@ body {
 }
 
 .col-3 .card {
-  margin-bottom: 20px;
   position: relative;
   width: 100%;
   /* min-height: 400px; */
   display: inline-block;
+  width: 100%;
+  border: none;
 }
 
 .col-3 .card .top {
@@ -170,7 +182,6 @@ body {
 }
 
 .col-9 .card {
-  margin-bottom: 20px;
   position: relative;
   width: 100%;
   /* min-height: 400px; */
@@ -207,8 +218,8 @@ body {
   justify-content: center;
   border-radius: 50%;
   overflow: hidden;
-  width: 30px;
-  height: 30px;
+  width: 50px;
+  height: 50px;
   background: linear-gradient(to right, red, orange);
   padding: 2px;
   margin-right: 8px;
@@ -306,21 +317,6 @@ a {
 
 .navbar .container {
   padding: 15px 10px !important;
-}
-
-.col-9 {
-  margin-top: 4px;
-  min-width: 100%;
-}
-
-.statuses {
-  margin-bottom: 0px;
-}
-
-.col-9 .card {
-  margin-bottom: 0px;
-  width: 100%;
-  border: none;
 }
 
 .imgBx {
