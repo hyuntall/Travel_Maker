@@ -3,36 +3,47 @@
     <div class="login">
       <h2>Log-in</h2>
       <div class="login_input login_id">
+        <b-alert show variant="danger" v-if="isLoginError">아이디 또는 비밀번호를 확인하세요.</b-alert>
         <label for="id" class="label">ID</label>
-        <input type="text" v-model="id" name="id" id="id" placeholder="id" />
+        <input type="text" v-model="user.id" name="id" id="id" placeholder="id" @keyup.enter="confirm" required />
       </div>
       <div class="login_input login_pw">
         <label for="password" class="label">Password</label>
-        <input type="password" v-model="password" name="password" id="password" placeholder="Password" />
+        <input type="password" v-model="user.password" name="password" id="password" placeholder="Password" required @keyup.enter="confirm" />
       </div>
       <div class="submit">
-        <button variant="outline-success" @click="login">submit</button>
+        <button variant="outline-success" @click="confirm">로그인</button>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { mapState, mapActions } from "vuex";
 export default {
   name: "LoginForm",
   data() {
     return {
-      id: "",
-      password: "",
+      user: {
+        id: null,
+        password: null
+      },
     };
   },
+  computed: {
+    ...mapState(["isLogin", "isLoginError", "userInfo"]),
+  },
   methods: {
-    login() {
-      this.$emit("login", this.id, this.password);
+   ...mapActions(["userConfirm", "getUserInfo"]),
+    async confirm() {
+      await this.userConfirm(this.user);
+      let token = sessionStorage.getItem("access-token");
+      // console.log("1. confirm() token >> " + token);
+      if (this.isLogin) {
+        await this.getUserInfo(token);
+        // console.log("4. confirm() userInfo :: ", this.userInfo);
+        this.$router.push({ name: "home" });
+      }
     },
-    // let user = {
-    //   id: this.id,
-    //   password: this.password,
-    // };
   },
 };
 </script>

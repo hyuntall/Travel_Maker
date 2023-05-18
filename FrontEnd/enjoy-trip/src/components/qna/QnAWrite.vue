@@ -5,7 +5,7 @@
       <div class="board_input user_id">
         <label for="id" class="label">작성자</label>
         <br />
-        <input type="text" v-model="user_id" name="user_id" id="user_id" />
+        <input type="text" v-model="user_id" name="user_id" id="user_id" readonly/>
       </div>
       <div class="board_input title">
         <label for="title" class="label">제목</label>
