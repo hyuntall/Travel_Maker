@@ -5,7 +5,7 @@
       <div class="board_input user_id">
         <label for="id" class="label">작성자</label>
         <br />
-        <input type="text" v-model="user_id" name="user_id" id="user_id" />
+        <input type="text" v-model="userInfo.id" name="user_id" id="user_id" readonly />
       </div>
       <div class="board_input title">
         <label for="title" class="label">제목</label>
@@ -30,13 +30,13 @@
 
 <script>
 import http from "@/util/http-common";
+import { mapState } from "vuex";
 
 export default {
   name: "boardWrite",
   components: {},
   data() {
     return {
-      user_id: "",
       title: "",
       content: "",
       image: null,
@@ -44,6 +44,7 @@ export default {
     };
   },
   computed: {
+    ...mapState(["userInfo"]),
     renderedContent() {
       return this.content.replace(/!\[(.*?)\]\((.*?)\)/g, '<img src="$2" alt="$1">');
     },
@@ -60,7 +61,7 @@ export default {
     writeBoard() {
       const formData = new FormData();
 
-      formData.append("user_id", this.user_id);
+      formData.append("user_id", this.userInfo.id);
       formData.append("title", this.title);
       formData.append("content", this.content);
       if (this.image != null) formData.append("image", this.image);
