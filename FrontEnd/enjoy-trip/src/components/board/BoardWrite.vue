@@ -16,24 +16,21 @@
         <textarea v-model="content" name="title" id="title"> </textarea>
       </div>
       <div class="board_input image">
-        <input type="file" name="image" id="image" @change="uploadImage" />
+        <input type="file" name="image" id="image" @change="uploadImage" accept="image/*" />
       </div>
-      <div v-if="image">
-        <h3>이미지</h3>
-        <img :src="image" alt="Uploaded Image" />
-      </div>
-      <div v-if="content">
-        <h3>게시글 내용</h3>
-        <div v-html="renderedContent"></div>
+      <div v-if="image" class="board_input uploadImg">
+        <img :src="url" alt="Uploaded Image" />
       </div>
       <div class="submit">
-        <button class="btn btn-dark">작성하기</button>
+        <button class="btn btn-dark" @click="writeBoard">작성하기</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import http from "@/util/http-common";
+
 export default {
   name: "boardWrite",
   components: {},
@@ -43,6 +40,7 @@ export default {
       title: "",
       content: "",
       image: null,
+      url: "",
     };
   },
   computed: {
@@ -52,11 +50,34 @@ export default {
   },
   methods: {
     uploadImage(event) {
-      const file = event.target.files[0];
+      this.image = event.target.files[0];
       // 이미지 업로드 로직
       // 서버로 이미지 업로드 요청을 보내고, 응답으로 받은 이미지 경로를 post.image에 저장
-      console.log(file);
-      this.renderedContent();
+      console.log(this.image);
+      this.url = URL.createObjectURL(this.image);
+      // this.renderedContent();
+    },
+    writeBoard() {
+      const formData = new FormData();
+
+      formData.append("user_id", this.user_id);
+      formData.append("title", this.title);
+      formData.append("content", this.content);
+      if (this.image != null) formData.append("image", this.image);
+      http
+        .post("/board/write", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then(({ data }) => {
+          console.log(data);
+          alert("게시글 등록 성공");
+          this.$router.push("/");
+        })
+        .catch(() => {
+          alert("게시글 등록 실패");
+        });
     },
   },
 };
@@ -80,6 +101,7 @@ li {
 }
 
 .wrap {
+  margin-top: 30px;
   width: 100%;
   height: 100vh;
   display: flex;
@@ -192,5 +214,11 @@ h2 {
   background: #373737;
   border-color: #373737;
   color: #fff;
+}
+
+.uploadImg img {
+  width: 200px;
+  border: 1px solid black;
+  border-radius: 3px;
 }
 </style>

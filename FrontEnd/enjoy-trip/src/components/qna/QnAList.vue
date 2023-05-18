@@ -77,10 +77,16 @@ export default {
   },
   created() {
     //qna 질문 리스트 요청
-    http.get("/qna/list").then(({ data }) => {
-      console.log(data);
-      this.boards = data;
-    });
+    http
+      .get("/qna/list")
+      .then(({ data }) => {
+        console.log(data);
+        this.boards = data;
+      })
+      .catch(() => {
+        console.log("연결할 수 없습니다.");
+        this.$router.push("/");
+      });
   },
   methods: {},
 };
