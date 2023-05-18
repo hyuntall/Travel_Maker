@@ -3,32 +3,34 @@
       <div class="row">
         <div class="search">
           <h2 class="mt-5">어디로 여행을 떠나시나요?</h2>
-          <b-form-input class="w-50 mt-4 mx-auto" v-model="text" placeholder="여행지를 검색해주세요"></b-form-input>
+          <b-form-input class="w-50 mt-4 mx-auto" v-model="text" placeholder="여행지를 검색해주세요" @keyup.enter="search1"></b-form-input>
           <ul class="select">
-            <li tabindex="1">서울</li>
-            <li tabindex="1">경기</li>
-            <li tabindex="1">강원</li>
-            <li tabindex="1">충북</li>
-            <li tabindex="1">충남</li>
-            <li tabindex="1">전북</li>
-            <li tabindex="1">전남</li>
-            <li tabindex="1">경북</li>
-            <li tabindex="1">경남</li>
-            <li tabindex="1">제주</li>
+            <li tabindex="1" @click="search2">서울</li>
+            <li tabindex="1" @click="search2">경기</li>
+            <li tabindex="1" @click="search2">강원</li>
+            <li tabindex="1" @click="search2">충북</li>
+            <li tabindex="1" @click="search2">충남</li>
+            <li tabindex="1" @click="search2">전북</li>
+            <li tabindex="1" @click="search2">전남</li>
+            <li tabindex="1" @click="search2">경북</li>
+            <li tabindex="1" @click="search2">경남</li>
+            <li tabindex="1" @click="search2">제주</li>
           </ul>
 
           <div class="regions">
-            <b-card
-              title="JEJU"
-              img-src="https://www.myro.co.kr/myro_image/city/jeju.jpg"
+            <div v-for="region in regions" :key="region.idx">
+
+              <b-card
+              :title="region.cate1_eng"
+              :img-src="region.img"
               img-alt="Image"
               img-top
               tag="article"
-              style="max-width: 15rem;"
+              style="max-width:14em;"
               class="mb-2 region"
             >
               <b-card-text>
-                대한민국 제주도
+                {{region.cate2}}
               </b-card-text>
               <div>
                 <b-button v-b-modal.modal-center>상세보기</b-button>
@@ -36,7 +38,7 @@
                 <b-modal id="modal-center" size="lg" centered title="BootstrapVue" class="modal" hide-footer hide-header>
                   <div class="body">
                     <div class="bg">
-                      <img src="https://www.myro.co.kr/myro_image/city/jeju.jpg" alt="">
+                      <img :src="region.img" alt="">
                     </div>
                     <div class="desc">
                       <h2>JEJU</h2>
@@ -49,124 +51,9 @@
                   </div>
                 </b-modal>
               </div>
-            </b-card>
-            <b-card
-              title="JEJU"
-              img-src="https://www.myro.co.kr/myro_image/city/jeju.jpg"
-              img-alt="Image"
-              img-top
-              tag="article"
-              style="max-width: 15rem;"
-              class="mb-2 region"
-            >
-              <b-card-text>
-                대한민국 제주도
-              </b-card-text>
-              <div>
-                <b-button v-b-modal.modal-center>상세보기</b-button>
-              </div>
-            </b-card>
-            <b-card
-              title="JEJU"
-              img-src="https://www.myro.co.kr/myro_image/city/jeju.jpg"
-              img-alt="Image"
-              img-top
-              tag="article"
-              style="max-width: 15rem;"
-              class="mb-2 region"
-            >
-              <b-card-text>
-                대한민국 제주도
-              </b-card-text>
-              <div>
-                <b-button v-b-modal.modal-center>상세보기</b-button>
-              </div>
-            </b-card>
-            <b-card
-              title="JEJU"
-              img-src="https://www.myro.co.kr/myro_image/city/jeju.jpg"
-              img-alt="Image"
-              img-top
-              tag="article"
-              style="max-width: 15rem;"
-              class="mb-2 region"
-            >
-              <b-card-text>
-                대한민국 제주도
-              </b-card-text>
-              <div>
-                <b-button v-b-modal.modal-center>상세보기</b-button>
-              </div>
-            </b-card>
-            <b-card
-              title="JEJU"
-              img-src="https://www.myro.co.kr/myro_image/city/jeju.jpg"
-              img-alt="Image"
-              img-top
-              tag="article"
-              style="max-width: 15rem;"
-              class="mb-2 region"
-            >
-              <b-card-text>
-                대한민국 제주도
-              </b-card-text>
-              <div>
-                <b-button v-b-modal.modal-center>상세보기</b-button>
-              </div>
-            </b-card>
-            <b-card
-              title="JEJU"
-              img-src="https://www.myro.co.kr/myro_image/city/jeju.jpg"
-              img-alt="Image"
-              img-top
-              tag="article"
-              style="max-width: 15rem;"
-              class="mb-2 region"
-            >
-              <b-card-text>
-                대한민국 제주도
-              </b-card-text>
-              <div>
-                <b-button v-b-modal.modal-center>상세보기</b-button>
-              </div>
-            </b-card>
-            <b-card
-              title="JEJU"
-              img-src="https://www.myro.co.kr/myro_image/city/jeju.jpg"
-              img-alt="Image"
-              img-top
-              tag="article"
-              style="max-width: 15rem;"
-              class="mb-2 region"
-            >
-              <b-card-text>
-                대한민국 제주도
-              </b-card-text>
-              <div>
-                <b-button v-b-modal.modal-center>상세보기</b-button>
-              </div>
-            </b-card>
-            <b-card
-              title="JEJU"
-              img-src="https://www.myro.co.kr/myro_image/city/jeju.jpg"
-              img-alt="Image"
-              img-top
-              tag="article"
-              style="max-width: 15rem;"
-              class="mb-2 region"
-            >
-              <b-card-text>
-                대한민국 제주도
-              </b-card-text>
-              <div>
-                <b-button v-b-modal.modal-center>상세보기</b-button>
-              </div>
-            </b-card>
-           
-       
-        
-           
-
+            </b-card>       
+            </div>
+            
            
           </div>
         </div>
@@ -175,20 +62,35 @@
 </template>
 
 <script>
-// import http from "@/util/http-common.js"
+import http from "@/util/http-common.js"
 export default {
   name: 'TripSearch',
   components: {},
   data() {
     return {
+      text: '',
       message: '',
-      num:''
+      num:'',
+      regions:[]
     };
   },
   created() {
-    // http.get("/test").then(({data})=>{console.log(data)})
+    http.get("/region/all").then(({data})=>{
+      console.log(data)
+      data.forEach((region) => {
+        console.log(region)
+        this.regions.push(region)
+      });
+    })
   },
-  methods: {},
+  methods: {
+    search1(event) {
+      console.log(event.target.value)
+    },
+    search2(event) {
+      console.log(event.target.textContent)
+    }
+  },
 };
 </script>
 
@@ -209,4 +111,5 @@ export default {
 .body .desc {width: 65%; padding: 20px; margin-left: auto;}
 .body .desc p {margin-top: 3px; font-size: 8px;}
 .body .desc a {text-decoration: none; float: right ; margin-top: 10px;}
+.card-img-top {width: 250px; height: 200px}
 </style>
