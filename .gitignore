@@ -13,6 +13,8 @@ local.properties
 .settings/
 .loadpath
 .recommenders
+src/main/webapp
+src/main/resources/static
 
 # External tool builders
 .externalToolBuilders/

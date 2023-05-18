@@ -1,0 +1,97 @@
+package com.ssafy.controller;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Base64;
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.ssafy.dto.BoardDto;
+import com.ssafy.model.service.BoardService;
+
+@Controller
+@RequestMapping("/board")
+@CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
+public class BoardController {
+
+	@Autowired
+	private BoardService bsvc;
+
+	@Autowired
+	private ResourceLoader resLoader;
+	
+	@Value("${upload.path}")
+	private String uploadPath;
+	
+	@GetMapping("/list")
+	public ResponseEntity<?> selectBoard() throws SQLException {
+		return new ResponseEntity<List<BoardDto>>(bsvc.selectBoard(), HttpStatus.OK);
+	}
+
+	@GetMapping("/list/{idx}")
+	public ResponseEntity<?> selectBoardByIdx(@PathVariable int idx) throws SQLException {
+		return new ResponseEntity<BoardDto>(bsvc.selectBoardByIdx(idx), HttpStatus.OK);
+	}
+	
+	@PostMapping("/write")
+	public ResponseEntity<?> insertBoard(@RequestParam("user_id") String user_id,
+            @RequestParam("title") String title,
+            @RequestParam("content") String content,
+            @RequestPart(required = false) MultipartFile image
+            ) throws SQLException, IOException{
+		BoardDto board = new BoardDto();
+		if (image != null && image.getSize() > 0) {
+
+			File imgDir = new File(uploadPath + "board/");
+			if (!imgDir.exists()) {
+				imgDir.mkdirs();
+			}
+			
+			String imgFileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
+			String imgFilePath = uploadPath + "board/" + imgFileName;
+			File imgFile = new File(imgFilePath);
+			
+
+			board.setImage(imgFileName);
+			image.transferTo(imgFile);
+		}
+		board.setUser_id(user_id);
+		board.setTitle(title);
+		board.setContent(content);
+		// 게시글 DB에 저장
+		return new ResponseEntity<Integer>(bsvc.insertBoard(board), HttpStatus.OK);
+	}
+	
+	private String saveImage(String base64Image) throws IOException {
+	    String imageName = UUID.randomUUID().toString() + ".png";
+	    String imagePath = uploadPath + "/" + imageName;
+
+	    byte[] imageBytes = Base64.getDecoder().decode(base64Image);
+
+	    Files.write(Paths.get(imagePath), imageBytes);
+
+	    return imagePath;
+	  }
+}
