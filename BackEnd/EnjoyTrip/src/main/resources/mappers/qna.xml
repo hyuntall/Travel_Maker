@@ -18,7 +18,7 @@
 	</update>
 	
 	<insert id="insert">
-		insert into qna(title,content,user_idx) values(#{title},#{content},#{user_idx})
+		insert into qna(title,content,user_id) values(#{title},#{content},#{user_id})
 	</insert>
 	
 

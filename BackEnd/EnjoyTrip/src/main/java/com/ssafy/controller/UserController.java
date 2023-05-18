@@ -42,10 +42,6 @@ public class UserController {
 	@Autowired
 	private JwtServiceImpl jwtService;
 	
-	@GetMapping("/{idx}")
-	public ResponseEntity<?> selectByIdx(@PathVariable int idx) throws SQLException {
-		return new ResponseEntity<UserDto>(usvc.selectByIdx(idx),HttpStatus.OK);
-	}
 	@PostMapping("/regist")
 	public ResponseEntity<?> insertUser(@RequestBody UserDto user) throws SQLException {
 		UserDto u = usvc.selectById(user.getId());
