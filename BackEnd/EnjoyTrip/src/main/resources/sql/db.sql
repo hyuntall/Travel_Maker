@@ -7,6 +7,7 @@ CREATE TABLE `user` (
   `gender` char(1) NOT NULL,
   `age` int NOT NULL,
   `is_admin` tinyint DEFAULT '0',
+  `token` VARCHAR(1000) NULL DEFAULT NULL,
   PRIMARY KEY (`idx`),
   CONSTRAINT `user_chk_1` CHECK ((`gender` in (_utf8mb4'M',_utf8mb4'F')))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
