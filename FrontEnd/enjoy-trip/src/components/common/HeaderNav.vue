@@ -21,8 +21,10 @@
               <li v-if="userInfo">
                 <a href="#"  @click.prevent="onClickLogout">로그아웃</a>
               </li>
-              <li v-else-if="!userInfo" style="display: flex">
+              <li v-else-if="!userInfo" >
                 <router-link to="/login" >로그인</router-link>
+              </li>
+               <li v-if="!userInfo" >
                 <router-link to="/user/regist">회원가입</router-link>
               </li>
             </ul>
