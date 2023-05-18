@@ -12,7 +12,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class UserDto {
-	private int idx;
 	private String id;
 	private String password;
 	private String name;

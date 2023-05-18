@@ -11,5 +11,5 @@ public class QnaDto {
 	private int idx;
 	private String title;
 	private String content;
-	private int user_idx;
+	private String user_id;
 }
