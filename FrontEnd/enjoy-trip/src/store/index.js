@@ -24,6 +24,7 @@ export default new Vuex.Store({
   },
   mutations: {
     SET_IS_LOGIN: (state, isLogin) => {
+      console.log("islogin" + isLogin);
       state.isLogin = isLogin;
     },
     SET_IS_LOGIN_ERROR: (state, isLoginError) => {
@@ -128,6 +129,7 @@ export default new Vuex.Store({
         userid,
         ({ data }) => {
           if (data.message === "success") {
+            console.log("gggkgkgkgkgkkggkk");
             commit("SET_IS_LOGIN", false);
             commit("SET_USER_INFO", null);
             commit("SET_IS_VALID_TOKEN", false);

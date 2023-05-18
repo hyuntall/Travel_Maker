@@ -4,8 +4,30 @@ import HomeView from "../views/HomeView.vue";
 import UserView from "../views/UserView";
 import TripView from "../views/TripView";
 import BoardView from "../views/BoardView";
+import store from "@/store";
 
 Vue.use(VueRouter);
+
+// https://v3.router.vuejs.org/kr/guide/advanced/navigation-guards.html
+const onlyAuthUser = async (to, from, next) => {
+  const checkUserInfo = store.getters["checkUserInfo"];
+  const checkToken = store.getters["checkToken"];
+  let token = sessionStorage.getItem("access-token");
+  console.log("로그인 처리 전", checkUserInfo, token);
+
+  if (checkUserInfo != null && token) {
+    console.log("토큰 유효성 체크하러 가자!!!!");
+    await store.dispatch("getUserInfo", token);
+  }
+  if (!checkToken || checkUserInfo === null) {
+    alert("로그인이 필요한 페이지입니다..");
+    // next({ name: "login" });
+    router.push({ name: "login" });
+  } else {
+    console.log("로그인 했다!!!!!!!!!!!!!.");
+    next();
+  }
+};
 
 const routes = [
   {
@@ -36,11 +58,13 @@ const routes = [
       {
         path: "",
         name: "TripSearch",
+        beforeEnter: onlyAuthUser,
         component: () => import(/* webpackChunkName: "trip" */ "@/components/trip/TripSearch"),
       },
       {
         path: "make",
         name: "TripMake",
+        beforeEnter: onlyAuthUser,
         component: () => import(/* webpackChunkName: "trip" */ "@/components/trip/TripMake"),
       },
     ],
@@ -54,6 +78,7 @@ const routes = [
       {
         path: "list",
         name: "BoardList",
+        beforeEnter: onlyAuthUser,
         component: () => import(/* webpackChunkName: "board" */ "@/components/board/BoardList"),
       },
       {
