@@ -63,17 +63,31 @@ export default {
   mounted() {
     console.log("mounted!! "+this.$route.params.cate2)
     if (window.kakao && window.kakao.maps) {
-      this.initMap();
+      this.initMap(this.$route.params.cate2);
     } else {
       const script = document.createElement("script");
       /* global kakao */
-      script.onload = () => kakao.maps.load(this.initMap);
+      script.onload = () => kakao.maps.load(this.initMap(this.$route.params.cate2));
       script.src =
         "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=915cffed372954b7b44804ed422b9cf0";
       document.head.appendChild(script);
     }
     
-    var url = `https://dapi.kakao.com/v2/local/search/address.json?query=${this.$route.params.cate2}`;
+    
+    
+  },
+  methods: {
+    initMap(cate2) {
+      const container = document.getElementById("map");
+      const options = {
+        center: new kakao.maps.LatLng(37, 120), // 지도의 중심좌표
+        level: 6, // 지도의 확대 레벨
+      };
+      this.map = new kakao.maps.Map(container, options);
+      this.infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });   
+
+      console.log("initmap: "+cate2)
+      var url = `https://dapi.kakao.com/v2/local/search/address.json?query=${cate2}`;
       var key = "KakaoAK 8e2e5c55f8a455204cc6d497c99b6c00";
       console.log(url);
       fetch(url, {
@@ -89,18 +103,8 @@ export default {
           var x = data.documents[0].x;
           this.map.setCenter(new kakao.maps.LatLng(y, x));
         });
-    
-  },
-  methods: {
-    initMap() {
-      console.log("initmap:"+this.$route.params)
-      const container = document.getElementById("map");
-      const options = {
-        center: new kakao.maps.LatLng(37, 120), // 지도의 중심좌표
-        level: 6, // 지도의 확대 레벨
-      };
-      this.map = new kakao.maps.Map(container, options);
-      this.infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });        
+
+           
     },
     
     moveMap() {
@@ -170,34 +174,30 @@ export default {
         var marker = this.addMarker(placePosition, i)
         var itemEl = this.getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
 
-        console.log(marker)
+        console.log("marker: "+marker)
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
         // LatLngBounds 객체에 좌표를 추가합니다
         bounds.extend(placePosition);
-        console.log("dddddddddddd"+places[i].place_name)
+        // console.log("dddddddddddd"+places[i].place_name)
         
-        kakao.maps.event.addListener(marker, "mouseover", function () {
-          console.log("adddddd "+places[i])
-          console.log(marker)
-          this.displayInfowindow(marker, places[i].place_name);
-        });
+        
+        (function (marker, title) {
+          kakao.maps.event.addListener(marker, "mouseover", function () {
+            this.displayInfowindow(marker, title);
+          });
 
-       
+          kakao.maps.event.addListener(marker, "mouseout", function () {
+            this.infowindow.close();
+          });
 
+          itemEl.onmouseover = function () {
+            this.displayInfowindow(marker, title);
+          };
 
-        // kakao.maps.event.addListener(marker, "mouseout", function () {
-        //   this.infowindow.close();
-        // });
-
-        // itemEl.onmouseover = function () {
-        //   this.displayInfowindow(marker, places[i].place_name);
-        // };
-
-        // itemEl.onmouseout = function () {
-        //   this.infowindow.close();
-        // };
-        // (function (marker, title) {
-        // })(marker, places[i].place_name);
+          itemEl.onmouseout = function () {
+            this.infowindow.close();
+          };
+        })(marker, places[i].place_name);
 
         fragment.appendChild(itemEl);
       }
@@ -243,7 +243,7 @@ export default {
       return el;
     },
     addMarker(position, idx, title) {
-      console.log(title)
+      console.log("title "+title)
       var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png", // 마커 이미지 url, 스프라이트 이미지를 씁니다
         imageSize = new kakao.maps.Size(36, 37), // 마커 이미지의 크기
         imgOptions = {
