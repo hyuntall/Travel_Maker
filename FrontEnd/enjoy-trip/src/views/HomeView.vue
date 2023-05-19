@@ -24,6 +24,7 @@ export default {
 }
 .main-text {
   text-align: center;
+  
 }
 
 .main-text h2 {font-weight: 800px; font-size: 50px;}

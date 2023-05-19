@@ -81,7 +81,7 @@ export default new Vuex.Store({
           commit("SET_IS_VALID_TOKEN", false);
           await dispatch("tokenRegeneration");
           alert("토큰 만료! 재로그인해주세요!");
-          this.$router.push({ name: "login" });
+          router.push({ name: "login" });
         }
       );
     },

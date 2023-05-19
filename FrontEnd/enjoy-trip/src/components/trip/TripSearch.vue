@@ -50,7 +50,7 @@
                       <p>
                         {{ region.descr }}
                       </p>
-                      <b-link to="/trip/make">플랜 만들기</b-link>
+                      <b-link :to="{name: 'TripMake', params: region}">플랜 만들기</b-link>
                     </div>
                   </div>
                 </b-modal>
