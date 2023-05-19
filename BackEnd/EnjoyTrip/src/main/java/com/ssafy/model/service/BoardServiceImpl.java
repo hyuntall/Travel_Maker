@@ -40,4 +40,9 @@ public class BoardServiceImpl implements BoardService{
 		return boardRepo.deleteBoard(idx);
 	}
 
+	@Override
+	public int addViewCount(int idx) throws SQLException {
+		return boardRepo.addViewCount(idx);
+	}
+
 }

@@ -29,7 +29,7 @@
         </div>
         <div class="bottom">
           <div class="title">{{ board.title }}</div>
-          <p class="likes">{{ board.view }} views</p>
+          <p class="likes">{{ board.view_count }} views</p>
           <div class="message" v-html="enterToBr"></div>
           <div class="addComments">
             <div class="reaction">

@@ -16,7 +16,7 @@ public class BoardDto {
 	private Timestamp written_date;
 	private Timestamp updated_date;
 	private boolean is_notice;
-	private int view;
+	private int view_count;
 	private String image;
 }
  

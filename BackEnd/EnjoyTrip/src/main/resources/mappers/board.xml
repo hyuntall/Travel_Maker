@@ -14,19 +14,22 @@
 	</delete>
 	
 	<update id="updateBoard">
-	<choose>
-		<when test="image != null">		
-			update board set title=#{title}, content=#{content}, updated_date=#{updated_date}, image=#{image} where idx=#{idx}
-		</when>
-		<otherwise>
-			update board set title=#{title}, content=#{content}, updated_date=#{updated_date} where idx=#{idx}
-		</otherwise>
-	</choose>
-	
+		<choose>
+			<when test="image != null">		
+				update board set title=#{title}, content=#{content}, updated_date=#{updated_date}, image=#{image} where idx=#{idx}
+			</when>
+			<otherwise>
+				update board set title=#{title}, content=#{content}, updated_date=#{updated_date} where idx=#{idx}
+			</otherwise>
+		</choose>
 	</update>
 	
 	<insert id="insertBoard">
 		insert into board(title,content,user_id, image) 
 		values(#{title},#{content},#{user_id}, #{image})
 	</insert>
+	
+	<update id="addViewCount">
+		update board set view_count=view_count+1 where idx=#{idx};
+	</update>
 </mapper>

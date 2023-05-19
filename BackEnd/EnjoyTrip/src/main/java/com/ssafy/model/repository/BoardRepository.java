@@ -18,6 +18,6 @@ public interface BoardRepository {
 	BoardDto selectBoardByIdx(int idx) throws SQLException;
 	int updateBoard(BoardDto boardDto) throws SQLException;
 	int deleteBoard(int idx) throws SQLException;
-	
+	int addViewCount(int idx) throws SQLException;
 }
  
