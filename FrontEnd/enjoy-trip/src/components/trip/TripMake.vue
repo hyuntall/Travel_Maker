@@ -2,9 +2,14 @@
   <div>
     <div class="plan">
       <div class="planner">
-        <label for="example-datepicker">Choose a date</label>
-        <b-form-datepicker id="example-datepicker" v-model="value" class="mb-2"></b-form-datepicker>
-        <p>Value: '{{ value }}'</p>
+        <h4>{{region.cate2}} 여행</h4>
+        <label for="example-datepicker">출발날짜</label>
+        <b-form-datepicker id="example-datepicker" v-model="start" class="mb-2"></b-form-datepicker>
+        
+
+        <label for="example-datepicker2">도착날짜</label>
+        <b-form-datepicker id="example-datepicker2" v-model="end" class="mb-2"></b-form-datepicker>
+        
       </div>
 
       <div class="map">
@@ -45,51 +50,73 @@ export default {
       ps: null,
       infowindow: null,
       markers: [],
-      value: "",
+      start: "",
+      end: "",
+      region : null,
     };
   },
   created() {
     console.log("created!! " + this.$route.params.cate2);
+    this.region = this.$route.params
   },
   mounted() {
-    console.log("mounted!! " + this.$route.params.cate2);
     if (window.kakao && window.kakao.maps) {
-      this.initMap(this.$route.params.cate2);
+      this.initMap();
     } else {
       const script = document.createElement("script");
       /* global kakao */
-      script.onload = () => kakao.maps.load(this.initMap(this.$route.params.cate2));
-      script.src = "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=915cffed372954b7b44804ed422b9cf0";
+      script.onload = () => kakao.maps.load(this.initMap);
+      script.src =
+        "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=915cffed372954b7b44804ed422b9cf0";
       document.head.appendChild(script);
     }
+    var url = `https://dapi.kakao.com/v2/local/search/address.json?query=${this.$route.params.cate1} ${this.$route.params.cate2}`;
+    var key = "KakaoAK 8e2e5c55f8a455204cc6d497c99b6c00";
+    console.log(url);
+    window.kakao.maps.load(()=> {
+       fetch(url, {
+      headers: {
+        Authorization: key,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data.documents);
+        console.log(data.documents[0].y);
+        var y = data.documents[0].y;
+        var x = data.documents[0].x;
+        this.map.setCenter(new kakao.maps.LatLng(y, x));
+      });
+    })
+   
   },
   methods: {
-    initMap(cate2) {
+    initMap() {
       const container = document.getElementById("map");
       const options = {
-        center: new kakao.maps.LatLng(37, 120), // 지도의 중심좌표
+        center: new kakao.maps.LatLng(33.450701, 126.570667),
         level: 6, // 지도의 확대 레벨
       };
       this.map = new kakao.maps.Map(container, options);
       this.infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
-
-      console.log("initmap: " + cate2);
-      var url = `https://dapi.kakao.com/v2/local/search/address.json?query=${cate2}`;
-      var key = "KakaoAK 8e2e5c55f8a455204cc6d497c99b6c00";
-      console.log(url);
-      fetch(url, {
-        headers: {
-          Authorization: key,
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data.documents);
-          console.log(data.documents[0].y);
-          var y = data.documents[0].y;
-          var x = data.documents[0].x;
-          this.map.setCenter(new kakao.maps.LatLng(y, x));
-        });
+      
+      // console.log("initmap: " + cate2);
+      // var url = `https://dapi.kakao.com/v2/local/search/address.json?query=${region.cate1} ${region.cate2}`;
+      // var key = "KakaoAK 8e2e5c55f8a455204cc6d497c99b6c00";
+      // console.log(url);
+      // fetch(url, {
+      //   headers: {
+      //     Authorization: key,
+      //   },
+      // })
+      //   .then((response) => response.json())
+      //   .then((data) => {
+      //     console.log(data.documents);
+      //     console.log(data.documents[0].y);
+      //     var y = data.documents[0].y;
+      //     var x = data.documents[0].x;
+      //     this.map.setCenter(new kakao.maps.LatLng(y, x));
+      //   });
     },
 
     async moveMap() {
@@ -158,32 +185,33 @@ export default {
         var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x);
         var marker = this.addMarker(placePosition, i);
         var itemEl = this.getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
-        marker.place_name = places[i].place_name;
+        // marker.place_name = places[i].place_name;
         console.log("marker: " + marker);
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
         // LatLngBounds 객체에 좌표를 추가합니다
         bounds.extend(placePosition);
         // console.log("dddddddddddd"+places[i].place_name)
 
-        (function (marker, title) {
-          kakao.maps.event.addListener(marker, "mouseover", function (event) {
-            console.log(event);
-            console.log(title);
+        // let title = places[i].place_name
+       ((marker, title) => {
+          kakao.maps.event.addListener(marker, "mouseover", () => {
             this.displayInfowindow(marker, title);
           });
 
-          kakao.maps.event.addListener(marker, "mouseout", function () {
-            // this.infowindow.close();
+          kakao.maps.event.addListener(marker, "mouseout", () => {
+            this.infowindow.close();
           });
 
-          itemEl.onmouseover = function () {
-            // this.displayInfowindow(marker, title);
+          itemEl.onmouseover = () => {
+            this.displayInfowindow(marker, title);
           };
 
-          itemEl.onmouseout = function () {
-            // this.infowindow.close();
+          itemEl.onmouseout = () => {
+            this.infowindow.close();
           };
         })(marker, places[i].place_name);
+          
+        
 
         fragment.appendChild(itemEl);
       }
@@ -278,7 +306,8 @@ export default {
 
 .plan .planner {
   width: 15%;
-  background-color: blue;
+  /* background-color: blue; */
+  text-align: center;
 }
 
 .plan .map {
