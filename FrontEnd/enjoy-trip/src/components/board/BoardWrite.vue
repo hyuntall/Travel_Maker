@@ -18,11 +18,12 @@
       <div class="board_input image">
         <input type="file" name="image" id="image" @change="uploadImage" accept="image/*" />
       </div>
-      <div v-if="image" class="board_input uploadImg">
+      <div v-if="image || url" class="board_input uploadImg">
         <img :src="url" alt="Uploaded Image" />
       </div>
       <div class="submit">
-        <button class="btn btn-dark" @click="writeBoard">작성하기</button>
+        <button v-if="$route.params.idx" class="btn btn-dark" @click="updateBoard">수정하기</button>
+        <button v-else class="btn btn-dark" @click="writeBoard">작성하기</button>
       </div>
     </div>
   </div>
@@ -42,6 +43,17 @@ export default {
       image: null,
       url: "",
     };
+  },
+  created() {
+    console.log(this.$route.params);
+    if (this.$route.params.idx) {
+      http.get(`/board/${this.$route.params.idx}`).then(({ data }) => {
+        console.log(data);
+        this.title = data.title;
+        this.content = data.content;
+        this.url = require(`C:/EnjoyTrip/board/${data.image}`);
+      });
+    }
   },
   computed: {
     ...mapState(["userInfo"]),
@@ -74,6 +86,29 @@ export default {
         .then(({ data }) => {
           console.log(data);
           alert("게시글 등록 성공");
+          this.$router.push("/board");
+        })
+        .catch(() => {
+          alert("게시글 등록 실패");
+        });
+    },
+
+    updateBoard() {
+      const formData = new FormData();
+
+      formData.append("user_id", this.userInfo.id);
+      formData.append("title", this.title);
+      formData.append("content", this.content);
+      if (this.image != null) formData.append("image", this.image);
+      http
+        .put(`/board/update/${this.$route.params.idx}`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then(({ data }) => {
+          console.log(data);
+          alert("게시글 수정 성공");
           this.$router.push("/board");
         })
         .catch(() => {

@@ -90,6 +90,11 @@ const routes = [
         name: "BoardDetail",
         component: () => import(/* webpackChunkName: "board" */ "@/components/board/BoardDetail"),
       },
+      {
+        path: "modify",
+        name: "BoardModify",
+        component: () => import(/* webpackChunkName: "board" */ "@/components/board/BoardWrite"),
+      },
     ],
   },
   {

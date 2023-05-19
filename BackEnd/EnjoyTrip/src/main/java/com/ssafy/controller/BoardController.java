@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -89,5 +90,36 @@ public class BoardController {
 	@DeleteMapping("/delete/{idx}")
 	public ResponseEntity<?> deleteBoard(@PathVariable int idx) throws SQLException {
 		return new ResponseEntity<Integer>(bsvc.deleteBoard(idx), HttpStatus.OK);
+	}
+	
+	@PutMapping("/update/{idx}")
+	public ResponseEntity<?> updateBoard(@PathVariable int idx,
+			@RequestParam("user_id") String user_id,
+            @RequestParam("title") String title,
+            @RequestParam("content") String content,
+            @RequestPart(required = false) MultipartFile image
+            ) throws SQLException, IOException{
+		BoardDto board = new BoardDto();
+		board.setIdx(idx);
+		if (image != null && image.getSize() > 0) {
+
+			File imgDir = new File(uploadPath + "board/");
+			if (!imgDir.exists()) {
+				imgDir.mkdirs();
+			}
+			
+			String imgFileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
+			String imgFilePath = uploadPath + "board/" + imgFileName;
+			File imgFile = new File(imgFilePath);
+			
+
+			board.setImage(imgFileName);
+			image.transferTo(imgFile);
+		}
+		board.setUser_id(user_id);
+		board.setTitle(title);
+		board.setContent(content);
+		// 게시글 DB에 저장
+		return new ResponseEntity<Integer>(bsvc.updateBoard(board), HttpStatus.OK);
 	}
 }

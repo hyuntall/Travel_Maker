@@ -23,6 +23,10 @@
           </div>
           <div class="date">{{ board.written_date | dateFormat }}</div>
         </div>
+        <div v-if="board.user_id === userInfo.id" class="modify">
+          <button class="btn btn-1" @click="deleteBoard">삭제</button>
+          <router-link class="btn btn-1" :to="{ name: 'BoardModify', params: { idx: board.idx } }">수정</router-link>
+        </div>
         <div class="bottom">
           <div class="title">{{ board.title }}</div>
           <p class="likes">{{ board.view }} views</p>
@@ -58,6 +62,7 @@
 
 <script>
 import http from "@/util/http-common";
+import { mapState } from "vuex";
 
 export default {
   name: "BoardDetail",
@@ -72,7 +77,7 @@ export default {
     };
   },
   created() {
-    console.log(this.$route.params.idx);
+    console.log(this.userInfo.id);
     http
       .get(`/board/${this.$route.params.idx}`)
       .then(({ data }) => {
@@ -84,8 +89,22 @@ export default {
         alert("게시글 호출 실패");
       });
   },
-  methods: {},
+  methods: {
+    deleteBoard() {
+      http
+        .delete(`/board/delete/${this.board.idx}`)
+        .then(({ data }) => {
+          console.log(data);
+          alert("게시글 삭제 성공");
+          this.$router.push("/board");
+        })
+        .catch(() => {
+          alert("게시글 삭제 실패");
+        });
+    },
+  },
   computed: {
+    ...mapState(["userInfo"]),
     enterToBr() {
       // 문자열에 enter값을 <br />로 변경.(html상에서 줄바꿈 처리)
       return String(this.board.content).replace(/(?:\r\n|\r|\n)/g, "<br />");
@@ -461,5 +480,39 @@ a {
   width: 100%;
   min-height: 400px;
   margin: 10px 0 15px;
+}
+
+.modify {
+  text-align: right;
+  padding-right: 10px;
+}
+
+.btn {
+  width: 100px;
+  margin-left: 10px;
+  height: 40px;
+  color: #ddd;
+  border-radius: 5px;
+  padding: 10px 25px;
+  font-family: "Lato", sans-serif;
+  font-weight: 500;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5), 7px 7px 20px 0px rgba(0, 0, 0, 0.1),
+    4px 4px 5px 0px rgba(0, 0, 0, 0.1);
+  outline: none;
+}
+
+.btn-1 {
+  background: rgb(0, 9, 140);
+  background: linear-gradient(0deg, rgba(6, 14, 131, 1) 0%, rgba(12, 25, 180, 1) 100%);
+  border: none;
+}
+.btn-1:hover {
+  background: rgb(0, 3, 255);
+  background: linear-gradient(0deg, rgba(0, 3, 255, 1) 0%, rgba(2, 126, 251, 1) 100%);
 }
 </style>

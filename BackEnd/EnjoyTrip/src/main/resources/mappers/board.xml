@@ -14,7 +14,15 @@
 	</delete>
 	
 	<update id="updateBoard">
-		update board set title=#{title}, content=#{content}, updated_date=#{updated_date}, image=#{image} where idx=#{idx}
+	<choose>
+		<when test="image != null">		
+			update board set title=#{title}, content=#{content}, updated_date=#{updated_date}, image=#{image} where idx=#{idx}
+		</when>
+		<otherwise>
+			update board set title=#{title}, content=#{content}, updated_date=#{updated_date} where idx=#{idx}
+		</otherwise>
+	</choose>
+	
 	</update>
 	
 	<insert id="insertBoard">
