@@ -1,80 +1,67 @@
 <template>
   <div>
+    <div class="plan">
+      <div class="planner">
+        <label for="example-datepicker">Choose a date</label>
+        <b-form-datepicker id="example-datepicker" v-model="value" class="mb-2"></b-form-datepicker>
+        <p>Value: '{{ value }}'</p>
+      </div>
 
-        <div class="plan">
-          <div class="planner">
-  <label for="example-datepicker">Choose a date</label>
-    <b-form-datepicker id="example-datepicker" v-model="value" class="mb-2"></b-form-datepicker>
-    <p>Value: '{{ value }}'</p>
-          </div>
+      <div class="map">
+        <div class="map_wrap">
+          <div id="map" style="width: 100%; height: 95vh; position: relative; overflow: hidden"></div>
+          <div id="menu_wrap" class="bg_white">
+            <div class="option">
+              <div>
+                여행 지역 <input type="text" value="" id="keyword" size="10" @keyup.13="moveMap()" />
 
-          <div class="map">
-            <div class="map_wrap">
-              <div id="map" style="width:100%;height:95vh;position:relative;overflow:hidden;"></div>
-              <div id="menu_wrap" class="bg_white">
-                  <div class="option">
-                      <div>
-                          
-                              여행 지역 <input type="text" value="" id="keyword" size="10" @keyup.13="moveMap();"> 
-                              
-                              <div style="margin-top:15px">
-                                <button @click="categorySearch('AT4');">관광지</button>
-                                <button @click="categorySearch('AD5');">숙소</button>
-                                <button @click="categorySearch('FD6');">식당</button>
-                              </div>
-                          
-                      </div>
-                  </div>                  
+                <div style="margin-top: 15px">
+                  <button @click="categorySearch('AT4')">관광지</button>
+                  <button @click="categorySearch('AD5')">숙소</button>
+                  <button @click="categorySearch('FD6')">식당</button>
+                </div>
               </div>
-
-            </div>  
-              
-
-            
-          </div>
-
-          <div class="result">
-            <h1>목록</h1>
-            <ul id="placesList"></ul>
+            </div>
           </div>
         </div>
+      </div>
 
-
+      <div class="result">
+        <h1>목록</h1>
+        <ul id="placesList"></ul>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'TripMake',
+  name: "TripMake",
   components: {},
   data() {
     return {
-      message: '',
+      message: "",
       map: null,
-      ps:null,
-      infowindow:null,
+      ps: null,
+      infowindow: null,
       markers: [],
-      value: ''
+      value: "",
     };
   },
   created() {
-    console.log("created!! "+this.$route.params.cate2) 
+    console.log("created!! " + this.$route.params.cate2);
   },
   mounted() {
-    console.log("mounted!! "+this.$route.params.cate2)
+    console.log("mounted!! " + this.$route.params.cate2);
     if (window.kakao && window.kakao.maps) {
       this.initMap(this.$route.params.cate2);
     } else {
       const script = document.createElement("script");
       /* global kakao */
       script.onload = () => kakao.maps.load(this.initMap(this.$route.params.cate2));
-      script.src =
-        "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=915cffed372954b7b44804ed422b9cf0";
+      script.src = "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=915cffed372954b7b44804ed422b9cf0";
       document.head.appendChild(script);
     }
-    
-    
-    
   },
   methods: {
     initMap(cate2) {
@@ -84,9 +71,9 @@ export default {
         level: 6, // 지도의 확대 레벨
       };
       this.map = new kakao.maps.Map(container, options);
-      this.infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });   
+      this.infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
 
-      console.log("initmap: "+cate2)
+      console.log("initmap: " + cate2);
       var url = `https://dapi.kakao.com/v2/local/search/address.json?query=${cate2}`;
       var key = "KakaoAK 8e2e5c55f8a455204cc6d497c99b6c00";
       console.log(url);
@@ -103,12 +90,10 @@ export default {
           var x = data.documents[0].x;
           this.map.setCenter(new kakao.maps.LatLng(y, x));
         });
-
-           
     },
-    
-    moveMap() {
-      console.log("함수실행")
+
+    async moveMap() {
+      console.log("함수실행");
       var keyword = document.getElementById("keyword").value;
 
       if (!keyword.replace(/^\s+|\s+$/g, "")) {
@@ -119,7 +104,7 @@ export default {
       var url = `https://dapi.kakao.com/v2/local/search/address.json?query=${keyword}`;
       var key = "KakaoAK 8e2e5c55f8a455204cc6d497c99b6c00";
       console.log(url);
-      fetch(url, {
+      await fetch(url, {
         headers: {
           Authorization: key,
         },
@@ -159,8 +144,8 @@ export default {
       var listEl = document.getElementById("placesList"),
         menuEl = document.getElementById("menu_wrap"),
         fragment = document.createDocumentFragment(),
-        bounds = new kakao.maps.LatLngBounds()
-        // listStr = "";
+        bounds = new kakao.maps.LatLngBounds();
+      // listStr = "";
 
       // 검색 결과 목록에 추가된 항목들을 제거합니다
       this.removeAllChildNods(listEl);
@@ -170,32 +155,33 @@ export default {
 
       for (var i = 0; i < places.length; i++) {
         // 마커를 생성하고 지도에 표시합니다
-        var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x)
-        var marker = this.addMarker(placePosition, i)
+        var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x);
+        var marker = this.addMarker(placePosition, i);
         var itemEl = this.getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
-
-        console.log("marker: "+marker)
+        marker.place_name = places[i].place_name;
+        console.log("marker: " + marker);
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
         // LatLngBounds 객체에 좌표를 추가합니다
         bounds.extend(placePosition);
         // console.log("dddddddddddd"+places[i].place_name)
-        
-        
+
         (function (marker, title) {
-          kakao.maps.event.addListener(marker, "mouseover", function () {
+          kakao.maps.event.addListener(marker, "mouseover", function (event) {
+            console.log(event);
+            console.log(title);
             this.displayInfowindow(marker, title);
           });
 
           kakao.maps.event.addListener(marker, "mouseout", function () {
-            this.infowindow.close();
+            // this.infowindow.close();
           });
 
           itemEl.onmouseover = function () {
-            this.displayInfowindow(marker, title);
+            // this.displayInfowindow(marker, title);
           };
 
           itemEl.onmouseout = function () {
-            this.infowindow.close();
+            // this.infowindow.close();
           };
         })(marker, places[i].place_name);
 
@@ -243,7 +229,7 @@ export default {
       return el;
     },
     addMarker(position, idx, title) {
-      console.log("title "+title)
+      console.log("title " + title);
       var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png", // 마커 이미지 url, 스프라이트 이미지를 씁니다
         imageSize = new kakao.maps.Size(36, 37), // 마커 이미지의 크기
         imgOptions = {
@@ -259,7 +245,7 @@ export default {
 
       marker.setMap(this.map); // 지도 위에 마커를 표출합니다
       this.markers.push(marker); // 배열에 생성된 마커를 추가합니다
-      console.log("addmarker: "+marker)
+      console.log("addmarker: " + marker);
       return marker;
     },
     removeMarker() {
@@ -278,26 +264,38 @@ export default {
       while (el.hasChildNodes()) {
         el.removeChild(el.lastChild);
       }
-    }
+    },
   },
 };
 </script>
 
 <style scoped>
-.plan {padding-top: 80px; display: flex; height: 100vh;}
+.plan {
+  padding-top: 80px;
+  display: flex;
+  height: 100vh;
+}
 
-.plan .planner {width: 15%; background-color: blue;}
+.plan .planner {
+  width: 15%;
+  background-color: blue;
+}
 
-.plan .map {width: 70%;}
+.plan .map {
+  width: 70%;
+}
 
-.plan .result {width: 15%; background-color: yellow;}
+.plan .result {
+  width: 15%;
+  background-color: yellow;
+}
 
 /* kakao */
 .map_wrap,
 .map_wrap * {
   /* margin: 10px; */
   padding: 0;
-  font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;
+  font-family: "Malgun Gothic", dotum, "돋움", sans-serif;
   font-size: 12px;
 }
 
@@ -338,7 +336,7 @@ export default {
   display: block;
   height: 1px;
   border: 0;
-  border-top: 2px solid #5F5F5F;
+  border-top: 2px solid #5f5f5f;
   margin: 3px 0;
 }
 
@@ -354,7 +352,9 @@ export default {
   margin-left: 5px;
 }
 
-#placesList {padding: 20px;}
+#placesList {
+  padding: 20px;
+}
 
 #placesList li {
   list-style: none;
@@ -415,7 +415,7 @@ export default {
 }
 
 #placesList .item .marker_3 {
-  background-position: 0 -102px
+  background-position: 0 -102px;
 }
 
 #placesList .item .marker_4 {
@@ -481,5 +481,4 @@ export default {
   cursor: default;
   color: #777;
 }
-
 </style>
