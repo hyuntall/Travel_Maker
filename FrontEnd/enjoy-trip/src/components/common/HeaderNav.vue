@@ -2,7 +2,7 @@
   <header id="header">
     <div class="container">
       <div class="row">
-        <div class="header clearfix">
+        <div class="header">
           <div>
             <router-link to="/"> <b>Travel Maker</b>&nbsp;&nbsp;<span>YOUR TRIP PLAN MANAGER</span> </router-link>
           </div>
@@ -65,12 +65,15 @@ export default {
   border-bottom: 1px solid #c6c6c6;
   background-color: #fff;
   box-shadow: 0 5px 5px -5px #333;
+  box-sizing: border-box;
+  height: 63px;
 }
 .header {
   display: flex;
 }
 .header div {
-  padding: 1em;
+  padding-top: 0.5em;
+  
 }
 .header div a b {
   font-size: 30px;
