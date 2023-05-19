@@ -4,6 +4,7 @@ import HomeView from "../views/HomeView.vue";
 import UserView from "../views/UserView";
 import TripView from "../views/TripView";
 import BoardView from "../views/BoardView";
+import MypageView from "../views/MyPageView";
 import store from "@/store";
 
 Vue.use(VueRouter);
@@ -39,6 +40,11 @@ const routes = [
     path: "/login",
     name: "login",
     component: () => import(/* webpackChunkName: "user" */ "@/components/LoginForm"),
+  },
+  {
+    path: "/mypage",
+    name: "MyPage",
+    component: MypageView,
   },
   {
     path: "/user",

@@ -11,7 +11,7 @@
               <li>
                 <router-link to="/trip">여행지</router-link>
               </li>
-              <li><router-link to="/">MyPlan</router-link></li>
+              <li><router-link to="/mypage">MyPage</router-link></li>
               <li>
                 <router-link to="/board">자유게시판</router-link>
               </li>
