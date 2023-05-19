@@ -12,7 +12,7 @@
           </div>
           <h3>{{ board.user_id }}</h3>
         </div>
-        <div class="date">{{ board.written_date }}</div>
+        <div class="date">{{ board.written_date | dateFormat }}</div>
       </div>
       <div class="title">{{ board.title }}</div>
       <div class="swiper">
@@ -48,6 +48,10 @@ export default {
   },
   filters: {
     //todo 날짜포맷 변경하기
+    dateFormat(value) {
+      const date = new Date(value);
+      return date.toLocaleString();
+    },
   },
   methods: {},
 };

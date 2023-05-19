@@ -21,7 +21,7 @@
             </div>
             <h3>{{ board.user_id }}</h3>
           </div>
-          <div class="date">{{ board.written_date }}</div>
+          <div class="date">{{ board.written_date | dateFormat }}</div>
         </div>
         <div class="bottom">
           <div class="title">{{ board.title }}</div>
@@ -89,6 +89,12 @@ export default {
     enterToBr() {
       // 문자열에 enter값을 <br />로 변경.(html상에서 줄바꿈 처리)
       return String(this.board.content).replace(/(?:\r\n|\r|\n)/g, "<br />");
+    },
+  },
+  filters: {
+    dateFormat(value) {
+      const date = new Date(value);
+      return date.toLocaleString();
     },
   },
 };
