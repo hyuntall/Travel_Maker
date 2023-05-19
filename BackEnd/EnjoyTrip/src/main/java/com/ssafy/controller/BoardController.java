@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -85,14 +86,8 @@ public class BoardController {
 		return new ResponseEntity<Integer>(bsvc.insertBoard(board), HttpStatus.OK);
 	}
 	
-	private String saveImage(String base64Image) throws IOException {
-	    String imageName = UUID.randomUUID().toString() + ".png";
-	    String imagePath = uploadPath + "/" + imageName;
-
-	    byte[] imageBytes = Base64.getDecoder().decode(base64Image);
-
-	    Files.write(Paths.get(imagePath), imageBytes);
-
-	    return imagePath;
-	  }
+	@DeleteMapping("/delete/{idx}")
+	public ResponseEntity<?> deleteBoard(@PathVariable int idx) throws SQLException {
+		return new ResponseEntity<Integer>(bsvc.deleteBoard(idx), HttpStatus.OK);
+	}
 }

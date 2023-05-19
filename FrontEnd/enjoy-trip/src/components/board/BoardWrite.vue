@@ -74,7 +74,7 @@ export default {
         .then(({ data }) => {
           console.log(data);
           alert("게시글 등록 성공");
-          this.$router.push("/");
+          this.$router.push("/board");
         })
         .catch(() => {
           alert("게시글 등록 실패");
