@@ -120,6 +120,7 @@ public class BoardController {
 		board.setUser_id(user_id);
 		board.setTitle(title);
 		board.setContent(content);
+		board.setUpdated_date(new Timestamp(System.currentTimeMillis() + 32400000));
 		// 게시글 DB에 저장
 		return new ResponseEntity<Integer>(bsvc.updateBoard(board), HttpStatus.OK);
 	}
