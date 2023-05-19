@@ -86,7 +86,7 @@ const routes = [
         component: () => import(/* webpackChunkName: "board" */ "@/components/board/BoardWrite"),
       },
       {
-        path: "detail",
+        path: "detail/:idx",
         name: "BoardDetail",
         component: () => import(/* webpackChunkName: "board" */ "@/components/board/BoardDetail"),
       },

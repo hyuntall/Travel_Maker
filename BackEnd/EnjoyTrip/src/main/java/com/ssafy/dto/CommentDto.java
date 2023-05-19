@@ -11,12 +11,9 @@ import lombok.*;
 public class CommentDto {
 	private int idx;
 	private String user_id;
-	private String title;
+	private int board_idx;
 	private String content; 
 	private Timestamp written_date;
 	private Timestamp updated_date;
-	private boolean is_notice;
-	private int view_count;
-	private String image;
 }
  

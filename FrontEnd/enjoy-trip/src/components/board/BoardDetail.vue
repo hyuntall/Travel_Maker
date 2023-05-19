@@ -37,24 +37,11 @@
                 <i class="far fa-smile"></i>
               </h3>
             </div>
-            <input type="text" class="text" placeholder="Add a comment..." />
-            <a href="#">Post</a>
+            <input type="text" class="text" v-model="comment" placeholder="Add a comment..." />
+            <a href="#" @click="writeComment">Post</a>
           </div>
         </div>
-        <div class="comments">
-          <div class="comment">
-            <div class="writer">작성자1</div>
-            <div class="content">댓글내용</div>
-          </div>
-          <div class="comment">
-            <div class="writer">작성자2</div>
-            <div class="content">댓글내용</div>
-          </div>
-          <div class="comment">
-            <div class="writer">작성자3</div>
-            <div class="content">댓글내용</div>
-          </div>
-        </div>
+        <comment-list :board_idx="board.idx"></comment-list>
       </div>
     </div>
   </div>
@@ -63,10 +50,11 @@
 <script>
 import http from "@/util/http-common";
 import { mapState } from "vuex";
+import CommentList from "../comment/CommentList.vue";
 
 export default {
   name: "BoardDetail",
-  components: {},
+  components: { CommentList },
   data() {
     return {
       message: "",
@@ -74,6 +62,7 @@ export default {
       board: null,
       profile_img: "",
       img: "",
+      content: "",
     };
   },
   created() {
@@ -100,6 +89,22 @@ export default {
         })
         .catch(() => {
           alert("게시글 삭제 실패");
+        });
+    },
+    writeComment() {
+      console.log(this.board.idx);
+      http
+        .post("/comment/write", {
+          user_id: this.userInfo.id,
+          board_idx: this.board.idx,
+          content: this.comment,
+        })
+        .then(({ data }) => {
+          console.log(data);
+          window.location.reload();
+        })
+        .catch(() => {
+          alert("댓글 작성 실패");
         });
     },
   },

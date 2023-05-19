@@ -1,9 +1,7 @@
 <template>
   <div class="container row">
     <div class="float" @click="moveWrite()">
-      <span class="float-button">
-        <botton> + </botton>
-      </span>
+      <span class="float-button"> + </span>
     </div>
     <div class="list">
       <board-one v-for="board in boards" :key="board.board_id" :board="board" />
@@ -12,7 +10,6 @@
 </template>
 
 <script>
-// import BoardDetail from "./BoardDetail.vue";
 import http from "@/util/http-common";
 import BoardOne from "./BoardOne.vue";
 export default {
