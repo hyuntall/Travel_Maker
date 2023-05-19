@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,8 +35,8 @@ public class RegionController {
 		return new ResponseEntity<List<RegionDto>>(regionService.selectABycate1(cate1), HttpStatus.OK);
 	}
 	
-	@GetMapping("/keyword")
-	public ResponseEntity<?> selectByKeyword(@RequestBody String keyword) throws SQLException {
+	@GetMapping("/keyword/{keyword}")
+	public ResponseEntity<?> selectByKeyword(@PathVariable String keyword) throws SQLException {
 		return new ResponseEntity<List<RegionDto>>(regionService.selectAByKeyword(keyword), HttpStatus.OK);
 	}
 }
