@@ -45,4 +45,9 @@ public class BoardServiceImpl implements BoardService{
 		return boardRepo.addViewCount(idx);
 	}
 
+	@Override
+	public List<BoardDto> selectBoardByUser(String user_id) throws SQLException {
+		return boardRepo.selectBoardByUser(user_id);
+	}
+
 }

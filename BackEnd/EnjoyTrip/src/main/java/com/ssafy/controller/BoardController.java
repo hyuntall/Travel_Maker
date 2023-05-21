@@ -52,6 +52,11 @@ public class BoardController {
 		return new ResponseEntity<List<BoardDto>>(bsvc.selectBoard(), HttpStatus.OK);
 	}
 
+	@GetMapping("/list/{user_id}")
+	public ResponseEntity<?> selectBoardByUser(@PathVariable String user_id) throws SQLException {
+		return new ResponseEntity<List<BoardDto>>(bsvc.selectBoardByUser(user_id), HttpStatus.OK);
+	}
+	
 	@GetMapping("/{idx}")
 	public ResponseEntity<?> selectBoardByIdx(@PathVariable int idx) throws SQLException {
 		bsvc.addViewCount(idx);

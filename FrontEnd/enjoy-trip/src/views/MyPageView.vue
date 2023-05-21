@@ -17,26 +17,37 @@
       </div>
     </div>
     <div class="my-plan">내 계획 목록</div>
-    <div class="my-boards">내가 작성한 글</div>
+    <div class="my-boards">내가 작성한 글
+      <div v-if="myBoards.length > 0">작성한 글이 있습니다.</div>
+      <div v-else>작성한 글이 없습니다.</div>
+      <my-board></my-board>
+    </div>
   </div>
 </template>
 
 <script>
 import http from '@/util/http-common';
 import { mapState, mapMutations } from 'vuex';
+import MyBoard from '@/components/mypage/MyBoard.vue';
 
 export default {
   name: "MyPageView",
-  components: {},
+  components: {MyBoard},
   data() {
     return {
       image: null,
-      url: require("../assets/tmp_profile2.jpg")
+      url: require("../assets/tmp_profile2.jpg"),
+      myBoards: [],
     };
   },
   created() {
     console.log(this.userInfo);
     this.url = require(`C:/EnjoyTrip/user/${this.userInfo.image}`);
+    http.get(`/board/list/${this.userInfo.id}`).then(({data})=>{
+      console.log(data);
+    }).catch(()=>{
+      alert("게시글 목록 요청 실패")
+    })
   },
   methods: {
     ...mapMutations(["SET_USER_INFO"]),
