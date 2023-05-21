@@ -55,6 +55,11 @@ const routes = [
         name: "UserRegist",
         component: () => import(/* webpackChunkName: "user" */ "@/components/user/UserWrite"),
       },
+      {
+        path: "modify",
+        name: "UserModify",
+        component:() => import(/* webpackChunkName: "user" */ "@/components/user/UserWrite"),
+      }
     ],
   },
   {

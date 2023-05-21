@@ -3,8 +3,8 @@
     <div class="form">
       <h2>Sign Up</h2>
       <div class="form_input user_id">
-        <label for="id" class="label">ID</label>
-        <input type="text" v-model="user.id" name="id" id="id" placeholder="id" />
+        <label for="id" class="label" >ID</label>
+        <input type="text" v-model="user.id" name="id" id="id" placeholder="id" v-bind:readonly="readonly"/>
       </div>
       <div class="form_input user_pw">
         <label for="password" class="label">Password</label>
@@ -35,9 +35,12 @@
           <option value="false">여</option>
         </select>
       </div>
-      <div class="submit row">
+      <div class="submit row" v-if="type!=='modify'">
         <button class="col-5" variant="outline-success" @click="checkValue">SignUp</button>
         <button class="col-5" variant="outline-success">LogIn</button>
+      </div>
+      <div class="submit row" v-else>
+        <button variant="outline-success" @click="checkValue">Modify</button>
       </div>
     </div>
   </div>
@@ -45,6 +48,7 @@
 
 <script>
 import http from "@/util/http-common";
+import { mapState } from "vuex";
 
 export default {
   name: "WriteForm",
@@ -61,19 +65,21 @@ export default {
         gender: "M",
         age: 0,
       },
+      readonly: false,
     };
   },
   created() {
+    console.log(this.type)
     if (this.type === "modify") {
       // url에서 파라미터정보 얻기.
-      // http.get(`/user/${this.$route.params.user_id}`).then(({ data }) => {
-      //   this.id = data.user_id;
-      //   this.name = data.name;
-      //   this.password = data.password;
-      //   this.phone_number = data.phone_number;
-      //   this.gender = data.gender;
-      //   this.age = data.age;
-      // });
+      console.log(this.userInfo)
+      this.user.id = this.userInfo.id;
+      this.user.name = this.userInfo.name;
+      this.user.password = this.userInfo.password;
+      this.user.phone_number = this.userInfo.phone_number;
+      this.user.gender = this.userInfo.gender;
+      this.user.age = this.userInfo.age;
+      this.readonly = true;
     }
   },
   methods: {
@@ -101,8 +107,13 @@ export default {
           alert("error! " + data.response.data);
         });
     },
-    modifyUser() {},
+    modifyUser() {
+      //Todo
+    },
   },
+  computed: {
+    ...mapState(["userInfo"]),
+  }
 };
 </script>
 

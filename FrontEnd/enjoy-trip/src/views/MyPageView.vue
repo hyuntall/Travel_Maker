@@ -22,9 +22,12 @@
           <button class="modify-button">알림</button>
         </div>
         <div class="notice col-6">
-          <button class="modify-button">
-            <font-awesome-icon icon="fa-solid fa-gear" size="2x" style="color: #999999;" />
-          </button>
+          <router-link :to="{name: 'UserModify', params: {user_id: userInfo.id}}">
+            <button class="modify-button">
+
+              <font-awesome-icon icon="fa-solid fa-gear" size="2x" style="color: #999999;" />
+            </button>
+          </router-link>
         </div>
       </div>
     </div>
@@ -171,7 +174,8 @@ export default {
   align-items: center;
 }
 
-.setup button {
+.setup .modify-button {
+  background-color: white;
   width: 65px;
   height: 65px;
   border-radius: 50%;
