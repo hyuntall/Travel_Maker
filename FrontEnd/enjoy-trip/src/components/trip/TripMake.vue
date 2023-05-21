@@ -3,13 +3,27 @@
     <div class="plan">
       <div class="planner">
         <h4>{{region.cate2}} 여행</h4>
-        <label for="example-datepicker">출발날짜</label>
-        <b-form-datepicker id="example-datepicker" v-model="start" class="mb-2"></b-form-datepicker>
-        
-
-        <label for="example-datepicker2">도착날짜</label>
-        <b-form-datepicker id="example-datepicker2" v-model="end" class="mb-2"></b-form-datepicker>
-        
+        <!-- 친구추가기능 -->
+        <div class="friends">
+          <span style="color:red;">친구 추가 기능이 들어갈 예정입니다.</span>
+        </div>
+        <div class="cal">
+          <label for="example-datepicker">출발날짜</label>
+          <b-form-datepicker id="example-datepicker" v-model="start" class="mb-2" hide-header="true" size="sm"></b-form-datepicker>
+          <label for="example-datepicker2">도착날짜</label>
+          <b-form-datepicker id="example-datepicker2" v-model="end" class="mb-2"  size="sm"></b-form-datepicker>
+          <a href="#" @click="makedays">일정 생성</a>
+        </div>
+        <!-- days -->
+        <div class="days" v-if="cnt">
+          <div class="cnt" >
+            <p>{{start}} ~ {{end}}</p>
+            <p>{{cnt}}일 일정</p>
+          </div>
+          <div class="plandays" v-for="plan in cnt" :key="plan">
+            {{plan}}일차
+          </div>
+        </div>
       </div>
 
       <div class="map">
@@ -50,9 +64,11 @@ export default {
       ps: null,
       infowindow: null,
       markers: [],
-      start: "",
-      end: "",
+      start: null,
+      end: null,
       region : null,
+      cnt : null,
+      results : [],
     };
   },
   created() {
@@ -99,24 +115,6 @@ export default {
       };
       this.map = new kakao.maps.Map(container, options);
       this.infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
-      
-      // console.log("initmap: " + cate2);
-      // var url = `https://dapi.kakao.com/v2/local/search/address.json?query=${region.cate1} ${region.cate2}`;
-      // var key = "KakaoAK 8e2e5c55f8a455204cc6d497c99b6c00";
-      // console.log(url);
-      // fetch(url, {
-      //   headers: {
-      //     Authorization: key,
-      //   },
-      // })
-      //   .then((response) => response.json())
-      //   .then((data) => {
-      //     console.log(data.documents);
-      //     console.log(data.documents[0].y);
-      //     var y = data.documents[0].y;
-      //     var x = data.documents[0].x;
-      //     this.map.setCenter(new kakao.maps.LatLng(y, x));
-      //   });
     },
 
     async moveMap() {
@@ -293,6 +291,20 @@ export default {
         el.removeChild(el.lastChild);
       }
     },
+    makedays() {
+      if(this.start === null || this.end === null) {
+        alert("날짜를 선택해주세요!")
+      }
+      else {
+        const date1 = new Date(this.start)
+        const date2 = new Date(this.end)
+        this.cnt = (date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24) +1 
+        for(var i=1 ; i<=this.getDateDiff ; i++){
+          console.log(i)
+        }
+
+      }
+    }
   },
 };
 </script>
@@ -305,13 +317,21 @@ export default {
 }
 
 .plan .planner {
-  width: 15%;
+  width: 16%;
   /* background-color: blue; */
   text-align: center;
 }
 
+.plan .planner .friends {margin-top: 15px;}
+
+.plan .planner .cal {width: 95%; margin: 10px auto;}
+.plan .planner .cal label {font-size: 12px;}
+.plan .planner .cal input {}
+
+.plan .planner .days {margin-top: 15px;}
+
 .plan .map {
-  width: 70%;
+  width: 69%;
 }
 
 .plan .result {
