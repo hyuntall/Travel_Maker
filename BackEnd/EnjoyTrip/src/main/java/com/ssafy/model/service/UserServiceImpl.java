@@ -63,5 +63,11 @@ public class UserServiceImpl implements UserService{
 		map.put("id", id);
 		map.put("token", null);
 		urepo.deleteRefreshToken(map);
+	}
+
+	@Override
+	public int updateUserImg(UserDto userDto) throws SQLException {
+		// TODO Auto-generated method stub
+		return urepo.updateUserImg(userDto);
 	};
 }

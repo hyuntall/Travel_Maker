@@ -1,5 +1,7 @@
 package com.ssafy.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,6 +12,8 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,7 +23,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.dto.UserDto;
 import com.ssafy.model.service.JwtServiceImpl;
@@ -42,6 +49,12 @@ public class UserController {
 	@Autowired
 	private JwtServiceImpl jwtService;
 	
+	@Autowired
+	private ResourceLoader resLoader;
+	
+	@Value("${upload.path}")
+	private String uploadPath;
+	
 	@PostMapping("/regist")
 	public ResponseEntity<?> insertUser(@RequestBody UserDto user) throws SQLException {
 		UserDto u = usvc.selectById(user.getId());
@@ -51,15 +64,6 @@ public class UserController {
 		}
 		return new ResponseEntity<String>("이미 존재하는 계정입니다.", HttpStatus.BAD_REQUEST);
 	}
-//	@PostMapping("/login")
-//	public ResponseEntity<?> loginUser(@RequestBody UserDto user, HttpSession session) throws SQLException {
-//		UserDto u = usvc.selectById(user.getId());
-//		if (u != null && u.getPassword().equals(user.getPassword())) {
-//			session.setAttribute("userId", user.getId());
-//			return new ResponseEntity<String>("로그인 성공", HttpStatus.OK);
-//		}
-//		return new ResponseEntity<String>("로그인 실패", HttpStatus.BAD_REQUEST);
-//	}
 	
 	@PostMapping("/login")
 	public ResponseEntity<Map<String, Object>> login(
@@ -135,7 +139,29 @@ public class UserController {
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
-
+	}
+	
+	@PostMapping("/image")
+	public ResponseEntity<?> updateImg(@RequestParam("user_id") String user_id, 
+			@RequestPart(required = false) MultipartFile image) throws IllegalStateException, IOException, SQLException {
+		UserDto user = new UserDto();
+		user.setId(user_id);
+			if (image != null && image.getSize() > 0) {
+	
+				File imgDir = new File(uploadPath + "user/");
+				if (!imgDir.exists()) {
+					imgDir.mkdirs();
+				}
+				
+				String imgFileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
+				String imgFilePath = uploadPath + "user/" + imgFileName;
+				File imgFile = new File(imgFilePath);
+				user.setImage(imgFileName);
+				image.transferTo(imgFile);
+				usvc.updateUserImg(user);
+				return new ResponseEntity<String>(imgFileName, HttpStatus.OK);
+			}
+			return new ResponseEntity<String>("이미지 변경 실패", HttpStatus.BAD_REQUEST);
 	}
 	
 	@PostMapping("/refresh")

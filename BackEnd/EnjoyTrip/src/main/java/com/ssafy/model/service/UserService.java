@@ -16,7 +16,7 @@ import com.ssafy.dto.UserDto;
 public interface UserService {
 	public UserDto selectById(String id) throws SQLException;
 	public int insertUser(UserDto user) throws SQLException;
-	
+	public int updateUserImg(UserDto userDto) throws SQLException;
 	public UserDto login(UserDto userDto) throws Exception;
 	public UserDto userInfo(String id) throws Exception;
 	public void saveRefreshToken(String id, String refreshToken) throws Exception;

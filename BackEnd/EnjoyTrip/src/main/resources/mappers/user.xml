@@ -13,16 +13,20 @@
 	
 
 	<select id="login" parameterType="UserDto" resultType="UserDto">
-		select id, password, name, age, phone_number, gender
+		select *
 		from user
 		where id = #{id} and password = #{password}
 	</select>
 	
 	<select id="userInfo" parameterType="string" resultType="UserDto">
-		select  id, password, name, age, phone_number, gender
+		select  *
 		from user
 		where id = #{id}
 	</select>
+	
+	<update id="updateUserImg">
+		update user set image=#{image} where id=#{id}
+	</update>
 	
 	<select id="getRefreshToken" parameterType="string" resultType="string">
 		select token

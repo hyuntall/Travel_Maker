@@ -19,4 +19,5 @@ public class UserDto {
 	private boolean is_admin;
 	private String phone_number;
 	private char gender;
+	private String image;
 }
