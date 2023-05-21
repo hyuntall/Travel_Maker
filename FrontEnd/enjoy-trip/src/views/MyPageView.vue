@@ -10,10 +10,22 @@
         </div>
         <input type="file" name="file" id="file" @change="uploadImage">
       </div>
-      <div class="profile col-8">
+      <div class="profile col-6">
         <h3>{{this.userInfo.id}}({{ this.userInfo.name }})님</h3>
-        <h3>ID</h3>
+        <p>
+          {{ this.userInfo.phone_number }}
+        </p>
         <div class="friends">친구 관련</div>
+      </div>
+      <div class="setup col-3 row">
+        <div class="modify col-6">
+          <button class="modify-button">알림</button>
+        </div>
+        <div class="notice col-6">
+          <button class="modify-button">
+            <font-awesome-icon icon="fa-solid fa-gear" size="2x" style="color: #999999;" />
+          </button>
+        </div>
       </div>
     </div>
     <div class="my-plan">내 계획 목록</div>
@@ -153,6 +165,18 @@ export default {
 #file {
   display: none;
 }
+
+.setup {
+  display: flex;
+  align-items: center;
+}
+
+.setup button {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+}
+
 .my-plan {
   height: 30%;
   background-color: pink;
