@@ -53,4 +53,16 @@
 	<select id="searchByKeyword" resultType="UserDto">
 		select * from user where id like concat("%",#{keyword},"%")
 	</select>
+	
+	<select id="searchNotFollowing" resultType="UserDto">
+		select * from user where id like concat("%",#{keyword},"%") and id not in (select following from follower where follower=#{id})
+	</select>
+	
+	<insert id="follow" parameterType="map">
+		insert into follower values(#{following}, #{follower})
+	</insert>
+	
+	<select id="getFollowing" resultType="UserDto">
+		select * from user where id in (select following from follower where follower=#{id});
+	</select>
 </mapper>

@@ -82,5 +82,24 @@ public class UserServiceImpl implements UserService{
 	public List<UserDto> searchByKeyword(String keyword) throws SQLException {
 		// TODO Auto-generated method stub
 		return urepo.searchByKeyword(keyword);
+	}
+
+	@Override
+	public List<UserDto> searchNotFollowing(String keyword, String id) throws SQLException {
+		// TODO Auto-generated method stub
+		return urepo.searchNotFollowing(keyword, id);
+	}
+
+	@Override
+	public void follow(Map<String, String> map) throws SQLException {
+		// TODO Auto-generated method stub
+		urepo.follow(map);
+		
+	}
+
+	@Override
+	public List<UserDto> getFollowing(String id) throws SQLException {
+		// TODO Auto-generated method stub
+		return urepo.getFollowing(id);
 	};
 }

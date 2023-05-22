@@ -199,4 +199,26 @@ public class UserController {
 		// TODO Auto-generated method stub
 		return new ResponseEntity<List<UserDto>>(usvc.searchByKeyword(keyword),HttpStatus.OK);
 	};
+	
+	@GetMapping("/searchBykeyword/{keyword}/{id}")
+	public ResponseEntity<?> searchNotFollowing(@PathVariable String keyword, @PathVariable String id) throws SQLException {
+		System.out.println(keyword);
+		System.out.println(id);
+		return new ResponseEntity<List<UserDto>>(usvc.searchNotFollowing(keyword, id),HttpStatus.OK);
+	};
+	
+	@PostMapping("/follow")
+	public ResponseEntity<?> follow(@RequestBody Map<String, String> params) throws SQLException {
+		usvc.follow(params);
+		return new ResponseEntity<String>("팔로잉 성공", HttpStatus.OK);
+		
+	}
+	
+	@GetMapping("/follow/{id}")
+	public ResponseEntity<?> getFollowing(@PathVariable String id) throws SQLException {
+		System.out.println(id);
+		//사용자 아이디 -> 팔로워 아이디 조회 -> 팔로워 리스트 반환
+		return new ResponseEntity<List<UserDto>>(usvc.getFollowing(id), HttpStatus.OK);
+		
+	}
 }

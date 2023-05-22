@@ -112,9 +112,9 @@ values
 ("경기","양평","남한강과 북한강이 합류하는 두물머리. 영화와 드라마에도 수 없이 등장한 명소 중에 명소이다. 새벽에 피어오르는 물안개는 신비로움을 더해주며 출사지로도 많은 이들이 찾는다. 아름다운 연못과 꽃이 가득한 세미원은 다양한 테마의 정원이 있어 연인과 가족 나들이 코스로도 좋으며, 꽃이 활짝 피는 오전에 방문하는 게 더 좋다. 풍광이 아름다운 용문사는 42m의 은행나무가 상징을 이루는 만큼 가을에는 노란 은행잎이 만발해 절경을 이룬다.","https://search.pstatic.net/common?src=https%3A%2F%2Fsearch.pstatic.net%2Fcommon%2F%3Fsrc%3Dhttp%253A%252F%252Fblogfiles.naver.net%252FMjAyMjA0MTZfNDgg%252FMDAxNjUwMDkxNzM1NDYx.a-vcOMGrURasFWloPOMCm20MRB6MZEp4HwItnsTZnBUg.xyp6Y0B2Mviv4zZAxd11-jpzpWXc-DZIbA0_KcS2vcIg.JPEG.travstory%252F20190719_%2525BE%2525E7%2525C6%2525F2%2525C0%2525DA%2525C0%2525FC%2525B0%2525C5%2525B1%2525E6_003.jpg%26type%3Dsc960_832&type=f1040_576_domesearch","Gyeonggi");
 
 CREATE TABLE `enjoy_trip`.`follower` (
-  `follwing` VARCHAR(20) NOT NULL,
+  `following` VARCHAR(20) NOT NULL,
   `follower` VARCHAR(20) NOT NULL,
-  PRIMARY KEY (`follwing`, `follower`));
+  PRIMARY KEY (`following`, `follower`));
   
 CREATE TABLE `tripmember` (
   `plan_idx` int NOT NULL,

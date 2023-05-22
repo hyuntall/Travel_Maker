@@ -1,33 +1,46 @@
 <template>
   <div class="wrap">
     <div class="container">
+
+      <div id="board-search" style="margin-bottom:20px">
+        <div class="search-window first">
+          <h2>팔로잉</h2>
+          <div v-if="followed.length === 0">현재 팔로잉하고 있는 유저가 없습니다</div>
+          <div class="profile">
+            <div v-for="follo, index in followed" :key="index">
+              <b-avatar variant="info" :src="follo.image? require(`C:/EnjoyTrip/user/${follo.image}`):require('../../assets/tmp_profile2.jpg')"></b-avatar>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div id="board-search">
-        <div class="container">
-          <div class="search-window">
-            <form action="">
-              <div class="search-wrap">
-                <h2>사용자 검색</h2>
-                <b-form-input class="w-70 mt-4 mx-auto" placeholder="사용자를 검색해주세요" @focus="flist" @keyup="flist" ></b-form-input>
-                <!-- <input id="search" type="search" name="" placeholder="검색어를 입력해주세요." value="" @keyup="flist" /> -->
-                <!-- <button type="submit" class="btn btn-dark">검색</button> -->
-                <div class="user-list">
-                  <div class="user" v-for="(user, index) in friendList" :key="index" @click="follow">
-                    <div class="profile">
-                      <b-avatar variant="info" :src="user.image? require(`C:/EnjoyTrip/user/${user.image}`):require('../../assets/tmp_profile2.jpg')"></b-avatar>
-                    </div>
-                    <div class="info">
-                     <p class="name">{{user.name}} </p>
-                     <p class="id">{{user.id}}</p>
-                    </div>
-                    <div class="icon">
-                      <font-awesome-icon icon="fa-solid fa-user-plus" size="2x" style="color: #999999" />
-                    </div>
+
+        <div class="search-window">
+          <form action="">
+            <div class="search-wrap">
+              <h2>사용자 검색</h2>
+              <b-form-input class="w-70 mt-4 mx-auto" placeholder="사용자를 검색해주세요" @focus="flist" @keyup="flist" ></b-form-input>
+              <!-- <input id="search" type="search" name="" placeholder="검색어를 입력해주세요." value="" @keyup="flist" /> -->
+              <!-- <button type="submit" class="btn btn-dark">검색</button> -->
+              <div class="user-list">
+                <div class="user" v-for="(user, index) in friendList" :key="index" >
+                  <div class="profile">
+                    <b-avatar variant="info" :src="user.image? require(`C:/EnjoyTrip/user/${user.image}`):require('../../assets/tmp_profile2.jpg')"></b-avatar>
+                  </div>
+                  <div class="info">
+                    <p class="name">{{user.name}} </p>
+                    <p class="id">{{user.id}}</p>
+                  </div>
+                  <div class="icon" @click="follow(index)">
+                    <font-awesome-icon icon="fa-solid fa-user-plus" size="2x" style="color: #999999" />
                   </div>
                 </div>
               </div>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
+
       </div>
     </div>
   </div>
@@ -51,17 +64,33 @@ export default {
   },
   created() {
     console.log("sadasdadads");
+    this.getFollowings()
   },
   computed: {
     ...mapState(["userInfo"]),
+    
+  },
+  watch: {
+    followed() {
+
+    }
   },
   methods: {
+    getFollowings() {
+      console.log("getfollowing")
+      http.get("user/follow/"+this.userInfo.id).then(({data})=> {
+      data.forEach(element => {
+        this.followed.push(element)
+        // console.log(element)
+      });
+    })
+    },
     flist(event) {
 
       console.log(event.target.value);
       this.friendList = [];
       if (event.target.value) {
-        http.get("/user/searchBykeyword/" + event.target.value).then(({ data }) => {
+        http.get("/user/searchBykeyword/" + event.target.value + "/" + this.userInfo.id).then(({ data }) => {
           data.forEach((element) => {
             if(element.id !== this.userInfo.id) {
               this.friendList.push(element);
@@ -74,9 +103,19 @@ export default {
     clr() {
       this.friendList = []
     },
-    follow() {
+    follow(index) {
       console.log("follow")
-    }
+      console.log(index)
+      http.post("/user/follow",{
+        following : this.friendList[index].id,
+        follower : this.userInfo.id
+      }).then(({data})=>{
+        alert(data)
+        this.friendList.splice(index,1)
+        this.getFollowings()
+      })
+    },
+
   },
 };
 </script>
@@ -147,5 +186,7 @@ export default {
 .user-list .user .info .id {color:#625e5e; font-size: 14px;}
 .user-list .user .icon {position: absolute; left: 500px; padding-top: 5px;}
 
+#board-search .first {align-content: center;}
+#board-search .first .profile {display: flex;}
 
 </style>

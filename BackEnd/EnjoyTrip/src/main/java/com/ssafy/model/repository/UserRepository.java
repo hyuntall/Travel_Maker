@@ -27,4 +27,8 @@ public interface UserRepository {
 	public Object getRefreshToken(String id) throws SQLException;
 	public void deleteRefreshToken(Map<String, String> map) throws SQLException;
 	public List<UserDto> searchByKeyword(String keyword) throws SQLException;
+	//내가 팔로잉하고 있는 사람을 제외한 나머지 유저리스트
+	public List<UserDto> searchNotFollowing(String keyword, String id) throws SQLException; 
+	public void follow(Map<String, String> map) throws SQLException;
+	public List<UserDto> getFollowing(String id) throws SQLException; 
 }

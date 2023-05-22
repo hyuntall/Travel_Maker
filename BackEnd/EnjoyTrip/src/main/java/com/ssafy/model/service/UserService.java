@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
@@ -24,4 +25,7 @@ public interface UserService {
 	public void deleRefreshToken(String id) throws Exception;
 	public String getUserImg(String id) throws SQLException;
 	public List<UserDto> searchByKeyword(String keyword) throws SQLException;
+	public List<UserDto> searchNotFollowing(String keyword, String id) throws SQLException;
+	public void follow(Map<String, String> map) throws SQLException;
+	public List<UserDto> getFollowing(String id) throws SQLException; 
 }
