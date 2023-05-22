@@ -6,9 +6,24 @@
           <div class="search-window">
             <form action="">
               <div class="search-wrap">
-                <label for="search" class="blind">사용자 검색</label>
-                <input id="search" type="search" name="" placeholder="검색어를 입력해주세요." value="" @keyup="flist" />
-                <button type="submit" class="btn btn-dark">검색</button>
+                <h2>사용자 검색</h2>
+                <b-form-input class="w-70 mt-4 mx-auto" placeholder="사용자를 검색해주세요" @focus="flist" @keyup="flist" ></b-form-input>
+                <!-- <input id="search" type="search" name="" placeholder="검색어를 입력해주세요." value="" @keyup="flist" /> -->
+                <!-- <button type="submit" class="btn btn-dark">검색</button> -->
+                <div class="user-list">
+                  <div class="user" v-for="(user, index) in friendList" :key="index" @click="follow">
+                    <div class="profile">
+                      <b-avatar variant="info" :src="user.image? require(`C:/EnjoyTrip/user/${user.image}`):require('../../assets/tmp_profile2.jpg')"></b-avatar>
+                    </div>
+                    <div class="info">
+                     <p class="name">{{user.name}} </p>
+                     <p class="id">{{user.id}}</p>
+                    </div>
+                    <div class="icon">
+                      <font-awesome-icon icon="fa-solid fa-user-plus" size="2x" style="color: #999999" />
+                    </div>
+                  </div>
+                </div>
               </div>
             </form>
           </div>
@@ -20,6 +35,7 @@
 
 <script>
 import http from "@/util/http-common";
+import { mapState } from 'vuex';
 
 export default {
   name: "FollowList",
@@ -30,24 +46,37 @@ export default {
   data() {
     return {
       friendList: [],
+      followed: []
     };
   },
   created() {
     console.log("sadasdadads");
   },
+  computed: {
+    ...mapState(["userInfo"]),
+  },
   methods: {
     flist(event) {
+
       console.log(event.target.value);
       this.friendList = [];
       if (event.target.value) {
         http.get("/user/searchBykeyword/" + event.target.value).then(({ data }) => {
           data.forEach((element) => {
-            this.friendList.push(element);
+            if(element.id !== this.userInfo.id) {
+              this.friendList.push(element);
+            }
             console.log(this.friendList);
           });
         });
       }
     },
+    clr() {
+      this.friendList = []
+    },
+    follow() {
+      console.log("follow")
+    }
   },
 };
 </script>
@@ -73,6 +102,7 @@ export default {
   height: 100vh;
   min-height: 1000px;
   padding-top: 100px;
+  text-align: center;
 }
 
 #board-search .search-window {
@@ -107,4 +137,15 @@ export default {
   padding: 0;
   font-size: 16px;
 }
+
+.user-list {background-color: #fff;}
+.user-list .user {display: flex; padding: 5px; position:relative}
+.user-list .user:hover {background-color: rgb(118, 206, 233);}
+.user-list .user .profile {margin-left: 20px;}
+.user-list .user .info {margin-left: 50px;}
+.user-list .user .info .name {font-weight: 600;font-size: 16px;}
+.user-list .user .info .id {color:#625e5e; font-size: 14px;}
+.user-list .user .icon {position: absolute; left: 500px; padding-top: 5px;}
+
+
 </style>
