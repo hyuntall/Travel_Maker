@@ -131,7 +131,7 @@ export default {
     this.region = this.$route.params;
   },
   updated() {
-    if (this.results) this.placesSearchCB(this.results);
+    if (this.results.length > 0) this.placesSearchCB(this.results);
   },
   mounted() {
     if (window.kakao && window.kakao.maps) {
@@ -328,7 +328,7 @@ export default {
       }
     },
     flist(event) {
-      // alert(event.target.value)
+      console.log(event.target.value)
       this.friendList = [];
       if (event.target.value) {
         http.get("/user/searchBykeyword/" + event.target.value).then(({ data }) => {
