@@ -34,9 +34,11 @@
       <div class="my-plan row">내 계획 목록</div>
       <div class="my-boards row">
         내가 작성한 글
-        <div v-if="myBoards.length > 0">작성한 글이 있습니다.</div>
+        <div v-if="myBoards.length > 0" class="my-boards-content row">
+          <my-board class="my-board" v-for="myBoard in myBoards" :key="myBoard.idx" :board="myBoard"></my-board>
+        </div>
         <div v-else>작성한 글이 없습니다.</div>
-        <my-board></my-board>
+        <div></div>
       </div>
     </div>
   </div>
@@ -64,6 +66,7 @@ export default {
       .get(`/board/list/${this.userInfo.id}`)
       .then(({ data }) => {
         console.log(data);
+        this.myBoards = data;
       })
       .catch(() => {
         alert("게시글 목록 요청 실패");
@@ -210,5 +213,9 @@ export default {
   background-color: white;
   border: 1px solid rgb(218, 217, 217);
   width: 720px;
+}
+
+.my-board {
+  margin-left: 5%;
 }
 </style>
