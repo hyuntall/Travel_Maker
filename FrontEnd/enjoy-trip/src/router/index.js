@@ -131,6 +131,11 @@ const routes = [
       },
     ],
   },
+  {
+    path: "/follow",
+    name: "FollowList",
+    component: () => import(/* webpackChunkName: "qna" */ "@/components/follow/FollowList"),
+  },
 ];
 
 const router = new VueRouter({

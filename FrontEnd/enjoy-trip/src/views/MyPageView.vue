@@ -26,8 +26,10 @@
               <p>팔로워</p>
             </div>
             <div class="col-4">
-              <font-awesome-icon icon="fa-solid fa-user-plus" size="2x" style="color: #999999" />
-              <p>팔로우</p>
+              <router-link :to="{ name: 'FollowList', params: { type: 'following' } }">
+                <font-awesome-icon icon="fa-solid fa-user-plus" size="2x" style="color: #999999" />
+                <p>팔로우</p>
+              </router-link>
             </div>
           </div>
         </div>
