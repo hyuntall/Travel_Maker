@@ -11,7 +11,7 @@
               <li>
                 <router-link to="/trip">여행지</router-link>
               </li>
-              <li><router-link to="/mypage">MyPage</router-link></li>
+             
               <li>
                 <router-link to="/board">자유게시판</router-link>
               </li>
@@ -20,6 +20,9 @@
               </li>
               <li v-if="userInfo">
                 <a href="#" @click.prevent="onClickLogout">로그아웃</a>
+              </li>
+               <li v-if="userInfo">
+                 <router-link to="/mypage">MyPage</router-link>
               </li>
               <li v-else-if="!userInfo">
                 <router-link to="/login">로그인</router-link>
