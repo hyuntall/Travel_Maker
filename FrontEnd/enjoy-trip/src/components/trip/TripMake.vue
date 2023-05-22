@@ -9,24 +9,40 @@
         </div>
         <div class="cal">
           <label for="example-datepicker">출발날짜</label>
-          <b-form-datepicker id="example-datepicker" v-model="start" class="mb-2" size="sm"></b-form-datepicker>
+          <b-form-datepicker
+            id="example-datepicker"
+            v-model="start"
+            class="mb-2"
+            size="sm"
+            @input="makedays"
+          ></b-form-datepicker>
           <label for="example-datepicker2">도착날짜</label>
-          <b-form-datepicker id="example-datepicker2" v-model="end" class="mb-2" size="sm"></b-form-datepicker>
-          <a href="#" @click="makedays">일정 생성</a>
+          <b-form-datepicker
+            id="example-datepicker2"
+            v-model="end"
+            class="mb-2"
+            size="sm"
+            @input="makedays"
+          ></b-form-datepicker>
+          <a href="#" @click="makePlan">일정 생성</a>
         </div>
         <!-- days -->
         <div class="days" v-if="cnt">
           <div class="cnt">
-            <p>{{ start }} ~ {{ end }}</p>
+            <p>{{ start }}</p>
+            <p>~</p>
+            <p>
+              {{ end }}
+            </p>
             <p>{{ cnt }}일 일정</p>
           </div>
           <div class="plandays" v-for="idx in cnt" :key="idx">
-            <h4>{{idx}}일차</h4>
-            <hr>
-            
-            <draggable v-model="days[idx-1]" class="list-group places" :list="days[idx-1]" group="places">
-              <div class="list-group-item" v-for="p in days[idx-1]" :key="p">
-                {{p.place_name}}
+            <h4>{{ idx }}일차</h4>
+            <hr />
+
+            <draggable v-model="days[idx - 1]" class="list-group places" :list="days[idx - 1]" group="places">
+              <div class="list-group-item" v-for="p in days[idx - 1]" :key="p">
+                {{ p.place_name }}
               </div>
             </draggable>
           </div>
@@ -55,11 +71,16 @@
       <div class="result">
         <h1>목록</h1>
         <ul id="placesList">
-            <draggable v-model="results" class="list-group places" :list="results" :group="{ name: 'places', pull: 'clone', put: false }">
-              <div class="list-group-item" :id="'r'+index" v-for="place, index in results" :key="index">
-                    {{place.place_name}}
-              </div>
-            </draggable>
+          <draggable
+            v-model="results"
+            class="list-group places"
+            :list="results"
+            :group="{ name: 'places', pull: 'clone', put: false }"
+          >
+            <div class="list-group-item" :id="'r' + index" v-for="(place, index) in results" :key="index">
+              {{ place.place_name }}
+            </div>
+          </draggable>
         </ul>
       </div>
     </div>
@@ -67,7 +88,9 @@
 </template>
 
 <script>
+import http from "@/util/http-common";
 import draggable from "vuedraggable";
+import { mapState } from "vuex";
 export default {
   name: "TripMake",
   components: {
@@ -82,11 +105,14 @@ export default {
       markers: [],
       start: null,
       end: null,
-      region : null,
-      cnt : null,
-      results : [],
+      region: null,
+      cnt: null,
+      results: [],
       days: [],
     };
+  },
+  computed: {
+    ...mapState(["userInfo"]),
   },
   created() {
     console.log("created!! " + this.$route.params.cate2);
@@ -175,21 +201,21 @@ export default {
         .then((data) => {
           console.log(data);
           this.results = [];
-          data.documents.forEach(element => {
-            this.results.push(element)
+          data.documents.forEach((element) => {
+            this.results.push(element);
           });
           this.placesSearchCB(this.results);
         });
     },
-   
+
     placesSearchCB(data) {
       this.displayPlaces(data);
     },
     displayPlaces(places) {
       //var listEl = document.getElementById("placesList"),
-        //menuEl = document.getElementById("menu_wrap"),
-        //fragment = document.createDocumentFragment(),
-       var bounds = new kakao.maps.LatLngBounds();
+      //menuEl = document.getElementById("menu_wrap"),
+      //fragment = document.createDocumentFragment(),
+      var bounds = new kakao.maps.LatLngBounds();
       // listStr = "";
 
       // 검색 결과 목록에 추가된 항목들을 제거합니다
@@ -212,7 +238,7 @@ export default {
         // var div = document.querySelector("#r"+i);
         // var div1 = document.getElementById('r'+i)
         // console.log(div1);
-        
+
         ((marker, title) => {
           kakao.maps.event.addListener(marker, "mouseover", () => {
             this.displayInfowindow(marker, title);
@@ -312,19 +338,57 @@ export default {
       }
     },
     makedays() {
-      if (this.start === null || this.end === null) {
-        alert("날짜를 선택해주세요!");
-      } else {
+      if (this.start !== null && this.end !== null) {
+        if (this.start >= this.end) {
+          alert("올바르지 않은 날짜입니다.");
+          return;
+        }
         this.days = [];
-        const date1 = new Date(this.start)
-        const date2 = new Date(this.end)
-        this.cnt = (date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24) +1 
-        for(var i=1 ; i<=this.cnt ; i++){
-          console.log(i)
-          let arr = []
-          this.days.push(arr)
+        const date1 = new Date(this.start);
+        const date2 = new Date(this.end);
+        this.cnt = (date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24) + 1;
+        for (var i = 1; i <= this.cnt; i++) {
+          console.log(i);
+          let arr = [];
+          this.days.push(arr);
         }
       }
+    },
+    makePlan() {
+      const plan = {
+        user_id: this.userInfo.id,
+        title: "None Title",
+        start_date: new Date(this.start),
+        end_date: new Date(this.end),
+        content: "없는 내용",
+        places: [],
+      };
+      for (var i = 0; i < this.days.length; i++) {
+        for (var j = 0; j < this.days[i].length; j++) {
+          console.log(this.days[i][j]);
+          const place = this.days[i][j];
+          plan.places.push({
+            name: place.place_name,
+            url: place.place_url,
+            latitude: place.x,
+            longitude: place.y,
+            address: place.address_name,
+            category_code: place.category_group_code,
+            date_index: i + 1,
+            index: j + 1,
+            comment: "없는 코멘트",
+          });
+        }
+      }
+      http
+        .post("/plan/insert", plan)
+        .then(({ data }) => {
+          console.log(data);
+        })
+        .catch(() => {
+          console.log("계획 생성 오류");
+        });
+      console.log(plan);
     },
   },
 };
@@ -339,6 +403,7 @@ export default {
 
 .plan .planner {
   width: 16%;
+  height: 100%;
   /* background-color: blue; */
   text-align: center;
 }
@@ -346,6 +411,12 @@ export default {
 .plan .planner .friends {
   margin-top: 15px;
 }
+
+.plan .planner .days {
+  height: 67.8%;
+  overflow: scroll;
+}
+
 /* .plan .planner .days {overflow-y: scroll} */
 .plan .planner .days .plandays {
   margin: 10px auto;
