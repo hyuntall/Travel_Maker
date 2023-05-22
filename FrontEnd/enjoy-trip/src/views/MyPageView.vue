@@ -16,13 +16,23 @@
           <p>
             {{ this.userInfo.phone_number }}
           </p>
-          <div class="friends">친구 관련</div>
-        </div>
-        <div class="setup col-3 row">
-          <div class="modify col-6">
-            <button class="modify-button">알림</button>
+          <div class="friends row">
+            <div class="col-4">
+              <font-awesome-icon icon="fa-solid fa-pen-to-square" size="2x" style="color: #999999" />
+              <p>게시글 수</p>
+            </div>
+            <div class="col-4">
+              <font-awesome-icon icon="fa-solid fa-users" size="2x" style="color: #999999" />
+              <p>팔로워</p>
+            </div>
+            <div class="col-4">
+              <font-awesome-icon icon="fa-solid fa-user-plus" size="2x" style="color: #999999" />
+              <p>팔로우</p>
+            </div>
           </div>
-          <div class="notice col-6">
+        </div>
+        <div class="setup col-2">
+          <div class="notice">
             <router-link :to="{ name: 'UserModify', params: { user_id: userInfo.id } }">
               <button class="modify-button">
                 <font-awesome-icon icon="fa-solid fa-gear" size="2x" style="color: #999999" />
@@ -68,7 +78,7 @@ export default {
   },
   created() {
     console.log(this.userInfo);
-    this.url = require(`C:/EnjoyTrip/user/${this.userInfo.image}`);
+    if (this.userInfo.image) this.url = require(`C:/EnjoyTrip/user/${this.userInfo.image}`);
     this.originUrl = this.userInfo.image;
     http
       .get(`/board/list/${this.userInfo.id}`)
@@ -139,7 +149,7 @@ export default {
   min-width: 720px;
   height: 100vh;
   min-height: 1000px;
-  padding-top: 150px;
+  padding-top: 100px;
 }
 .my-profile {
   background-color: white;
@@ -157,6 +167,8 @@ export default {
   height: 150px;
   background-color: white;
   border: 1px solid black;
+  align-items: center;
+  justify-content: center;
 }
 
 .profile-img {
@@ -221,6 +233,7 @@ export default {
   background-color: white;
   border: 1px solid rgb(218, 217, 217);
   width: 720px;
+  overflow-y: scroll;
 }
 
 .my-board {
