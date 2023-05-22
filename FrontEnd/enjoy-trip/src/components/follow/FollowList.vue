@@ -6,8 +6,24 @@
             <form action="">
               <label for="search" class="search-label">사용자 검색</label>
               <div class="search-wrap">
-                <input id="search" type="search" name="" placeholder="검색어를 입력해주세요." value="" @keyup="flist" />
-                <button type="submit" class="btn btn-dark">검색</button>
+                <h2>사용자 검색</h2>
+                <b-form-input class="w-70 mt-4 mx-auto" placeholder="사용자를 검색해주세요" @focus="flist" @keyup="flist" ></b-form-input>
+                <!-- <input id="search" type="search" name="" placeholder="검색어를 입력해주세요." value="" @keyup="flist" /> -->
+                <!-- <button type="submit" class="btn btn-dark">검색</button> -->
+                <div class="user-list">
+                  <div class="user" v-for="(user, index) in friendList" :key="index" @click="follow">
+                    <div class="profile">
+                      <b-avatar variant="info" :src="user.image? require(`C:/EnjoyTrip/user/${user.image}`):require('../../assets/tmp_profile2.jpg')"></b-avatar>
+                    </div>
+                    <div class="info">
+                     <p class="name">{{user.name}} </p>
+                     <p class="id">{{user.id}}</p>
+                    </div>
+                    <div class="icon">
+                      <font-awesome-icon icon="fa-solid fa-user-plus" size="2x" style="color: #999999" />
+                    </div>
+                  </div>
+                </div>
               </div>
             </form>
           </div>
@@ -32,6 +48,7 @@
 
 <script>
 import http from "@/util/http-common";
+import { mapState } from 'vuex';
 
 export default {
   name: "FollowList",
@@ -41,25 +58,38 @@ export default {
   },
   data() {
     return {
-      userList: [],
+      friendList: [],
+      followed: []
     };
   },
   created() {
     console.log("sadasdadads");
   },
+  computed: {
+    ...mapState(["userInfo"]),
+  },
   methods: {
     flist(event) {
+
       console.log(event.target.value);
       this.userList = [];
       if (event.target.value) {
         http.get("/user/searchBykeyword/" + event.target.value).then(({ data }) => {
           data.forEach((element) => {
-            this.userList.push(element);
-            console.log(this.userList);
+            if(element.id !== this.userInfo.id) {
+              this.friendList.push(element);
+            }
+            console.log(this.friendList);
           });
         });
       }
     },
+    clr() {
+      this.friendList = []
+    },
+    follow() {
+      console.log("follow")
+    }
   },
 };
 </script>
@@ -86,6 +116,7 @@ export default {
   height: 100vh;
   min-height: 1000px;
   padding-top: 100px;
+  text-align: center;
 }
 
 #board-search .search-window {
@@ -126,106 +157,14 @@ export default {
   font-size: 16px;
 }
 
-.resultList {
-  background-color: white;
-  align-items: center;
-  justify-content: center;
-  padding-bottom: 5px;
-}
-.resultList .result {
-  display: flex;
-  width: 90%;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-  margin-left: 10%;
-  margin-bottom: 15px;
-}
+.user-list {background-color: #fff;}
+.user-list .user {display: flex; padding: 5px; position:relative}
+.user-list .user:hover {background-color: rgb(118, 206, 233);}
+.user-list .user .profile {margin-left: 20px;}
+.user-list .user .info {margin-left: 50px;}
+.user-list .user .info .name {font-weight: 600;font-size: 16px;}
+.user-list .user .info .id {color:#625e5e; font-size: 14px;}
+.user-list .user .icon {position: absolute; left: 500px; padding-top: 5px;}
 
-.resultList .user-img {
-  width: 50px;
-  height: 50px;
-  overflow:hidden;
-  border: 2px solid lightgray;
-  border-radius: 50%;
-}
 
-.resultList .user-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.resultList .user-id {
-  width: 40%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.resultList .user-name {
-  width: 30%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.resultList .button-add {
-  width: 30%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.btn {
-  height: 100%;
-  display: inline-block;
-  padding: 0 30px;
-  font-size: 15px;
-  font-weight: 400;
-  background: transparent;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  -ms-touch-action: manipulation;
-  touch-action: manipulation;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  border: 1px solid transparent;
-  text-transform: uppercase;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0;
-  -webkit-transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  -ms-transition: all 0.3s;
-  -o-transition: all 0.3s;
-  transition: all 0.3s;
-}
-
-.btn-dark {
-  background: #555;
-  color: #fff;
-}
-
-.btn-dark:hover,
-.btn-dark:focus {
-  background: #373737;
-  border-color: #373737;
-  color: #fff;
-}
-
-.btn-dark {
-  background: #555;
-  color: #fff;
-}
-
-.btn-dark:hover,
-.btn-dark:focus {
-  background: #373737;
-  border-color: #373737;
-  color: #fff;
-}
 </style>
