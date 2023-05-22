@@ -10,7 +10,7 @@
               <b-avatar variant="info" :src="require(`C:/EnjoyTrip/user/${f.image}`)"></b-avatar>
             </div>
           </div>
-          <input type="text" @keyup="flist" />
+          <input type="text" @keyup="flist" placeholder="친구 검색"/>
           <div id="userlist" v-for="(friend, index) in friendList" :key="index">
             <div>{{ friend.name }} <a href="#" @click="addF(index)">추가</a></div>
           </div>
@@ -445,6 +445,8 @@ export default {
 .plan .result {
   width: 15%;
   text-align: center;
+  height: 100vh;
+  overflow-y: scroll;
 }
 
 .plan .result #placesList .list-group-item {
