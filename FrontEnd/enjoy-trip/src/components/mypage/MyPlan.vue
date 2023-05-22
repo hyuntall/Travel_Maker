@@ -37,7 +37,7 @@ export default {
 <style scoped>
 .plan-row {
   height: 50px;
-  border-top: 1px solid black;
+  border-top: 1px solid rgb(218, 217, 217);;
   align-items: center;
   justify-content: center;
 }

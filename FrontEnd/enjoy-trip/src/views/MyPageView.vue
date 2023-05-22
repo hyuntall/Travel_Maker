@@ -168,7 +168,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.1);
+  /* background: rgba(0, 0, 0, 0.1); */
 }
 .container {
   max-width: 720px;
@@ -184,6 +184,8 @@ export default {
   align-items: center;
   justify-content: center;
   display: flex;
+  border-radius: 2px;
+  border: 1px solid rgb(218, 217, 217);
 }
 
 .profile {
@@ -275,5 +277,6 @@ export default {
 }
 .my-board {
   margin-left: 5%;
+  margin-bottom: 5%;
 }
 </style>

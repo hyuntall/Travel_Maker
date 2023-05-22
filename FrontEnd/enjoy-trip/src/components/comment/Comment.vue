@@ -142,7 +142,8 @@ body {
   overflow: hidden;
   width: 40px;
   height: 40px;
-  background: linear-gradient(to right, red, orange);
+  /* background: linear-gradient(to right, red, orange); */
+  border: 1px solid rgb(150, 150, 150);;
   padding: 2px;
   margin-right: 8px;
   cursor: pointer;
@@ -180,12 +181,12 @@ body {
   color: #fafafa;
 }
 .btn-1 {
-  background: rgb(0, 9, 140);
-  background: linear-gradient(0deg, rgba(6, 14, 131, 1) 0%, rgba(12, 25, 180, 1) 100%);
+  background: rgb(150, 150, 150);
+  /* background: linear-gradient(0deg, rgba(6, 14, 131, 1) 0%, rgba(12, 25, 180, 1) 100%); */
   border: none;
 }
 .btn-1:hover {
-  background: rgb(0, 3, 255);
-  background: linear-gradient(0deg, rgba(0, 3, 255, 1) 0%, rgba(2, 126, 251, 1) 100%);
+  background: rgb(200, 200, 200);
+  /* background: linear-gradient(0deg, rgba(0, 3, 255, 1) 0%, rgba(2, 126, 251, 1) 100%); */
 }
 </style>
