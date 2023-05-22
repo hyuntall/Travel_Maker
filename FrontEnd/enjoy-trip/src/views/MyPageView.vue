@@ -41,9 +41,12 @@
           </div>
         </div>
       </div>
-      <div class="my-plan row">내 계획 목록</div>
+      <p class="plan-header">내 계획 목록</p>
+      <div class="my-plan row">
+        <my-plan v-for="myPlan in myPlans" :key="myPlan.idx" :plan="myPlan"></my-plan>
+      </div>
+      <p class="board-header">내가 작성한 글</p>
       <div class="my-boards row">
-        내가 작성한 글
         <div v-if="myBoards.length > 0" class="my-boards-content row">
           <my-board
             class="my-board"
@@ -64,16 +67,18 @@
 import http from "@/util/http-common";
 import { mapState, mapMutations } from "vuex";
 import MyBoard from "@/components/mypage/MyBoard.vue";
+import MyPlan from "@/components/mypage/MyPlan.vue";
 
 export default {
   name: "MyPageView",
-  components: { MyBoard },
+  components: { MyBoard, MyPlan },
   data() {
     return {
       image: null,
       url: require("../assets/tmp_profile2.jpg"),
       originUrl: "",
       myBoards: [],
+      myPlans: [],
     };
   },
   created() {
@@ -84,10 +89,27 @@ export default {
       .get(`/board/list/${this.userInfo.id}`)
       .then(({ data }) => {
         console.log(data);
+        data.sort((a, b) => {
+          return -(a.idx - b.idx);
+        });
         this.myBoards = data;
       })
       .catch(() => {
         alert("게시글 목록 요청 실패");
+      });
+
+    http
+      .get(`/plan/list/${this.userInfo.id}`)
+      .then(({ data }) => {
+        console.log(data);
+        console.log(data);
+        data.sort((a, b) => {
+          return -(a.idx - b.idx);
+        });
+        this.myPlans = data;
+      })
+      .catch(() => {
+        console.log("계획 목록 요청 실패");
       });
   },
   methods: {
@@ -221,13 +243,18 @@ export default {
   border-radius: 50%;
 }
 
+.plan-header,
+.board-header {
+  text-align: center;
+  background-color: rgb(218, 217, 217);
+}
 .my-plan {
   height: 30%;
   background-color: white;
   border: 1px solid rgb(218, 217, 217);
   width: 720px;
+  overflow-y: scroll;
 }
-
 .my-boards {
   height: 30%;
   background-color: white;
@@ -235,7 +262,9 @@ export default {
   width: 720px;
   overflow-y: scroll;
 }
-
+.my-boards-content {
+  padding-top: 15px;
+}
 .my-board {
   margin-left: 5%;
 }

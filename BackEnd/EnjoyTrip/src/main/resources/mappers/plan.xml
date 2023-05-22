@@ -6,4 +6,10 @@
 		insert into plan(user_id, title, start_date, end_date, content)
 		values(#{user_id}, #{title}, #{start_date}, #{end_date}, #{content})
 	</insert>
+	<select id="getPlanIdx" resultType="Integer">
+		select count(*) from plan where user_id=#{user_id}
+	</select>
+	<select id="selectByUser" resultType="PlanDto">
+		select * from plan where user_id=#{user_id}
+	</select>
 </mapper>

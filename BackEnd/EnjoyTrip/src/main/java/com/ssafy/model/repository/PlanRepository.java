@@ -1,6 +1,7 @@
 package com.ssafy.model.repository;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -11,4 +12,5 @@ public interface PlanRepository {
 	public int makePlan(PlanDto plan) throws SQLException;
 	public int updatePlan(PlanDto plan) throws SQLException;
 	public int getPlanIdx(String user_id) throws SQLException;
+	public List<PlanDto> selectByUser(String user_id) throws SQLException;
 }
