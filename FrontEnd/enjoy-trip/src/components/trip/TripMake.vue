@@ -24,9 +24,9 @@
             <h4>{{idx}}일차</h4>
             <hr>
             
-            <draggable v-model="days[idx-1]" class="places" :list="days[idx-1]" group="places">
-              <div v-for="place in days[idx-1]" :key="place">
-
+            <draggable v-model="days[idx-1]" class="list-group places" :list="days[idx-1]" group="places">
+              <div class="list-group-item" v-for="p in days[idx-1]" :key="p">
+                {{p.place_name}}
               </div>
             </draggable>
             
@@ -56,8 +56,8 @@
       <div class="result">
         <h1>목록</h1>
         <ul id="placesList">
-            <draggable v-model="results" class="places" :list="results" group="places">
-              <div v-for="place, index in results" :key="index">
+            <draggable v-model="results" class="list-group places" :list="results" group="places">
+              <div class="list-group-item" v-for="place, index in results" :key="index">
                     {{place.place_name}}
               </div>
             </draggable>
@@ -86,7 +86,7 @@ export default {
       region : null,
       cnt : null,
       results : [],
-      days: {},
+      days: [],
     };
   },
   created() {
@@ -177,11 +177,11 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
-          
+          this.results = [];
           data.documents.forEach(element => {
             this.results.push(element)
           });
-          this.placesSearchCB(data.documents);
+          // this.placesSearchCB(data.documents);
         });
     },
     placesSearchCB(data) {
@@ -324,7 +324,8 @@ export default {
         this.cnt = (date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24) +1 
         for(var i=1 ; i<=this.cnt ; i++){
           console.log(i)
-          this.days.push({day : []})
+          let arr = []
+          this.days.push(arr)
         }
 
       }
