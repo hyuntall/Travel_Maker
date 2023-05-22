@@ -57,10 +57,19 @@ public class BoardController {
 		return new ResponseEntity<List<BoardDto>>(bsvc.selectBoardByUser(user_id), HttpStatus.OK);
 	}
 	
+	@GetMapping("list/page/{page}")
+	public ResponseEntity<?> selectBoardByUser(@PathVariable int page) throws SQLException {
+		System.out.println(page*5);
+		return new ResponseEntity<List<BoardDto>>(bsvc.selectBoardPage(page*5), HttpStatus.OK);
+	}
 	@GetMapping("/{idx}")
 	public ResponseEntity<?> selectBoardByIdx(@PathVariable int idx) throws SQLException {
 		bsvc.addViewCount(idx);
 		return new ResponseEntity<BoardDto>(bsvc.selectBoardByIdx(idx), HttpStatus.OK);
+	}
+	@GetMapping("/all/cnt")
+	public ResponseEntity<?> selectBoardCount() throws SQLException {
+		return new ResponseEntity<Integer>(bsvc.selectBoardCount(), HttpStatus.OK);
 	}
 	
 	@PostMapping("/write")

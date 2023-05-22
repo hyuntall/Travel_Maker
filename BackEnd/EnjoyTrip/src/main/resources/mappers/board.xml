@@ -13,6 +13,14 @@
 		select * from board where idx=#{idx};
 	</select>
 	
+	<select id="selectBoardPage" resultType="BoardDto">
+		select * from board order by idx desc limit #{page}, 5
+	</select>
+	
+	<select id="selectBoardCount" resultType="Integer">
+		select count(*) from board;
+	</select>
+	
 	<delete id="deleteBoard">
 		delete from board where idx=#{idx}
 	</delete>

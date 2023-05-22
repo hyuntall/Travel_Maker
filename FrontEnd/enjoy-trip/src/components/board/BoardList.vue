@@ -1,7 +1,7 @@
 <template>
-  <div class="container row">
+  <div class="container row" >
     <div class="float" @click="moveWrite()">
-      <span class="float-button"> + </span>
+      <span class="float-button" > + </span>
     </div>
     <div class="list">
       <board-one v-for="board in boards" :key="board.board_id" :board="board" />
@@ -18,23 +18,44 @@ export default {
   data() {
     return {
       boards: [],
+      page: 0,
+      limit: 0,
     };
   },
   created() {
-    http
-      .get("/board/list")
+    this.getBoardList();
+    http.get("/board/all/cnt").then(({data})=>{
+      this.limit = data;
+    }).catch(()=> {
+      console.log("게시글 전체 갯수 요청 실패")
+    })
+  },
+  mounted(){
+    window.addEventListener('scroll', this.scrollDown);
+  },
+  methods: {
+    scrollDown(){
+      if (this.page * 5 <= this.limit && window.innerHeight + window.scrollY >= document.body.offsetHeight){
+        // console.log("무한스크롤 발생!")
+        this.getBoardList();
+      }
+    },
+    getBoardList(){
+      http
+      .get(`/board/list/page/${this.page++}`)
       .then(({ data }) => {
-        console.log(data);
-        data.sort((a, b) => {
-          return -(a.idx - b.idx);
-        });
-        this.boards = data;
+        // console.log(data);
+        // data.sort((a, b) => {
+        //   return -(a.idx - b.idx);
+        // });
+        this.boards = this.boards.concat(data);
+        // console.log(this.boards);
+        // console.log(this.page)
       })
       .catch(() => {
         alert("게시판 요청 실패");
       });
-  },
-  methods: {
+    },
     moveWrite() {
       this.$router.push({ name: "BoardRegist" });
     },

@@ -354,7 +354,7 @@ export default {
       }
       const plan = {
         user_id: users,
-        title: "None Title",
+        title: this.region.cate2+" 여행",
         start_date: new Date(this.start),
         end_date: new Date(this.end),
         content: "없는 내용",

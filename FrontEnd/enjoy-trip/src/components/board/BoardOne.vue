@@ -46,13 +46,13 @@ export default {
     };
   },
   created() {
-    console.log(this.board);
+    // console.log(this.board);
     this.imgUrl = require(`C:/EnjoyTrip/board/${this.board.image}`);
     this.idx = this.board.idx;
     http
       .get(`/user/image/${this.board.user_id}`)
       .then(({ data }) => {
-        console.log(data);
+        // console.log(data);
         this.profileUrl = require(`C:/EnjoyTrip/user/${data}`);
         this.originProfileUrl = data;
       })
