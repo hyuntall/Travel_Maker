@@ -35,7 +35,13 @@
       <div class="my-boards row">
         내가 작성한 글
         <div v-if="myBoards.length > 0" class="my-boards-content row">
-          <my-board class="my-board" v-for="myBoard in myBoards" :key="myBoard.idx" :board="myBoard"></my-board>
+          <my-board
+            class="my-board"
+            v-for="myBoard in myBoards"
+            :key="myBoard.idx"
+            :board="myBoard"
+            :url="originUrl"
+          ></my-board>
         </div>
         <div v-else>작성한 글이 없습니다.</div>
         <div></div>
@@ -56,12 +62,14 @@ export default {
     return {
       image: null,
       url: require("../assets/tmp_profile2.jpg"),
+      originUrl: "",
       myBoards: [],
     };
   },
   created() {
     console.log(this.userInfo);
     this.url = require(`C:/EnjoyTrip/user/${this.userInfo.image}`);
+    this.originUrl = this.userInfo.image;
     http
       .get(`/board/list/${this.userInfo.id}`)
       .then(({ data }) => {

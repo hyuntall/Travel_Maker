@@ -1,6 +1,8 @@
 <template>
   <div class="wrapper">
-    <img class="boardImg" :src="imgUrl" />
+    <router-link :to="{ name: 'BoardDetail', params: { idx: board.idx, originProfileUrl: url } }">
+      <img class="boardImg" :src="imgUrl" />
+    </router-link>
     <p>
       {{ board.title | textLengthOverCut }}
     </p>
@@ -13,6 +15,7 @@ export default {
   components: {},
   props: {
     board: null,
+    url: String,
   },
   data() {
     return {
@@ -21,6 +24,7 @@ export default {
   },
   created() {
     console.log(this.board);
+    console.log(this.url);
     this.imgUrl = require(`C:/EnjoyTrip/board/${this.board.image}`);
   },
   methods: {},
