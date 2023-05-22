@@ -1,53 +1,55 @@
 <template>
-  <div class="container">
-    <div class="my-profile row">
-      <div class="profile-img col-4">
-        <label for="file" class="file-label">
-          <img :src="url" />
-        </label>
-        <div class="file-label">
-          <div class="btn-upload" @click="updateImage()">이미지 변경</div>
+  <div class="wrap">
+    <div class="container">
+      <div class="my-profile row">
+        <div class="profile-img col-4">
+          <label for="file" class="file-label">
+            <img :src="url" />
+          </label>
+          <div class="file-label">
+            <div class="btn-upload" @click="updateImage()">이미지 변경</div>
+          </div>
+          <input type="file" name="file" id="file" @change="uploadImage" />
         </div>
-        <input type="file" name="file" id="file" @change="uploadImage">
-      </div>
-      <div class="profile col-6">
-        <h3>{{this.userInfo.id}}({{ this.userInfo.name }})님</h3>
-        <p>
-          {{ this.userInfo.phone_number }}
-        </p>
-        <div class="friends">친구 관련</div>
-      </div>
-      <div class="setup col-3 row">
-        <div class="modify col-6">
-          <button class="modify-button">알림</button>
+        <div class="profile col-6">
+          <h3>{{ this.userInfo.id }}({{ this.userInfo.name }})님</h3>
+          <p>
+            {{ this.userInfo.phone_number }}
+          </p>
+          <div class="friends">친구 관련</div>
         </div>
-        <div class="notice col-6">
-          <router-link :to="{name: 'UserModify', params: {user_id: userInfo.id}}">
-            <button class="modify-button">
-
-              <font-awesome-icon icon="fa-solid fa-gear" size="2x" style="color: #999999;" />
-            </button>
-          </router-link>
+        <div class="setup col-3 row">
+          <div class="modify col-6">
+            <button class="modify-button">알림</button>
+          </div>
+          <div class="notice col-6">
+            <router-link :to="{ name: 'UserModify', params: { user_id: userInfo.id } }">
+              <button class="modify-button">
+                <font-awesome-icon icon="fa-solid fa-gear" size="2x" style="color: #999999" />
+              </button>
+            </router-link>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="my-plan">내 계획 목록</div>
-    <div class="my-boards">내가 작성한 글
-      <div v-if="myBoards.length > 0">작성한 글이 있습니다.</div>
-      <div v-else>작성한 글이 없습니다.</div>
-      <my-board></my-board>
+      <div class="my-plan row">내 계획 목록</div>
+      <div class="my-boards row">
+        내가 작성한 글
+        <div v-if="myBoards.length > 0">작성한 글이 있습니다.</div>
+        <div v-else>작성한 글이 없습니다.</div>
+        <my-board></my-board>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import http from '@/util/http-common';
-import { mapState, mapMutations } from 'vuex';
-import MyBoard from '@/components/mypage/MyBoard.vue';
+import http from "@/util/http-common";
+import { mapState, mapMutations } from "vuex";
+import MyBoard from "@/components/mypage/MyBoard.vue";
 
 export default {
   name: "MyPageView",
-  components: {MyBoard},
+  components: { MyBoard },
   data() {
     return {
       image: null,
@@ -58,11 +60,14 @@ export default {
   created() {
     console.log(this.userInfo);
     this.url = require(`C:/EnjoyTrip/user/${this.userInfo.image}`);
-    http.get(`/board/list/${this.userInfo.id}`).then(({data})=>{
-      console.log(data);
-    }).catch(()=>{
-      alert("게시글 목록 요청 실패")
-    })
+    http
+      .get(`/board/list/${this.userInfo.id}`)
+      .then(({ data }) => {
+        console.log(data);
+      })
+      .catch(() => {
+        alert("게시글 목록 요청 실패");
+      });
   },
   methods: {
     ...mapMutations(["SET_USER_INFO"]),
@@ -74,7 +79,7 @@ export default {
       this.url = URL.createObjectURL(this.image);
       // this.renderedContent();
     },
-    updateImage(){
+    updateImage() {
       if (this.image == null) return;
       const formData = new FormData();
       formData.append("user_id", this.userInfo.id);
@@ -95,11 +100,11 @@ export default {
         .catch(() => {
           alert("이미지 변경 실패");
         });
-    }
+    },
   },
   computed: {
     ...mapState(["userInfo"]),
-  }
+  },
 };
 </script>
 
@@ -110,16 +115,27 @@ export default {
   box-sizing: border-box;
   font-family: "Noto Sans KR", sans-serif;
 }
-
+.wrap {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.1);
+}
 .container {
   max-width: 720px;
-  background-color: bisque;
+  min-width: 720px;
   height: 100vh;
+  min-height: 1000px;
   padding-top: 150px;
 }
 .my-profile {
-  background-color: aqua;
+  background-color: white;
+  border: 1px solid rgb(218, 217, 217);
   height: 40%;
+  align-items: center;
+  justify-content: center;
 }
 
 .profile {
@@ -127,8 +143,9 @@ export default {
 }
 
 .profile .friends {
-  height: 30%;
-  background-color: yellowgreen;
+  height: 150px;
+  background-color: white;
+  border: 1px solid black;
 }
 
 .profile-img {
@@ -152,7 +169,7 @@ export default {
   width: 150px;
   height: 30px;
   background: #fff;
-  border: 1px solid rgb(77,77,77);
+  border: 1px solid rgb(77, 77, 77);
   border-radius: 10px;
   font-weight: 500;
   cursor: pointer;
@@ -161,7 +178,7 @@ export default {
   justify-content: center;
 }
 .btn-upload:hover {
-  background: rgb(77,77,77);
+  background: rgb(77, 77, 77);
   color: #fff;
 }
 
@@ -175,7 +192,7 @@ export default {
 }
 
 .setup .modify-button {
-  background-color: white;
+  background-color: rgb(200, 200, 200);
   width: 65px;
   height: 65px;
   border-radius: 50%;
@@ -183,11 +200,15 @@ export default {
 
 .my-plan {
   height: 30%;
-  background-color: pink;
+  background-color: white;
+  border: 1px solid rgb(218, 217, 217);
+  width: 720px;
 }
 
 .my-boards {
   height: 30%;
-  background-color: cornflowerblue;
+  background-color: white;
+  border: 1px solid rgb(218, 217, 217);
+  width: 720px;
 }
 </style>
