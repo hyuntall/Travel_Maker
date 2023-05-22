@@ -55,8 +55,8 @@
       <div class="result">
         <h1>목록</h1>
         <ul id="placesList">
-            <draggable v-model="results" class="list-group places" :list="results" group="places">
-              <div class="list-group-item" v-for="place, index in results" :key="index">
+            <draggable v-model="results" class="list-group places" :list="results" :group="{ name: 'places', pull: 'clone', put: false }">
+              <div class="list-group-item" :id="'r'+index" v-for="place, index in results" :key="index">
                     {{place.place_name}}
               </div>
             </draggable>
@@ -178,21 +178,22 @@ export default {
           data.documents.forEach(element => {
             this.results.push(element)
           });
-          // this.placesSearchCB(data.documents);
+          this.placesSearchCB(this.results);
         });
     },
+   
     placesSearchCB(data) {
       this.displayPlaces(data);
     },
     displayPlaces(places) {
-      var listEl = document.getElementById("placesList"),
-        menuEl = document.getElementById("menu_wrap"),
-        fragment = document.createDocumentFragment(),
-        bounds = new kakao.maps.LatLngBounds();
+      //var listEl = document.getElementById("placesList"),
+        //menuEl = document.getElementById("menu_wrap"),
+        //fragment = document.createDocumentFragment(),
+       var bounds = new kakao.maps.LatLngBounds();
       // listStr = "";
 
       // 검색 결과 목록에 추가된 항목들을 제거합니다
-      this.removeAllChildNods(listEl);
+      //this.removeAllChildNods(listEl);
 
       // 지도에 표시되고 있는 마커를 제거합니다
       this.removeMarker();
@@ -201,15 +202,17 @@ export default {
         // 마커를 생성하고 지도에 표시합니다
         var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x);
         var marker = this.addMarker(placePosition, i);
-        var itemEl = this.getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
+        //var itemEl = this.getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
         // marker.place_name = places[i].place_name;
         console.log("marker: " + marker);
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
         // LatLngBounds 객체에 좌표를 추가합니다
         bounds.extend(placePosition);
         // console.log("dddddddddddd"+places[i].place_name)
-
-        // let title = places[i].place_name
+        // var div = document.querySelector("#r"+i);
+        // var div1 = document.getElementById('r'+i)
+        // console.log(div1);
+        
         ((marker, title) => {
           kakao.maps.event.addListener(marker, "mouseover", () => {
             this.displayInfowindow(marker, title);
@@ -219,21 +222,21 @@ export default {
             this.infowindow.close();
           });
 
-          itemEl.onmouseover = () => {
-            this.displayInfowindow(marker, title);
-          };
+          // div1.onmouseover = () => {
+          //   this.displayInfowindow(marker, title);
+          // };
 
-          itemEl.onmouseout = () => {
-            this.infowindow.close();
-          };
+          // div1.onmouseout = () => {
+          //   this.infowindow.close();
+          // };
         })(marker, places[i].place_name);
 
-        fragment.appendChild(itemEl);
+        //fragment.appendChild(itemEl);
       }
 
       // 검색결과 항목들을 검색결과 목록 Element에 추가합니다
-      listEl.appendChild(fragment);
-      menuEl.scrollTop = 0;
+      //listEl.appendChild(fragment);
+      //menuEl.scrollTop = 0;
 
       // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
       this.map.setBounds(bounds);
