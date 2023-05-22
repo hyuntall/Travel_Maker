@@ -2,7 +2,7 @@
   <div>
     <div class="plan">
       <div class="planner">
-        <h4>{{ region.cate2 }} 여행</h4>
+        <h4>{{ region.cate2 }}여행</h4>
         <!-- 친구추가기능 -->
         <div class="friends">
           <div class="added">
@@ -10,9 +10,9 @@
               <b-avatar variant="info" :src="require(`C:/EnjoyTrip/user/${f.image}`)"></b-avatar>
             </div>
           </div>
-          <input type="text" @keyup="flist">
-          <div id="userlist" v-for="friend, index in friendList" :key="index">
-            <div>{{friend.name}} <a href="#" @click="addF(index)">추가</a></div>
+          <input type="text" @keyup="flist" />
+          <div id="userlist" v-for="(friend, index) in friendList" :key="index">
+            <div>{{ friend.name }} <a href="#" @click="addF(index)">추가</a></div>
           </div>
         </div>
         <div class="cal">
@@ -45,12 +45,12 @@
             <p>{{ cnt }}일 일정</p>
           </div>
           <div class="plandays" v-for="idx in cnt" :key="idx">
-            <h4>{{idx}}일차</h4>
-            <hr>
-            
-            <draggable v-model="days[idx-1]" class="list-group places" :list="days[idx-1]" group="places">
-              <div class="list-group-item" v-for="p, index in days[idx-1]" :key="index">
-                {{p.place_name}} <a href="#" @click="removeP(idx, index)">제거</a>
+            <h4>{{ idx }}일차</h4>
+            <hr />
+
+            <draggable v-model="days[idx - 1]" class="list-group places" :list="days[idx - 1]" group="places">
+              <div class="list-group-item" v-for="(p, index) in days[idx - 1]" :key="index">
+                {{ p.place_name }} <a href="#" @click="removeP(idx, index)">제거</a>
               </div>
             </draggable>
           </div>
@@ -79,13 +79,18 @@
       <div class="result">
         <h1>목록</h1>
         <ul id="placesList">
-            <draggable v-model="results" class="list-group places" :list="results" :group="{ name: 'places', pull: 'clone', put: false }">
-              <div class="list-group-item"  :id="'r'+index" v-for="place, index in results" :key="index">
-                    <h6>{{place.place_name}}</h6>
-                    <p>{{place.address_name}}</p>
-                    <a :href="place.place_url" target="_blank">상세 보기</a>
-              </div>
-            </draggable>
+          <draggable
+            v-model="results"
+            class="list-group places"
+            :list="results"
+            :group="{ name: 'places', pull: 'clone', put: false }"
+          >
+            <div class="list-group-item" :id="'r' + index" v-for="(place, index) in results" :key="index">
+              <h6>{{ place.place_name }}</h6>
+              <p>{{ place.address_name }}</p>
+              <a :href="place.place_url" target="_blank">상세 보기</a>
+            </div>
+          </draggable>
         </ul>
       </div>
     </div>
@@ -114,8 +119,8 @@ export default {
       cnt: null,
       results: [],
       days: [],
-      friendList : [],
-      friends : []
+      friendList: [],
+      friends: [],
     };
   },
   computed: {
@@ -123,13 +128,10 @@ export default {
   },
   created() {
     console.log("created!! " + this.$route.params.cate1);
-    // this.region=this.$route.query
-    
-    
-    
+    this.region = this.$route.query;
   },
   updated() {
-    if(this.results) this.placesSearchCB(this.results);
+    if (this.results) this.placesSearchCB(this.results);
   },
   mounted() {
     if (window.kakao && window.kakao.maps) {
@@ -141,7 +143,7 @@ export default {
       script.src = "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=915cffed372954b7b44804ed422b9cf0";
       document.head.appendChild(script);
     }
-    
+    console.log(this.$route.params);
     var url = `https://dapi.kakao.com/v2/local/search/address.json?query=${this.$route.params.cate1} ${this.$route.params.cate2}`;
     var key = "KakaoAK 8e2e5c55f8a455204cc6d497c99b6c00";
     console.log(url);
@@ -160,7 +162,6 @@ export default {
           this.map.setCenter(new kakao.maps.LatLng(y, x));
         });
     });
-    
   },
   methods: {
     initMap() {
@@ -250,11 +251,11 @@ export default {
         // LatLngBounds 객체에 좌표를 추가합니다
         bounds.extend(placePosition);
         // console.log("dddddddddddd"+places[i].place_name)
-        let div = this.$el.querySelector("#r"+i);
+        let div = this.$el.querySelector("#r" + i);
         console.log(div);
         // var div1 = document.getElementById('r'+i)
         // console.log("#r"+i);
-        
+
         ((marker, title) => {
           kakao.maps.event.addListener(marker, "mouseover", () => {
             this.displayInfowindow(marker, title);
@@ -327,21 +328,21 @@ export default {
     flist(event) {
       // alert(event.target.value)
       this.friendList = [];
-      if(event.target.value){
-        http.get("/user/searchBykeyword/"+event.target.value).then(({data})=>{
-          data.forEach(element => {
-            this.friendList.push(element)
+      if (event.target.value) {
+        http.get("/user/searchBykeyword/" + event.target.value).then(({ data }) => {
+          data.forEach((element) => {
+            this.friendList.push(element);
           });
-        })
+        });
       }
     },
     addF(index) {
-      this.friends.push(this.friendList[index])
-      this.friendList.splice(index,1);
+      this.friends.push(this.friendList[index]);
+      this.friendList.splice(index, 1);
     },
     removeP(idx, index) {
-      console.log(idx + " " + index)
-      this.days[idx-1].splice(index,1)
+      console.log(idx + " " + index);
+      this.days[idx - 1].splice(index, 1);
     },
     makePlan() {
       const plan = {
@@ -400,7 +401,11 @@ export default {
 .plan .planner .friends {
   margin-top: 15px;
 }
-.plan .planner .friends .added img {width:20px; height: 20px; border-radius: 50%;}
+.plan .planner .friends .added img {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
 
 .plan .planner .days {
   height: 67.8%;
@@ -440,8 +445,11 @@ export default {
   text-align: center;
 }
 
-.plan .result #placesList .list-group-item {}
-.plan .result #placesList .list-group-item p {font-size: 8px;}
+.plan .result #placesList .list-group-item {
+}
+.plan .result #placesList .list-group-item p {
+  font-size: 8px;
+}
 
 /* kakao */
 .map_wrap,
