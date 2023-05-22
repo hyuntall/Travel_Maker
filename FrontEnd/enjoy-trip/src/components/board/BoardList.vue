@@ -1,10 +1,18 @@
 <template>
-  <div class="container row">
-    <div class="float" @click="moveWrite()">
-      <span class="float-button"> + </span>
-    </div>
-    <div class="list">
+  <div class="container row" ref="top">
+    <div class="list" v-if="boards.length>0">
       <board-one v-for="board in boards" :key="board.board_id" :board="board" />
+    </div>
+    <div v-else class="nothing">
+      등록된 게시글이 없습니다.
+    </div>
+    <div class="float" >
+      <div class="float-button up" @click="moveUp()">
+        <font-awesome-icon icon="fa-solid fa-arrow-up" size="xl"/>
+      </div>
+      <div class="float-button write" @click="moveWrite()">
+        <font-awesome-icon icon="fa-solid fa-plus" size="xl" />
+      </div>
     </div>
   </div>
 </template>
@@ -18,26 +26,44 @@ export default {
   data() {
     return {
       boards: [],
+      page: 0,
+      limit: 0,
     };
   },
   created() {
-    http
-      .get("/board/list")
+    this.getBoardList();
+    http.get("/board/all/cnt").then(({data})=>{
+      this.limit = data;
+    }).catch(()=> {
+      console.log("게시글 전체 갯수 요청 실패")
+    })
+  },
+  mounted(){
+    // 이걸 윈도우 말고 div에 넣을 수는 없을까 생각해보자
+    window.addEventListener('scroll', this.scrollDown);
+  },
+  methods: {
+    scrollDown(){
+      if (this.page * 5 <= this.limit && window.innerHeight + window.scrollY >= document.body.offsetHeight){
+        this.getBoardList();
+      }
+    },
+    getBoardList(){
+      http
+      .get(`/board/list/page/${this.page++}`)
       .then(({ data }) => {
-        console.log(data);
-        data.sort((a, b) => {
-          return -(a.idx - b.idx);
-        });
-        this.boards = data;
+        this.boards = this.boards.concat(data);
       })
       .catch(() => {
         alert("게시판 요청 실패");
       });
-  },
-  methods: {
+    },
     moveWrite() {
       this.$router.push({ name: "BoardRegist" });
     },
+    moveUp(){
+      this.$refs.top.scrollIntoView({behavior: "smooth"})
+    }
   },
 };
 </script>
@@ -55,34 +81,52 @@ export default {
 
 .container {
   margin-top: 100px !important;
-  width: 800px;
+  min-width: 800px;
+  max-width: 800px;
   margin: auto;
 }
 
+.list {
+  z-index: 100;
+}
 .float {
-  position: fixed;
-  left: 90%;
-  bottom: 5%;
-  z-index: 999;
+  position: fixed; 
   font-size: 1.8em;
   padding: 0;
+  width: 870px;
+  height: 90vh;
 }
 .float-button {
+  z-index: 999;
+  position: absolute;
+  right: 0;
+  align-items: center;
+  justify-content: center;
+  display: flex;
   color: #fff;
-  padding: 0;
   width: 55.5px;
   height: 55.5px;
-  padding: 5px;
-  display: inline-block;
   outline: 0;
   border: none;
   text-decoration: none;
-  background: #2196f3;
+  background: lightgray;
   text-align: center;
   border-radius: 50%;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 }
+
+.write {
+  bottom: 10%;
+}
+
+.up {
+  bottom: 20%;
+}
 .float :hover {
-  background: #42a5f5;
+  background: gray;
+}
+
+.nothing {
+  text-align: center;
 }
 </style>

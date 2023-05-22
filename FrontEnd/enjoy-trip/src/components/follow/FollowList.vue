@@ -39,6 +39,43 @@
               </div>
             </div>
           </form>
+          <!-- <div class="search-window">
+            <form action="">
+              <label for="search" class="search-label">사용자 검색</label>
+              <div class="search-wrap">
+                <h2>사용자 검색</h2>
+                <b-form-input class="w-70 mt-4 mx-auto" placeholder="사용자를 검색해주세요" @focus="flist" @keyup="flist" ></b-form-input>
+               
+                <div class="user-list">
+                  <div class="user" v-for="(user, index) in friendList" :key="index" @click="follow">
+                    <div class="profile">
+                      <b-avatar variant="info" :src="user.image? require(`C:/EnjoyTrip/user/${user.image}`):require('../../assets/tmp_profile2.jpg')"></b-avatar>
+                    </div>
+                    <div class="info">
+                     <p class="name">{{user.name}} </p>
+                     <p class="id">{{user.id}}</p>
+                    </div>
+                    <div class="icon">
+                      <font-awesome-icon icon="fa-solid fa-user-plus" size="2x" style="color: #999999" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div> -->
+      </div>
+      <div class="resultList">
+        <div v-for="user in userList" :key="user.idx" class="result">
+          <div class="user-image">
+            <div class="user-img">
+              <img :src="user.image? require(`C:/EnjoyTrip/user/${user.image}`):require('../../assets/tmp_profile2.jpg')"/>
+            </div>
+          </div>
+          <div class="user-id">{{ user.id }}</div>
+          <div class="user-name">{{ user.name }}</div>
+          <div class="button-add">
+            <button>친구 추가</button>
+          </div>
         </div>
 
       </div>
@@ -88,7 +125,7 @@ export default {
     flist(event) {
 
       console.log(event.target.value);
-      this.friendList = [];
+      this.userList = [];
       if (event.target.value) {
         http.get("/user/searchBykeyword/" + event.target.value + "/" + this.userInfo.id).then(({ data }) => {
           data.forEach((element) => {
@@ -134,6 +171,7 @@ export default {
   align-items: center;
   justify-content: center;
   background: rgba(0, 0, 0, 0.1);
+  margin-top: 15px;
 }
 .container {
   max-width: 720px;
@@ -147,6 +185,11 @@ export default {
 #board-search .search-window {
   padding: 15px 0;
   background-color: #f9f7f9;
+}
+
+.search-label {
+  width: 80%;
+  margin-left: 10%;
 }
 #board-search .search-window .search-wrap {
   position: relative;

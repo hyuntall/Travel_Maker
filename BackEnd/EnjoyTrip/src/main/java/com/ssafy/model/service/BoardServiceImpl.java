@@ -50,4 +50,14 @@ public class BoardServiceImpl implements BoardService{
 		return boardRepo.selectBoardByUser(user_id);
 	}
 
+	@Override
+	public List<BoardDto> selectBoardPage(int page) throws SQLException {
+		return boardRepo.selectBoardPage(page);
+	}
+
+	@Override
+	public int selectBoardCount() throws SQLException {
+		return boardRepo.selectBoardCount();
+	}
+
 }
