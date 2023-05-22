@@ -47,16 +47,21 @@
 
       <div class="result">
         <h1>목록</h1>
-        <ul id="placesList"></ul>
+        <ul id="placesList">
+           <draggable></draggable>
+        </ul>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import draggable from 'vuedraggable'
 export default {
   name: "TripMake",
-  components: {},
+  components: {
+     draggable
+  },
   data() {
     return {
       message: "",
@@ -69,6 +74,7 @@ export default {
       region : null,
       cnt : null,
       results : [],
+      days: [],
     };
   },
   created() {
@@ -147,7 +153,7 @@ export default {
       //지도 중심 좌표, category fetch
       var position = this.map.getCenter();
       console.log(position);
-
+      this.results= []
       let url = `https://dapi.kakao.com/v2/local/search/category.json?category_group_code=${category}&x=${position.La}&y=${position.Ma}&radius=20000`;
       let key = "06c33ac07fc44b677e02f424b096640b";
       fetch(url, {
@@ -159,6 +165,9 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
+          data.documents.forEach(element => {
+            this.results.push(element)
+          });
           this.placesSearchCB(data.documents);
         });
     },
@@ -299,8 +308,9 @@ export default {
         const date1 = new Date(this.start)
         const date2 = new Date(this.end)
         this.cnt = (date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24) +1 
-        for(var i=1 ; i<=this.getDateDiff ; i++){
+        for(var i=1 ; i<=this.cnt ; i++){
           console.log(i)
+          this.days.push({ i : {}})
         }
 
       }
