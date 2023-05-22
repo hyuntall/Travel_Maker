@@ -68,7 +68,8 @@ export default {
   },
   created() {
     console.log(this.userInfo);
-    this.url = require(`C:/EnjoyTrip/user/${this.userInfo.image}`);
+    if(this.userInfo.image) this.url = require(`C:/EnjoyTrip/user/${this.userInfo.image}`);
+    // this.url = require(`C:/EnjoyTrip/user/${this.userInfo.image}`);
     this.originUrl = this.userInfo.image;
     http
       .get(`/board/list/${this.userInfo.id}`)

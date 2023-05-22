@@ -9,7 +9,7 @@
         </div>
         <div class="cal">
           <label for="example-datepicker">출발날짜</label>
-          <b-form-datepicker id="example-datepicker" v-model="start" class="mb-2" hide-header="true" size="sm"></b-form-datepicker>
+          <b-form-datepicker id="example-datepicker" v-model="start" class="mb-2" size="sm"></b-form-datepicker>
           <label for="example-datepicker2">도착날짜</label>
           <b-form-datepicker id="example-datepicker2" v-model="end" class="mb-2"  size="sm"></b-form-datepicker>
           <a href="#" @click="makedays">일정 생성</a>
@@ -20,8 +20,16 @@
             <p>{{start}} ~ {{end}}</p>
             <p>{{cnt}}일 일정</p>
           </div>
-          <div class="plandays" v-for="plan in cnt" :key="plan">
-            {{plan}}일차
+          <div class="plandays" v-for="idx in cnt" :key="idx">
+            <h4>{{idx}}일차</h4>
+            <hr>
+            
+            <draggable v-model="days[idx-1]" class="places" :list="days[idx-1]" group="places">
+              <div v-for="place in days[idx-1]" :key="place">
+
+              </div>
+            </draggable>
+            
           </div>
         </div>
       </div>
@@ -48,7 +56,11 @@
       <div class="result">
         <h1>목록</h1>
         <ul id="placesList">
-           <draggable></draggable>
+            <draggable v-model="results" class="places" :list="results" group="places">
+              <div v-for="place, index in results" :key="index">
+                    {{place.place_name}}
+              </div>
+            </draggable>
         </ul>
       </div>
     </div>
@@ -74,7 +86,7 @@ export default {
       region : null,
       cnt : null,
       results : [],
-      days: [],
+      days: {},
     };
   },
   created() {
@@ -153,7 +165,7 @@ export default {
       //지도 중심 좌표, category fetch
       var position = this.map.getCenter();
       console.log(position);
-      this.results= []
+      
       let url = `https://dapi.kakao.com/v2/local/search/category.json?category_group_code=${category}&x=${position.La}&y=${position.Ma}&radius=20000`;
       let key = "06c33ac07fc44b677e02f424b096640b";
       fetch(url, {
@@ -165,6 +177,7 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
+          
           data.documents.forEach(element => {
             this.results.push(element)
           });
@@ -305,12 +318,13 @@ export default {
         alert("날짜를 선택해주세요!")
       }
       else {
+        this.days = [];
         const date1 = new Date(this.start)
         const date2 = new Date(this.end)
         this.cnt = (date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24) +1 
         for(var i=1 ; i<=this.cnt ; i++){
           console.log(i)
-          this.days.push({ i : {}})
+          this.days.push({day : []})
         }
 
       }
@@ -333,6 +347,9 @@ export default {
 }
 
 .plan .planner .friends {margin-top: 15px;}
+/* .plan .planner .days {overflow-y: scroll} */
+.plan .planner .days .plandays {margin: 10px auto; border: 1px solid black; width: 95%; }
+.plan .planner .days .plandays .places {min-height: 60px;}
 
 .plan .planner .cal {width: 95%; margin: 10px auto;}
 .plan .planner .cal label {font-size: 12px;}
@@ -346,7 +363,7 @@ export default {
 
 .plan .result {
   width: 15%;
-  background-color: yellow;
+  
 }
 
 /* kakao */
