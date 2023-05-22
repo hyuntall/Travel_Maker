@@ -128,7 +128,7 @@ export default {
   },
   created() {
     console.log("created!! " + this.$route.params.cate1);
-    this.region = this.$route.query;
+    this.region = this.$route.params;
   },
   updated() {
     if (this.results) this.placesSearchCB(this.results);
@@ -144,24 +144,7 @@ export default {
       document.head.appendChild(script);
     }
     console.log(this.$route.params);
-    var url = `https://dapi.kakao.com/v2/local/search/address.json?query=${this.$route.params.cate1} ${this.$route.params.cate2}`;
-    var key = "KakaoAK 8e2e5c55f8a455204cc6d497c99b6c00";
-    console.log(url);
-    window.kakao.maps.load(() => {
-      fetch(url, {
-        headers: {
-          Authorization: key,
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data.documents);
-          console.log(data.documents[0].y);
-          var y = data.documents[0].y;
-          var x = data.documents[0].x;
-          this.map.setCenter(new kakao.maps.LatLng(y, x));
-        });
-    });
+    
   },
   methods: {
     initMap() {
@@ -172,6 +155,25 @@ export default {
       };
       this.map = new kakao.maps.Map(container, options);
       this.infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
+
+      var url = `https://dapi.kakao.com/v2/local/search/address.json?query=${this.$route.params.cate1} ${this.$route.params.cate2}`;
+      var key = "KakaoAK 8e2e5c55f8a455204cc6d497c99b6c00";
+      console.log(url);
+      window.kakao.maps.load(() => {
+        fetch(url, {
+          headers: {
+            Authorization: key,
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data.documents);
+            console.log(data.documents[0].y);
+            var y = data.documents[0].y;
+            var x = data.documents[0].x;
+            this.map.setCenter(new kakao.maps.LatLng(y, x));
+          });
+      });
     },
 
     async moveMap() {
