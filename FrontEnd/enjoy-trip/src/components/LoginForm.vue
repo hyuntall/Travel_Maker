@@ -52,7 +52,7 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: "SDGothic";
 }
 
 a {
@@ -70,7 +70,7 @@ li {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.1);
+  /* background: rgba(0, 0, 0, 0.1); */
 }
 
 .login {
@@ -127,8 +127,8 @@ h2 {
   height: 50px;
   border: 0;
   outline: none;
-  border-radius: 10px;
-  background: skyblue;
+  border-radius: 2px;
+  background: lightgray;
   /* background: linear-gradient(to left, rgb(255, 77, 46), rgb(255, 155, 47)); */
   color: white;
   font-size: 1.2em;

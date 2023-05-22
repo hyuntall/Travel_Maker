@@ -1,7 +1,8 @@
 <template>
   <div class="wrap">
     <div class="form">
-      <h2>Sign Up</h2>
+      <h2 v-if="type!=='modify'">Sign Up</h2>
+      <h2 v-else>Modify</h2>
       <div class="form_input user_id">
         <label for="id" class="label" >ID</label>
         <input type="text" v-model="user.id" name="id" id="id" placeholder="id" v-bind:readonly="readonly"/>
@@ -35,11 +36,11 @@
           <option value="false">여</option>
         </select>
       </div>
-      <div class="submit row" v-if="type!=='modify'">
+      <div class="submit row regist" v-if="type!=='modify'">
         <button class="col-5" variant="outline-success" @click="checkValue">SignUp</button>
         <button class="col-5" variant="outline-success">LogIn</button>
       </div>
-      <div class="submit row" v-else>
+      <div class="submit modify" v-else>
         <button variant="outline-success" @click="checkValue">Modify</button>
       </div>
     </div>
@@ -122,7 +123,7 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: "SDGothic";
 }
 
 a {
@@ -135,23 +136,26 @@ li {
 }
 
 .wrap {
+  margin-top: 60px;
   width: 100%;
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.1);
+  /* background: rgba(0, 0, 0, 0.1); */
 }
 
 .form {
   width: 40%;
   min-width: 600px;
-  height: 750px;
+  height: 700px;
   background: white;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  border-radius: 2px;
+  border: 1px solid rgb(218, 217, 217);
 }
 
 h2 {
@@ -189,18 +193,30 @@ h2 {
 }
 
 .submit {
-  margin-top: 50px;
+  margin-top: 10px;
   width: 80%;
 }
 .submit button {
   height: 50px;
   border: 0;
   outline: none;
-  border-radius: 10px;
-  background: skyblue;
+  border-radius: 2px;
+  background: lightgray;
   color: white;
   font-size: 1.2em;
   letter-spacing: 2px;
-  margin: 4.125%;
+}
+
+.regist button {
+  margin-left: 5%;
+}
+
+.submit .modify {
+  display: flex;
+  width: 100%;
+}
+
+.modify button{
+  width: 100%;
 }
 </style>
