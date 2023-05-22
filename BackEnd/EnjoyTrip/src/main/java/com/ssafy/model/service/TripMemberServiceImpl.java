@@ -1,6 +1,7 @@
 package com.ssafy.model.service;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ public class TripMemberServiceImpl implements TripMemberService {
 	@Autowired
 	TripMemberRepository tmRepo;
 	@Override
-	public int selectPlanIdx(String user_id) throws SQLException {
+	public List<Integer> selectPlanIdx(String user_id) throws SQLException {
 		return tmRepo.selectPlanIdx(user_id);
 	}
 

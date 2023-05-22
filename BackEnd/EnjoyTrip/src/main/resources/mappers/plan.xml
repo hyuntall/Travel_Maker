@@ -9,7 +9,7 @@
 	<select id="getCurrentIdx" resultType="Integer">
 		select idx from plan order by idx desc limit 1;
 	</select>
-	<select id="selectByUser" resultType="PlanDto">
-		select * from plan where user_id=#{user_id}
+	<select id="selectByIdx" resultType="PlanDto">
+		select * from plan where idx=#{idx}
 	</select>
 </mapper>

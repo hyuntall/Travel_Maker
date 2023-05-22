@@ -12,5 +12,5 @@ public interface PlanRepository {
 	public int makePlan(PlanDto plan) throws SQLException;
 	public int updatePlan(PlanDto plan) throws SQLException;
 	public int getCurrentIdx() throws SQLException;
-	public List<PlanDto> selectByUser(String user_id) throws SQLException;
+	public PlanDto selectByIdx(int idx) throws SQLException;
 }

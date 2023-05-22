@@ -6,7 +6,7 @@
 		insert into tripmember(plan_idx, user_id) values(#{plan_idx}, #{user_id})
 	</insert>
 	
-	<select id="selectPlanIdx">
+	<select id="selectPlanIdx" resultType="Integer">
 		select plan_idx from tripmember where user_id=#{user_id}
 	</select>
 </mapper>

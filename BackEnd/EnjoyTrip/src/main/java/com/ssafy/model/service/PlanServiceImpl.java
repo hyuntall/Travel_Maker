@@ -27,8 +27,8 @@ public class PlanServiceImpl implements PlanService{
 
 
 	@Override
-	public List<PlanDto> selectByUser(String user_id) throws SQLException {
-		return planRepo.selectByUser(user_id);
+	public PlanDto selectByIdx(int idx) throws SQLException {
+		return planRepo.selectByIdx(idx);
 	}
 
 	@Override

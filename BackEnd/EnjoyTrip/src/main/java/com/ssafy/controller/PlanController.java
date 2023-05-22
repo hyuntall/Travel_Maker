@@ -1,6 +1,7 @@
 package com.ssafy.controller;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,11 @@ public class PlanController {
 	
 	@GetMapping("/list/{user_id}")
 	public ResponseEntity<?> selectByuser(@PathVariable String user_id) throws SQLException {
-		return new ResponseEntity<List<PlanDto>>(planSvc.selectByUser(user_id), HttpStatus.OK);
+		List<Integer> plan_idxs = tmSvc.selectPlanIdx(user_id);
+		List<PlanDto> plans = new ArrayList<PlanDto>();
+		for (int plan_idx : plan_idxs) {
+			plans.add(planSvc.selectByIdx(plan_idx));
+		}
+		return new ResponseEntity<List<PlanDto>>(plans, HttpStatus.OK);
 	}
 }
