@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.model.repository.PlaceRepository">
+
+	<insert id="insertPlace">
+		insert into place(name, url, latitude, longitude, address, category_code, plan_idx, date_index, `index`, comment)
+	values(#{name}, #{url}, #{latitude}, #{longitude}, #{address}, #{category_code} #{plan_idx}, #{date_index}, #{index}, #{comment});
+	</insert>
+</mapper>
