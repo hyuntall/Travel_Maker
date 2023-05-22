@@ -116,11 +116,9 @@ CREATE TABLE `enjoy_trip`.`follower` (
   `follower` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`follwing`, `follower`));
   
-  CREATE TABLE `enjoy_trip`.`tripmember` (
-  `plan_idx` INT NOT NULL,
-  `user_id` VARCHAR(20) NOT NULL,
-  PRIMARY KEY (`plan_idx`),
-    FOREIGN KEY (`plan_idx`)
-    REFERENCES `enjoy_trip`.`plan` (`idx`)
-    ON DELETE CASCADE ON UPDATE CASCADE);
-
+CREATE TABLE `tripmember` (
+  `plan_idx` int NOT NULL,
+  `user_id` varchar(20) NOT NULL,
+  PRIMARY KEY (`plan_idx`,`user_id`),
+  CONSTRAINT `tripmember_ibfk_1` FOREIGN KEY (`plan_idx`) REFERENCES `plan` (`idx`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci

@@ -25,13 +25,14 @@ public class PlanServiceImpl implements PlanService{
 		return planRepo.updatePlan(plan);
 	}
 
-	@Override
-	public int getPlanIdx(String user_id) throws SQLException {
-		return planRepo.getPlanIdx(user_id);
-	}
 
 	@Override
 	public List<PlanDto> selectByUser(String user_id) throws SQLException {
 		return planRepo.selectByUser(user_id);
+	}
+
+	@Override
+	public int getCurrentIdx() throws SQLException {
+		return planRepo.getCurrentIdx();
 	}
 }

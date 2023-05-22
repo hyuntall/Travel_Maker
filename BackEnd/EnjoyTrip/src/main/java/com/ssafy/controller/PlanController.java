@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.ssafy.dto.PlaceDto;
 import com.ssafy.dto.PlanDto;
+import com.ssafy.dto.TripMemberDto;
 import com.ssafy.model.service.PlaceService;
 import com.ssafy.model.service.PlanService;
+import com.ssafy.model.service.TripMemberService;
 
 @Controller
 @RequestMapping("/plan")
@@ -30,13 +32,23 @@ public class PlanController {
 	@Autowired
 	PlanService planSvc;
 	
+	@Autowired
+	TripMemberService tmSvc;
+	
 	@PostMapping("/insert")
 	public ResponseEntity<?> insertPlan(@RequestBody PlanDto plan) throws SQLException {
 		int r = planSvc.makePlan(plan);
+		
 		if (r == 1 && plan.getPlaces() != null) {
-			int plan_idx = planSvc.getPlanIdx(plan.getUser_id());
+			List<String> users = plan.getUser_id();
+			int idx = planSvc.getCurrentIdx();
+			for (String user_id : users) {
+				System.out.println(user_id + "dsadasdasdsa");
+				TripMemberDto tripMember = new TripMemberDto(idx, user_id);
+				tmSvc.insertUserOfPlan(tripMember);
+			}
 			for (PlaceDto place : plan.getPlaces()) {
-				place.setPlan_idx(plan_idx);
+				place.setPlan_idx(idx);
 				System.out.println(place);
 				placeSvc.insertPlace(place);
 			}

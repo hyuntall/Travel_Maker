@@ -16,7 +16,7 @@ import lombok.ToString;
 @ToString
 public class PlanDto {
 	private int idx;
-	private String user_id;
+	private List<String> user_id;
 	private String title;
 	private Timestamp start_date;
 	private Timestamp end_date;

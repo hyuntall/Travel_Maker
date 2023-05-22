@@ -7,7 +7,7 @@
         <div class="friends">
           <div class="added">
             <div class="profile" v-for="f in friends" :key="f.id">
-              <b-avatar variant="info" :src="require(`C:/EnjoyTrip/user/${f.image}`)"></b-avatar>
+              <b-avatar variant="info" :src="f.image? require(`C:/EnjoyTrip/user/${f.image}`):require('../../assets/tmp_profile2.jpg')"></b-avatar>
             </div>
           </div>
           <input type="text" @keyup="flist" placeholder="친구 검색"/>
@@ -341,14 +341,19 @@ export default {
     addF(index) {
       this.friends.push(this.friendList[index]);
       this.friendList.splice(index, 1);
+      console.log(this.friends)
     },
     removeP(idx, index) {
       console.log(idx + " " + index);
       this.days[idx - 1].splice(index, 1);
     },
     makePlan() {
+      let users = [this.userInfo.id];
+      for (i = 0; i < this.friends.length; i++){
+        users.push(this.friends[i].id);
+      }
       const plan = {
-        user_id: this.userInfo.id,
+        user_id: users,
         title: "None Title",
         start_date: new Date(this.start),
         end_date: new Date(this.end),
@@ -376,6 +381,8 @@ export default {
         .post("/plan/insert", plan)
         .then(({ data }) => {
           console.log(data);
+          alert("계획 생성 완료");
+          this.$route.push("/");
         })
         .catch(() => {
           console.log("계획 생성 오류");
