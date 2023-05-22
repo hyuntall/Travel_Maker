@@ -6,7 +6,7 @@
           <div class="profilepic">
             <div class="profile_img">
               <div class="image">
-                <img src="../../assets/tmp_profile.jpg" alt="img8" />
+                <img :src="profileUrl" alt="img8" />
               </div>
             </div>
           </div>
@@ -18,7 +18,7 @@
       <div class="swiper">
         <div class="swiper-wrapper">
           <div class="imgBx swiper-slide">
-            <router-link :to="{ name: 'BoardDetail', params: { idx } }">
+            <router-link :to="{ name: 'BoardDetail', params: { idx, originProfileUrl: originProfileUrl } }">
               <img :src="imgUrl" alt="post-1" class="cover" />
             </router-link>
           </div>
@@ -29,6 +29,8 @@
 </template>
 
 <script>
+import http from "@/util/http-common";
+
 export default {
   name: "BoardOne",
   props: {
@@ -38,6 +40,8 @@ export default {
   data() {
     return {
       imgUrl: "",
+      profileUrl: require("../../assets/tmp_profile.jpg"),
+      originProfileUrl: "",
       idx: 0,
     };
   },
@@ -45,6 +49,16 @@ export default {
     console.log(this.board);
     this.imgUrl = require(`C:/EnjoyTrip/board/${this.board.image}`);
     this.idx = this.board.idx;
+    http
+      .get(`/user/image/${this.board.user_id}`)
+      .then(({ data }) => {
+        console.log(data);
+        this.profileUrl = require(`C:/EnjoyTrip/user/${data}`);
+        this.originProfileUrl = data;
+      })
+      .catch(() => {
+        console.log("이미지 호출 오류");
+      });
   },
   filters: {
     //todo 날짜포맷 변경하기

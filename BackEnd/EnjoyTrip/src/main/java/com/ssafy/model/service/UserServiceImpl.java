@@ -69,5 +69,11 @@ public class UserServiceImpl implements UserService{
 	public int updateUserImg(UserDto userDto) throws SQLException {
 		// TODO Auto-generated method stub
 		return urepo.updateUserImg(userDto);
+	}
+
+	@Override
+	public String getUserImg(String id) throws SQLException {
+		// TODO Auto-generated method stub
+		return urepo.getUserImg(id);
 	};
 }

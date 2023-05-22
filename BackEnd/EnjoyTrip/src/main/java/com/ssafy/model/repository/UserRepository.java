@@ -19,7 +19,7 @@ public interface UserRepository {
 	public UserDto selectById(String id) throws SQLException;
 	public int insertUser(UserDto user) throws SQLException;
 	public int checkUser(String id) throws SQLException;
-	
+	public String getUserImg(String id) throws SQLException;
 	public int updateUserImg(UserDto userDto) throws SQLException;
 	public UserDto login(UserDto userDto) throws SQLException;
 	public UserDto userInfo(String id) throws SQLException;

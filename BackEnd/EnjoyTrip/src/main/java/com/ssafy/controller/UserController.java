@@ -164,6 +164,12 @@ public class UserController {
 			return new ResponseEntity<String>("이미지 변경 실패", HttpStatus.BAD_REQUEST);
 	}
 	
+	@GetMapping("/image/{user_id}")
+	public ResponseEntity<?> getProfileImg(@PathVariable String user_id) throws SQLException {
+		return new ResponseEntity<String>(usvc.getUserImg(user_id), HttpStatus.OK);
+		
+	}
+	
 	@PostMapping("/refresh")
 	public ResponseEntity<?> refreshToken(@RequestBody UserDto userDto, HttpServletRequest request)
 			throws Exception {

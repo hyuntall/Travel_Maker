@@ -45,4 +45,8 @@
 		set token = #{token, jdbcType=VARCHAR}
 		where id = #{id}
 	</update>
+	
+	<select id="getUserImg" parameterType="string" resultType="String">
+		select image from user where id = #{id}
+	</select>
 </mapper>

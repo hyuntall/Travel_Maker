@@ -15,7 +15,7 @@
             <div class="profilepic">
               <div class="profile_img">
                 <div class="image">
-                  <img src="../../assets/tmp_profile.jpg" alt="img8" />
+                  <img :src="profileUrl" alt="img8" />
                 </div>
               </div>
             </div>
@@ -60,13 +60,12 @@ export default {
       message: "",
       comment: [],
       board: null,
-      profile_img: "",
+      profileUrl: require("../../assets/tmp_profile.jpg"),
       img: "",
       content: "",
     };
   },
   created() {
-    console.log(this.userInfo.id);
     http
       .get(`/board/${this.$route.params.idx}`)
       .then(({ data }) => {
@@ -77,6 +76,8 @@ export default {
       .catch(() => {
         alert("게시글 호출 실패");
       });
+    if (this.$route.params.originProfileUrl)
+      this.profileUrl = require(`C:/EnjoyTrip/user/${this.$route.params.originProfileUrl}`);
   },
   methods: {
     deleteBoard() {
