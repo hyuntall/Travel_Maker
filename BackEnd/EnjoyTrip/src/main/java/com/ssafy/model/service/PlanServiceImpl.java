@@ -1,6 +1,7 @@
 package com.ssafy.model.service;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,5 +28,10 @@ public class PlanServiceImpl implements PlanService{
 	@Override
 	public int getPlanIdx(String user_id) throws SQLException {
 		return planRepo.getPlanIdx(user_id);
+	}
+
+	@Override
+	public List<PlanDto> selectByUser(String user_id) throws SQLException {
+		return planRepo.selectByUser(user_id);
 	}
 }
