@@ -2,23 +2,23 @@
   <div>
     <div class="plan">
       <div class="planner">
-        <h4>{{region.cate2}} 여행</h4>
+        <h4>{{ region.cate2 }} 여행</h4>
         <!-- 친구추가기능 -->
         <div class="friends">
-          <span style="color:red;">친구 추가 기능이 들어갈 예정입니다.</span>
+          <span style="color: red">친구 추가 기능이 들어갈 예정입니다.</span>
         </div>
         <div class="cal">
           <label for="example-datepicker">출발날짜</label>
           <b-form-datepicker id="example-datepicker" v-model="start" class="mb-2" size="sm"></b-form-datepicker>
           <label for="example-datepicker2">도착날짜</label>
-          <b-form-datepicker id="example-datepicker2" v-model="end" class="mb-2"  size="sm"></b-form-datepicker>
+          <b-form-datepicker id="example-datepicker2" v-model="end" class="mb-2" size="sm"></b-form-datepicker>
           <a href="#" @click="makedays">일정 생성</a>
         </div>
         <!-- days -->
         <div class="days" v-if="cnt">
-          <div class="cnt" >
-            <p>{{start}} ~ {{end}}</p>
-            <p>{{cnt}}일 일정</p>
+          <div class="cnt">
+            <p>{{ start }} ~ {{ end }}</p>
+            <p>{{ cnt }}일 일정</p>
           </div>
           <div class="plandays" v-for="idx in cnt" :key="idx">
             <h4>{{idx}}일차</h4>
@@ -29,7 +29,6 @@
                 {{p.place_name}}
               </div>
             </draggable>
-            
           </div>
         </div>
       </div>
@@ -68,11 +67,11 @@
 </template>
 
 <script>
-import draggable from 'vuedraggable'
+import draggable from "vuedraggable";
 export default {
   name: "TripMake",
   components: {
-     draggable
+    draggable,
   },
   data() {
     return {
@@ -91,7 +90,7 @@ export default {
   },
   created() {
     console.log("created!! " + this.$route.params.cate2);
-    this.region = this.$route.params
+    this.region = this.$route.params;
   },
   mounted() {
     if (window.kakao && window.kakao.maps) {
@@ -100,29 +99,27 @@ export default {
       const script = document.createElement("script");
       /* global kakao */
       script.onload = () => kakao.maps.load(this.initMap);
-      script.src =
-        "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=915cffed372954b7b44804ed422b9cf0";
+      script.src = "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=915cffed372954b7b44804ed422b9cf0";
       document.head.appendChild(script);
     }
     var url = `https://dapi.kakao.com/v2/local/search/address.json?query=${this.$route.params.cate1} ${this.$route.params.cate2}`;
     var key = "KakaoAK 8e2e5c55f8a455204cc6d497c99b6c00";
     console.log(url);
-    window.kakao.maps.load(()=> {
-       fetch(url, {
-      headers: {
-        Authorization: key,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data.documents);
-        console.log(data.documents[0].y);
-        var y = data.documents[0].y;
-        var x = data.documents[0].x;
-        this.map.setCenter(new kakao.maps.LatLng(y, x));
-      });
-    })
-   
+    window.kakao.maps.load(() => {
+      fetch(url, {
+        headers: {
+          Authorization: key,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data.documents);
+          console.log(data.documents[0].y);
+          var y = data.documents[0].y;
+          var x = data.documents[0].x;
+          this.map.setCenter(new kakao.maps.LatLng(y, x));
+        });
+    });
   },
   methods: {
     initMap() {
@@ -165,7 +162,7 @@ export default {
       //지도 중심 좌표, category fetch
       var position = this.map.getCenter();
       console.log(position);
-      
+
       let url = `https://dapi.kakao.com/v2/local/search/category.json?category_group_code=${category}&x=${position.La}&y=${position.Ma}&radius=20000`;
       let key = "06c33ac07fc44b677e02f424b096640b";
       fetch(url, {
@@ -213,7 +210,7 @@ export default {
         // console.log("dddddddddddd"+places[i].place_name)
 
         // let title = places[i].place_name
-       ((marker, title) => {
+        ((marker, title) => {
           kakao.maps.event.addListener(marker, "mouseover", () => {
             this.displayInfowindow(marker, title);
           });
@@ -230,8 +227,6 @@ export default {
             this.infowindow.close();
           };
         })(marker, places[i].place_name);
-          
-        
 
         fragment.appendChild(itemEl);
       }
@@ -314,10 +309,9 @@ export default {
       }
     },
     makedays() {
-      if(this.start === null || this.end === null) {
-        alert("날짜를 선택해주세요!")
-      }
-      else {
+      if (this.start === null || this.end === null) {
+        alert("날짜를 선택해주세요!");
+      } else {
         this.days = [];
         const date1 = new Date(this.start)
         const date2 = new Date(this.end)
@@ -327,9 +321,8 @@ export default {
           let arr = []
           this.days.push(arr)
         }
-
       }
-    }
+    },
   },
 };
 </script>
@@ -347,16 +340,32 @@ export default {
   text-align: center;
 }
 
-.plan .planner .friends {margin-top: 15px;}
+.plan .planner .friends {
+  margin-top: 15px;
+}
 /* .plan .planner .days {overflow-y: scroll} */
-.plan .planner .days .plandays {margin: 10px auto; border: 1px solid black; width: 95%; }
-.plan .planner .days .plandays .places {min-height: 60px;}
+.plan .planner .days .plandays {
+  margin: 10px auto;
+  border: 1px solid black;
+  width: 95%;
+}
+.plan .planner .days .plandays .places {
+  min-height: 60px;
+}
 
-.plan .planner .cal {width: 95%; margin: 10px auto;}
-.plan .planner .cal label {font-size: 12px;}
-.plan .planner .cal input {}
+.plan .planner .cal {
+  width: 95%;
+  margin: 10px auto;
+}
+.plan .planner .cal label {
+  font-size: 12px;
+}
+.plan .planner .cal input {
+}
 
-.plan .planner .days {margin-top: 15px;}
+.plan .planner .days {
+  margin-top: 15px;
+}
 
 .plan .map {
   width: 69%;
@@ -364,7 +373,6 @@ export default {
 
 .plan .result {
   width: 15%;
-  
 }
 
 /* kakao */
