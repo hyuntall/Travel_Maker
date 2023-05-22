@@ -33,17 +33,18 @@ CREATE TABLE `board` (
   CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='게시판 DB';
 
+insert into board(user_id, title, content, written_date, updated_date, is_notice, view_count, image)
+values 
+("ssafy","어제 인천 다녀왔습니다.","발전이 많이 되어있네요","2023-05-19 09:48:30","2023-05-19 09:48:30",0,55,"1684457310793_인천.jpg");
+
 CREATE TABLE `plan` (
   `idx` int NOT NULL AUTO_INCREMENT,
-  `user_id` varchar(20) NOT NULL,
   `title` varchar(20) NOT NULL,
   `start_date` date NOT NULL,
   `end_date` date DEFAULT NULL,
   `recommened` int DEFAULT '0',
   `content` varchar(1000) DEFAULT NULL,
-  PRIMARY KEY (`idx`),
-  KEY `user_idx` (`user_id`),
-  CONSTRAINT `plan_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  PRIMARY KEY (`idx`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `place` (
@@ -110,5 +111,16 @@ values
 ("경기","가평","자연의 정취에 젖어들게 만드는 가평 아침고요수목원. 어디를 둘러봐도 풍경이 가득해 지루할 틈이 없다. 그중에도 가평하면 빼놓을 수 없는 쁘띠프랑스는 프랑스를 떠올리게 하는 이국적인 풍경으로 빨간 지붕이 매력적이다. 또한 매년 가을에 열리는 자라섬 국제재즈페스티벌은 석양과 음악이 어우러질 때까지 재즈의 매력에 흠뻑 취해볼 수 있다.","https://search.pstatic.net/common?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20230418_158%2F1681776985024v3HWv_JPEG%2F0518_21_%25BC%25AD%25C8%25AD%25BF%25AC.jpg&type=f210_210_domesearch","Gyeonggi"),
 ("경기","양평","남한강과 북한강이 합류하는 두물머리. 영화와 드라마에도 수 없이 등장한 명소 중에 명소이다. 새벽에 피어오르는 물안개는 신비로움을 더해주며 출사지로도 많은 이들이 찾는다. 아름다운 연못과 꽃이 가득한 세미원은 다양한 테마의 정원이 있어 연인과 가족 나들이 코스로도 좋으며, 꽃이 활짝 피는 오전에 방문하는 게 더 좋다. 풍광이 아름다운 용문사는 42m의 은행나무가 상징을 이루는 만큼 가을에는 노란 은행잎이 만발해 절경을 이룬다.","https://search.pstatic.net/common?src=https%3A%2F%2Fsearch.pstatic.net%2Fcommon%2F%3Fsrc%3Dhttp%253A%252F%252Fblogfiles.naver.net%252FMjAyMjA0MTZfNDgg%252FMDAxNjUwMDkxNzM1NDYx.a-vcOMGrURasFWloPOMCm20MRB6MZEp4HwItnsTZnBUg.xyp6Y0B2Mviv4zZAxd11-jpzpWXc-DZIbA0_KcS2vcIg.JPEG.travstory%252F20190719_%2525BE%2525E7%2525C6%2525F2%2525C0%2525DA%2525C0%2525FC%2525B0%2525C5%2525B1%2525E6_003.jpg%26type%3Dsc960_832&type=f1040_576_domesearch","Gyeonggi");
 
-
+CREATE TABLE `enjoy_trip`.`follower` (
+  `follwing` VARCHAR(20) NOT NULL,
+  `follower` VARCHAR(20) NOT NULL,
+  PRIMARY KEY (`follwing`, `follower`));
+  
+  CREATE TABLE `enjoy_trip`.`tripmember` (
+  `plan_idx` INT NOT NULL,
+  `user_id` VARCHAR(20) NOT NULL,
+  PRIMARY KEY (`plan_idx`),
+    FOREIGN KEY (`plan_idx`)
+    REFERENCES `enjoy_trip`.`plan` (`idx`)
+    ON DELETE CASCADE ON UPDATE CASCADE);
 
