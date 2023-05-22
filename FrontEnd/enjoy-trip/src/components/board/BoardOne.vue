@@ -113,7 +113,7 @@ body {
   height: 70px;
   min-width: 70px;
   min-height: 70px;
-  background: linear-gradient(to right, red, orange);
+  /* background: linear-gradient(to right, red, orange); */
   padding: 2px;
   margin-left: 15px;
   cursor: pointer;
@@ -238,7 +238,8 @@ body {
   overflow: hidden;
   width: 50px;
   height: 50px;
-  background: linear-gradient(to right, red, orange);
+  /* background: linear-gradient(to right, red, orange); */
+  border: 1px solid rgb(150, 150, 150);
   padding: 2px;
   margin-right: 8px;
   cursor: pointer;
