@@ -63,7 +63,7 @@
               </div>
             </form>
           </div> -->
-      </div>
+      <!-- </div>
       <div class="resultList">
         <div v-for="user in userList" :key="user.idx" class="result">
           <div class="user-image">
@@ -75,7 +75,7 @@
           <div class="user-name">{{ user.name }}</div>
           <div class="button-add">
             <button>친구 추가</button>
-          </div>
+          </div> -->
         </div>
 
       </div>
