@@ -1,5 +1,9 @@
 @charset "utf-8";
-
+@font-face { /* 애플산돌고딕 폰트 적용 */
+  font-family: "SDGothic";
+  src: url("../font/AppleSDGothicNeoB.ttf") format("truetype");
+  font-weight: normal;
+} /* 이후 "SDGothic"으로 폰트 적용 가능 */
 /* 여백 초기화 */
 body,
 div,
@@ -49,7 +53,7 @@ textarea,
 select,
 button,
 table {
-  font-family: "Noto Sans KR", AppleSDGothicNeo-Regular, "Malgun Gothic", "맑은 고딕", dotum, "돋움", sans-serif;
+  font-family: 'SDGothic', "Noto Sans KR", "Malgun Gothic", "맑은 고딕", dotum, "돋움", sans-serif;
   color: #222;
   font-size: 13px;
   line-height: 1.5;

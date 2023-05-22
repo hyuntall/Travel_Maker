@@ -54,6 +54,8 @@ export default {
   object-fit: fill;
 }
 p {
-  font-size: 12px;
+  margin-top: 5px;
+  font-size: 15px;
+  text-align: center;
 }
 </style>

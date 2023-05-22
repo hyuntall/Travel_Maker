@@ -84,7 +84,7 @@ export default {
         console.log(region);
         this.regions.push(region);
       });
-    });
+    }).catch((error)=>console.log(error));
   },
   methods: {
     search1(event) {

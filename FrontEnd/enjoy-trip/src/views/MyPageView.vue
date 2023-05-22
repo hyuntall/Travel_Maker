@@ -1,54 +1,56 @@
 <template>
   <div class="wrap">
     <div class="container">
-      <div class="my-profile row">
-        <div class="profile-img col-4">
-          <label for="file" class="file-label">
-            <img :src="url" />
-          </label>
+      <div class="my-profile">
+        <div>
+
+          <div class="profile-img">
+            <label for="file" class="file-label">
+              <img :src="url" />
+            </label>
+            <input type="file" name="file" id="file" @change="uploadImage" />
+          </div>
           <div class="file-label">
             <div class="btn-upload" @click="updateImage()">이미지 변경</div>
           </div>
-          <input type="file" name="file" id="file" @change="uploadImage" />
-        </div>
-        <div class="profile col-6">
-          <h3>{{ this.userInfo.id }}({{ this.userInfo.name }})님</h3>
+          <div class="profile">
+            <h3>{{ this.userInfo.id }}({{ this.userInfo.name }})님</h3>
           <p>
             {{ this.userInfo.phone_number }}
           </p>
-          <div class="friends row">
-            <div class="col-4">
+          <div class="setup row">
+            <div class="col-3">
               <font-awesome-icon icon="fa-solid fa-pen-to-square" size="2x" style="color: #999999" />
               <p>게시글 수</p>
             </div>
-            <div class="col-4">
+            <div class="col-3">
               <font-awesome-icon icon="fa-solid fa-users" size="2x" style="color: #999999" />
               <p>팔로워</p>
             </div>
-            <div class="col-4">
+            <div class="col-3">
               <router-link :to="{ name: 'FollowList', params: { type: 'following' } }">
                 <font-awesome-icon icon="fa-solid fa-user-plus" size="2x" style="color: #999999" />
                 <p>팔로우</p>
               </router-link>
             </div>
-          </div>
-        </div>
-        <div class="setup col-2">
-          <div class="notice">
+            <div class="col-3">
             <router-link :to="{ name: 'UserModify', params: { user_id: userInfo.id } }">
-              <button class="modify-button">
+              <!-- <button class="modify-button"> -->
                 <font-awesome-icon icon="fa-solid fa-gear" size="2x" style="color: #999999" />
-              </button>
+                <p>내 정보 수정</p>
+              <!-- </button> -->
             </router-link>
+          </div>
           </div>
         </div>
       </div>
+      </div>
       <p class="plan-header">내 계획 목록</p>
-      <div class="my-plan row">
+      <div class="my-plan">
         <my-plan v-for="myPlan in myPlans" :key="myPlan.idx" :plan="myPlan"></my-plan>
       </div>
       <p class="board-header">내가 작성한 글</p>
-      <div class="my-boards row">
+      <div class="my-boards">
         <div v-if="myBoards.length > 0" class="my-boards-content row">
           <my-board
             class="my-board"
@@ -158,7 +160,7 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: 'SDGothic', serif;
 }
 .wrap {
   width: 100%;
@@ -181,31 +183,43 @@ export default {
   height: 40%;
   align-items: center;
   justify-content: center;
+  display: flex;
 }
 
 .profile {
-  padding: 30px;
-}
-
-.profile .friends {
-  height: 150px;
-  background-color: white;
-  border: 1px solid black;
+  padding: 10px;
   align-items: center;
   justify-content: center;
+  margin: auto;
+  text-align: center;
 }
 
+
 .profile-img {
-  width: 200px;
-  height: 200px;
+  width: 100px;
+  height: 100px;
+  overflow:hidden;
+  border: 5px solid lightgray;
+  border-radius: 50%;
+  margin: auto;
+  margin-bottom: 15px;
 }
 
 .profile-img img {
-  margin-top: 10%;
-  height: 150px;
-  object-fit: fill;
-  border: 5px solid lightgray;
-  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.setup {
+  margin-top: 20px;
+}
+.setup div {
+  text-align: center;
+}
+
+.setup div p{
+  width: 100px;
 }
 
 .file-label {
@@ -215,8 +229,7 @@ export default {
   margin: auto;
   width: 150px;
   height: 30px;
-  background: #fff;
-  border: 1px solid rgb(77, 77, 77);
+  background:  lightgray;
   border-radius: 10px;
   font-weight: 500;
   cursor: pointer;
@@ -238,30 +251,23 @@ export default {
   align-items: center;
 }
 
-.setup .modify-button {
-  background-color: rgb(200, 200, 200);
-  width: 65px;
-  height: 65px;
-  border-radius: 50%;
-}
-
 .plan-header,
 .board-header {
   text-align: center;
   background-color: rgb(218, 217, 217);
 }
 .my-plan {
-  height: 30%;
+  height: 20%;
   background-color: white;
   border: 1px solid rgb(218, 217, 217);
-  width: 720px;
+  width: 100%;
   overflow-y: scroll;
 }
 .my-boards {
   height: 30%;
   background-color: white;
   border: 1px solid rgb(218, 217, 217);
-  width: 720px;
+  width: 100%;
   overflow-y: scroll;
 }
 .my-boards-content {
