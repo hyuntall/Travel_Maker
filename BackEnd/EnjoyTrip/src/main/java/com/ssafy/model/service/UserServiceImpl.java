@@ -2,6 +2,7 @@ package com.ssafy.model.service;
 
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,5 +76,11 @@ public class UserServiceImpl implements UserService{
 	public String getUserImg(String id) throws SQLException {
 		// TODO Auto-generated method stub
 		return urepo.getUserImg(id);
+	}
+
+	@Override
+	public List<UserDto> searchByKeyword(String keyword) throws SQLException {
+		// TODO Auto-generated method stub
+		return urepo.searchByKeyword(keyword);
 	};
 }

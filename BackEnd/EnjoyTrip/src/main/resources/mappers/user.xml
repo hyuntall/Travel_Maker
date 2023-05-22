@@ -49,4 +49,8 @@
 	<select id="getUserImg" parameterType="string" resultType="String">
 		select image from user where id = #{id}
 	</select>
+	
+	<select id="searchByKeyword" resultType="UserDto">
+		select * from user where id like concat("%",#{keyword},"%")
+	</select>
 </mapper>

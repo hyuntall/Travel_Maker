@@ -58,8 +58,8 @@ const routes = [
       {
         path: "modify",
         name: "UserModify",
-        component:() => import(/* webpackChunkName: "user" */ "@/components/user/UserWrite"),
-      }
+        component: () => import(/* webpackChunkName: "user" */ "@/components/user/UserWrite"),
+      },
     ],
   },
   {
@@ -72,7 +72,7 @@ const routes = [
         component: () => import(/* webpackChunkName: "trip" */ "@/components/trip/TripSearch"),
       },
       {
-        path: "make",
+        path: "make/:cate1/:cate2",
         name: "TripMake",
         beforeEnter: onlyAuthUser,
         component: () => import(/* webpackChunkName: "trip" */ "@/components/trip/TripMake"),

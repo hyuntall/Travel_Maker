@@ -26,4 +26,5 @@ public interface UserRepository {
 	public void saveRefreshToken(Map<String, String> map) throws SQLException;
 	public Object getRefreshToken(String id) throws SQLException;
 	public void deleteRefreshToken(Map<String, String> map) throws SQLException;
+	public List<UserDto> searchByKeyword(String keyword) throws SQLException;
 }

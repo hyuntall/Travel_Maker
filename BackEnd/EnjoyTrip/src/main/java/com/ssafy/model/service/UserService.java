@@ -23,5 +23,5 @@ public interface UserService {
 	public Object getRefreshToken(String id) throws Exception;
 	public void deleRefreshToken(String id) throws Exception;
 	public String getUserImg(String id) throws SQLException;
-	
+	public List<UserDto> searchByKeyword(String keyword) throws SQLException;
 }

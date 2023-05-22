@@ -5,7 +5,15 @@
         <h4>{{ region.cate2 }} 여행</h4>
         <!-- 친구추가기능 -->
         <div class="friends">
-          <span style="color: red">친구 추가 기능이 들어갈 예정입니다.</span>
+          <div class="added">
+            <div class="profile" v-for="f in friends" :key="f.id">
+              <b-avatar variant="info" :src="require(`C:/EnjoyTrip/user/${f.image}`)"></b-avatar>
+            </div>
+          </div>
+          <input type="text" @keyup="flist">
+          <div id="userlist" v-for="friend, index in friendList" :key="index">
+            <div>{{friend.name}} <a href="#" @click="addF(index)">추가</a></div>
+          </div>
         </div>
         <div class="cal">
           <label for="example-datepicker">출발날짜</label>
@@ -25,8 +33,8 @@
             <hr>
             
             <draggable v-model="days[idx-1]" class="list-group places" :list="days[idx-1]" group="places">
-              <div class="list-group-item" v-for="p in days[idx-1]" :key="p">
-                {{p.place_name}}
+              <div class="list-group-item" v-for="p, index in days[idx-1]" :key="index">
+                {{p.place_name}} <a href="#" @click="removeP(idx, index)">제거</a>
               </div>
             </draggable>
           </div>
@@ -56,8 +64,10 @@
         <h1>목록</h1>
         <ul id="placesList">
             <draggable v-model="results" class="list-group places" :list="results" :group="{ name: 'places', pull: 'clone', put: false }">
-              <div class="list-group-item" :id="'r'+index" v-for="place, index in results" :key="index">
-                    {{place.place_name}}
+              <div class="list-group-item"  :id="'r'+index" v-for="place, index in results" :key="index">
+                    <h6>{{place.place_name}}</h6>
+                    <p>{{place.address_name}}</p>
+                    <a :href="place.place_url" target="_blank">상세 보기</a>
               </div>
             </draggable>
         </ul>
@@ -67,7 +77,11 @@
 </template>
 
 <script>
+// import axios from "axios"
 import draggable from "vuedraggable";
+import http from "@/util/http-common";
+// import { mapActions, mapMutations, mapState } from "vuex";
+// import { mapState } from "vuex";
 export default {
   name: "TripMake",
   components: {
@@ -82,15 +96,23 @@ export default {
       markers: [],
       start: null,
       end: null,
-      region : null,
+      region : "",
       cnt : null,
       results : [],
       days: [],
+      friendList : [],
+      friends : []
     };
   },
   created() {
-    console.log("created!! " + this.$route.params.cate2);
-    this.region = this.$route.params;
+    console.log("created!! " + this.$route.params.cate1);
+    // this.region=this.$route.query
+    
+    
+    
+  },
+  updated() {
+    if(this.results) this.placesSearchCB(this.results);
   },
   mounted() {
     if (window.kakao && window.kakao.maps) {
@@ -102,6 +124,7 @@ export default {
       script.src = "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=915cffed372954b7b44804ed422b9cf0";
       document.head.appendChild(script);
     }
+    
     var url = `https://dapi.kakao.com/v2/local/search/address.json?query=${this.$route.params.cate1} ${this.$route.params.cate2}`;
     var key = "KakaoAK 8e2e5c55f8a455204cc6d497c99b6c00";
     console.log(url);
@@ -120,6 +143,7 @@ export default {
           this.map.setCenter(new kakao.maps.LatLng(y, x));
         });
     });
+    
   },
   methods: {
     initMap() {
@@ -178,7 +202,7 @@ export default {
           data.documents.forEach(element => {
             this.results.push(element)
           });
-          this.placesSearchCB(this.results);
+          // this.placesSearchCB(this.results);
         });
     },
    
@@ -209,9 +233,10 @@ export default {
         // LatLngBounds 객체에 좌표를 추가합니다
         bounds.extend(placePosition);
         // console.log("dddddddddddd"+places[i].place_name)
-        // var div = document.querySelector("#r"+i);
+        let div = this.$el.querySelector("#r"+i);
+        console.log(div);
         // var div1 = document.getElementById('r'+i)
-        // console.log(div1);
+        // console.log("#r"+i);
         
         ((marker, title) => {
           kakao.maps.event.addListener(marker, "mouseover", () => {
@@ -222,57 +247,16 @@ export default {
             this.infowindow.close();
           });
 
-          // div1.onmouseover = () => {
-          //   this.displayInfowindow(marker, title);
-          // };
+          div.onmouseover = () => {
+            this.displayInfowindow(marker, title);
+          };
 
-          // div1.onmouseout = () => {
-          //   this.infowindow.close();
-          // };
+          div.onmouseout = () => {
+            this.infowindow.close();
+          };
         })(marker, places[i].place_name);
-
-        //fragment.appendChild(itemEl);
       }
-
-      // 검색결과 항목들을 검색결과 목록 Element에 추가합니다
-      //listEl.appendChild(fragment);
-      //menuEl.scrollTop = 0;
-
-      // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
       this.map.setBounds(bounds);
-    },
-    getListItem(index, places) {
-      var el = document.createElement("li"),
-        itemStr =
-          '<span class="markerbg marker_' +
-          (index + 1) +
-          '"></span>' +
-          '<div class="info">' +
-          "   <h5><a href='" +
-          places.place_url +
-          "' target='_blank'>" +
-          places.place_name +
-          "</a>" +
-          "</h5>";
-
-      if (places.road_address_name) {
-        itemStr +=
-          "    <span>" +
-          places.road_address_name +
-          "</span>" +
-          '   <span class="jibun gray">' +
-          places.address_name +
-          "</span>";
-      } else {
-        itemStr += "    <span>" + places.address_name + "</span>";
-      }
-
-      itemStr += '  <span class="tel">' + places.phone + "</span>" + "</div>";
-
-      el.innerHTML = itemStr;
-      el.className = "item";
-
-      return el;
     },
     addMarker(position, idx, title) {
       console.log("title " + title);
@@ -306,11 +290,6 @@ export default {
       this.infowindow.setContent(content);
       this.infowindow.open(this.map, marker);
     },
-    removeAllChildNods(el) {
-      while (el.hasChildNodes()) {
-        el.removeChild(el.lastChild);
-      }
-    },
     makedays() {
       if (this.start === null || this.end === null) {
         alert("날짜를 선택해주세요!");
@@ -326,6 +305,25 @@ export default {
         }
       }
     },
+    flist(event) {
+      // alert(event.target.value)
+      this.friendList = [];
+      if(event.target.value){
+        http.get("/user/searchBykeyword/"+event.target.value).then(({data})=>{
+          data.forEach(element => {
+            this.friendList.push(element)
+          });
+        })
+      }
+    },
+    addF(index) {
+      this.friends.push(this.friendList[index])
+      this.friendList.splice(index,1);
+    },
+    removeP(idx, index) {
+      console.log(idx + " " + index)
+      this.days[idx-1].splice(index,1)
+    }
   },
 };
 </script>
@@ -346,6 +344,7 @@ export default {
 .plan .planner .friends {
   margin-top: 15px;
 }
+.plan .planner .friends .added img {width:20px; height: 20px; border-radius: 50%;}
 /* .plan .planner .days {overflow-y: scroll} */
 .plan .planner .days .plandays {
   margin: 10px auto;
@@ -376,7 +375,11 @@ export default {
 
 .plan .result {
   width: 15%;
+  text-align: center;
 }
+
+.plan .result #placesList .list-group-item {}
+.plan .result #placesList .list-group-item p {font-size: 8px;}
 
 /* kakao */
 .map_wrap,
