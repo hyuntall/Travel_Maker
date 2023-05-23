@@ -60,4 +60,9 @@ public class BoardServiceImpl implements BoardService{
 		return boardRepo.selectBoardCount();
 	}
 
+	@Override
+	public List<BoardDto> selectWeekPopular(int page) throws SQLException {
+		return boardRepo.selectWeekPopular(page);
+	}
+
 }

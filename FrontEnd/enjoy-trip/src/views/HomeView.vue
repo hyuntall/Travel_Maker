@@ -1,41 +1,98 @@
 <template>
-  <div class="home">
-    <div class="col-5 align-self-center main-text">
-      <h2>Travel Maker</h2>
-      <p>Travel Maker 프로젝트 설명</p>
-      <button @click="gotoTrip()">시작하기</button>
+  <div class="container">
+    <div class="wrap">
+      <b-carousel
+        class="slide"
+        id="carousel-1"
+        v-model="slide"
+        :interval="4000"
+        controls
+        indicators
+        label-next=""
+        label-prev=""
+        style="text-shadow: 1px 1px 2px #333"
+      >
+        <b-carousel-slide class="imgbox">
+          <template #img>
+            <img class="img" :src="require(`@/assets/main_page.jpg`)" />
+            <h3 class="board-title">Welcome to Travel Maker!!!</h3>
+          </template>
+        </b-carousel-slide>
+        <b-carousel-slide class="imgbox" v-for="(board, index) in weekBoards" :key="index">
+          <template #img>
+            <img class="img" :src="require(`C:/EnjoyTrip/board/${board.image}`)" alt="image slot" />
+            <h3 class="board-title">주간 {{ index + 1 }}위 게시글 : {{ board.title }}</h3>
+          </template>
+        </b-carousel-slide>
+      </b-carousel>
+
+      <div class="title">Travel Maker</div>
     </div>
-    <img class="col-7" alt="Vue logo" src="../assets/main_page.jpg" />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
+import http from "@/util/http-common";
 
 export default {
-  name: "HomeView",
-  components: {},
-  methods: {
-    gotoTrip(){
-      this.$router.push("/trip")
-    }
-  }
+  data() {
+    return {
+      slide: 0,
+      sliding: null,
+      weekBoards: [],
+    };
+  },
+  methods: {},
+  created() {
+    http
+      .get("/board/list/week/0")
+      .then(({ data }) => {
+        this.weekBoards = data;
+        console.log(data);
+      })
+      .catch(() => {
+        console.log("인기글 불러오기 실패");
+      });
+  },
 };
 </script>
 
 <style scoped>
-.home {
+.wrap {
   height: 100vh;
-  width: 100%;
+  overflow: hidden;
+}
+
+.slide {
+  height: 100vh;
   display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.main-text {
+
+.img {
+  width: 100%;
+  height: 100%;
+  max-height: 80vh;
+  object-fit: cover;
+}
+
+.board-title {
+  width: 100%;
+  padding-left: 10px;
+  background-color: #ababab;
+}
+
+.title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 200;
+  font-size: 5vw;
+  /* color: black; */
   text-align: center;
-  
+  color: #ffffff;
+  text-shadow: 2px 8px 6px rgba(0, 0, 0, 0.2), 0px -3px 20px rgba(255, 255, 255, 0.4);
 }
-
-.main-text h2 {font-weight: 800px; font-size: 50px;}
-
-.main-text button {border: 2px solid #706565; padding: 8px; background-color: #fff; font-weight: 700; color:#706565;}
-.main-text button:hover {background-color: #706565; color:#fff}
 </style>

@@ -62,6 +62,13 @@ public class BoardController {
 		System.out.println(page*5);
 		return new ResponseEntity<List<BoardDto>>(bsvc.selectBoardPage(page*5), HttpStatus.OK);
 	}
+	
+	@GetMapping("list/week/{page}")
+	public ResponseEntity<?> selectWeekPopular(@PathVariable int page) throws SQLException {
+		System.out.println(page*10);
+		return new ResponseEntity<List<BoardDto>>(bsvc.selectWeekPopular(page*10), HttpStatus.OK);
+	}
+	
 	@GetMapping("/{idx}")
 	public ResponseEntity<?> selectBoardByIdx(@PathVariable int idx) throws SQLException {
 		bsvc.addViewCount(idx);

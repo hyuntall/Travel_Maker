@@ -17,6 +17,10 @@
 		select * from board order by idx desc limit #{page}, 5
 	</select>
 	
+	<select id="selectWeekPopular" resultType="BoardDto">
+		select * from board where written_date between date_add(now(), interval -1 week) and now() order by view_count desc limit #{page}, 10;
+	</select>
+	
 	<select id="selectBoardCount" resultType="Integer">
 		select count(*) from board;
 	</select>

@@ -17,6 +17,7 @@ public interface BoardRepository {
 	List<BoardDto> selectBoard() throws SQLException;
 	List<BoardDto> selectBoardByUser(String user_id) throws SQLException;
 	List<BoardDto> selectBoardPage(int page) throws SQLException;
+	List<BoardDto> selectWeekPopular(int page) throws SQLException;
 	BoardDto selectBoardByIdx(int idx) throws SQLException;
 	int selectBoardCount() throws SQLException;
 	int updateBoard(BoardDto boardDto) throws SQLException;
