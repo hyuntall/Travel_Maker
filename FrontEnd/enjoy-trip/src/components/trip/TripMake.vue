@@ -15,14 +15,26 @@
           </div>
           <input type="text" @keyup="flist" placeholder="친구 검색" style="text-align: center; border-radius: 5px" />
           <div id="userlist" v-for="(friend, index) in friendList" :key="index">
-            <div>
-              <b-avatar
+            <div class="row search-user">
+              <div class="col-4 search-result">
+
+                <b-avatar
                 variant="info"
                 :src="
                   friend.image ? require(`C:/EnjoyTrip/user/${friend.image}`) : require('../../assets/tmp_profile2.jpg')
-                "
-              ></b-avatar
-              >{{ friend.name }} ({{ friend.id }}) <a href="#" @click="addF(index)">추가</a>
+                  "
+              ></b-avatar>
+            </div>
+            <div class="col-4 search-result" style="font-size:12px;text-align: center;">
+                {{ friend.name }} 
+                ({{ friend.id }}) 
+              
+            </div>
+              
+            <div class="col-4 search-result" >
+              <font-awesome-icon icon="fa-solid fa-user-plus" size="2x" style="color: #999999" @click="addF(index)" />
+              <!-- <a href="#" @click="addF(index)">추가</a> -->
+            </div>
             </div>
           </div>
         </div>
@@ -540,10 +552,13 @@ export default {
 
 .plan .planner .friends {
   margin-top: 15px;
+  overflow: auto;
 }
 .plan .planner .friends .added {
   display: flex;
   margin-bottom: 5px;
+  align-items: center;
+  justify-content: center;
 }
 .plan .planner .friends .added img {
   width: 20px;
@@ -643,6 +658,19 @@ export default {
 }
 .plan .result #placesList .list-group-item p {
   font-size: 8px;
+}
+.search-result{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.search-user{
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.search-user:hover{
+  background-color: #777;
 }
 
 /* kakao */
