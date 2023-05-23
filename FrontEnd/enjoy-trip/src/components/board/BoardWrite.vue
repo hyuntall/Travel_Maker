@@ -72,12 +72,19 @@ export default {
       // this.renderedContent();
     },
     writeBoard() {
+      if (this.image == null) {
+        swal({
+            title: "Warning",
+            text: "이미지를 필수로 등록해야합니다.",
+            icon: "warning",
+          });
+          return;
+      }
       const formData = new FormData();
-
       formData.append("user_id", this.userInfo.id);
       formData.append("title", this.title);
       formData.append("content", this.content);
-      if (this.image != null) formData.append("image", this.image);
+      formData.append("image", this.image);
       http
         .post("/board/write", formData, {
           headers: {

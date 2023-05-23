@@ -216,4 +216,8 @@ body {
   background: rgb(200, 200, 200);
   /* background: linear-gradient(0deg, rgba(0, 3, 255, 1) 0%, rgba(2, 126, 251, 1) 100%); */
 }
+
+.content {
+  padding: 10px;
+}
 </style>

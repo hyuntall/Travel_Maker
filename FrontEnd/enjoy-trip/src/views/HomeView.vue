@@ -76,7 +76,7 @@ export default {
   width: 100%;
   height: 100%;
   max-height: 80vh;
-  object-fit: cover;
+  object-fit: contain;
   text-decoration: none;
 }
 .link {

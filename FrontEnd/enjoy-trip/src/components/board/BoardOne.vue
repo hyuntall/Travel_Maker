@@ -133,9 +133,9 @@ body {
 }
 
 .statuses .status img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  /* width: 100%; */
+  height: 400px;
+  object-fit: contain;
 }
 
 .col-3 {
