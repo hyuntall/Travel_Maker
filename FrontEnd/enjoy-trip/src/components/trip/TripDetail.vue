@@ -56,7 +56,7 @@ export default {
           synth nesciunt you probably haven't heard of them accusamus labore VHS.
         `,
       tripmembers: [],
-      plan : null,
+      plan : {title: ""},
       dayCnt: null,
       places : [],
     };
@@ -101,6 +101,7 @@ export default {
       script.src = "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=915cffed372954b7b44804ed422b9cf0";
       document.head.appendChild(script);
     }    
+    
   },
   methods: {
     initMap() {
@@ -120,7 +121,7 @@ export default {
 .container {height:100vh}
 .detail {margin-top: 80px; position: relative;}
 
-.detail .tog {position: absolute; z-index: 9999; top:0}
+.detail .tog {position: absolute; z-index: 9999; top:15px; left: 20px}
 
 /* kakao */
 .map_wrap,
