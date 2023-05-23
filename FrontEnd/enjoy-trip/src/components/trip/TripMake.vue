@@ -552,7 +552,6 @@ export default {
 
 .plan .planner .friends {
   margin-top: 15px;
-  overflow: auto;
 }
 .plan .planner .friends .added {
   display: flex;
