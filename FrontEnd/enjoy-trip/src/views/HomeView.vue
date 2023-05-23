@@ -5,7 +5,7 @@
         class="slide"
         id="carousel-1"
         v-model="slide"
-        :interval="4000000"
+        :interval="500"
         controls
         indicators
         label-next=""
@@ -14,7 +14,7 @@
       >
         <b-carousel-slide class="imgbox">
           <template #img>
-            <img class="img basic" :src="require(`@/assets/main_page.jpg`)" />
+            <img class="img" :src="require(`@/assets/main_page.jpg`)" />
             <h3 class="board-title">Welcome to Travel Maker!!!</h3>
           </template>
         </b-carousel-slide>
@@ -80,9 +80,6 @@ export default {
   text-decoration: none;
 }
 
-.basic {
-  object-fit: fill;
-}
 
 .link {
   text-shadow: rgb(51, 51, 51) 1px 1px 2px;
@@ -92,7 +89,7 @@ export default {
 .board-title {
   width: 100%;
   padding-left: 10px;
-  background-color: #ababab;
+  /* background-color: #ababab; */
   
 }
 
@@ -115,5 +112,11 @@ export default {
 }
 
 @media screen and (max-width: 992px) {
+  .slide{
+    margin-top: 10vh;
+  }
+  .img {
+    max-height: 60vh;
+  }
 }
 </style>

@@ -4,7 +4,9 @@
       <div class="row">
         <div class="header clearfix">
           <div class="title">
-            <router-link to="/"> <b>Travel Maker</b>&nbsp;&nbsp;<span>YOUR TRIP PLAN MANAGER</span> </router-link>
+            <router-link to="/"> 
+              <b>Travel Maker</b>&nbsp;&nbsp;
+              <span>YOUR TRIP PLAN MANAGER</span> </router-link>
           </div>
           <nav class="nav">
             <ul class="main-menu">
