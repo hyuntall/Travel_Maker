@@ -31,9 +31,9 @@
       </div>
       <div class="form_input gender">
         <label for="name" class="label">gender</label>
-        <select>
-          <option seleted value="true">남</option>
-          <option value="false">여</option>
+        <select v-model="user.gender">
+          <option seleted value="M">남</option>
+          <option value="F">여</option>
         </select>
       </div>
       <div class="submit row regist" v-if="type !== 'modify'">

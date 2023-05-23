@@ -19,8 +19,10 @@
             </p>
             <div class="setup row">
               <div class="col-3">
-                <font-awesome-icon icon="fa-solid fa-pen-to-square" size="2x" style="color: #999999" />
-                <p class="link">게시글 수</p>
+                <router-link class="link" :to="{ name: 'BoardRegist' }">
+                  <font-awesome-icon icon="fa-solid fa-pen-to-square" size="2x" style="color: #999999" />
+                  <p class="link">게시글 수: {{ myBoards.length }}</p>
+                </router-link>
               </div>
               <div class="col-3">
                 <router-link class="link" :to="{ name: 'FollowList', params: { type: 'following' } }">
