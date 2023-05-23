@@ -1,9 +1,9 @@
 <template>
   <header id="header">
-    <div class="container">
+    <div class="">
       <div class="row">
         <div class="header clearfix">
-          <div>
+          <div class="title">
             <router-link to="/"> <b>Travel Maker</b>&nbsp;&nbsp;<span>YOUR TRIP PLAN MANAGER</span> </router-link>
           </div>
           <nav class="nav">
@@ -32,6 +32,31 @@
               </li>
             </ul>
           </nav>
+          <div class="dropdown">
+            <b-dropdown right text="menu" class="drop-button">
+              <b-dropdown-item>
+                <router-link to="/trip"> 여행지 </router-link>
+              </b-dropdown-item>
+              <b-dropdown-item>
+                <router-link to="/board">자유게시판</router-link>
+              </b-dropdown-item>
+              <b-dropdown-item>
+                <router-link to="/qna">QnA</router-link>
+              </b-dropdown-item>
+              <b-dropdown-item v-if="userInfo">
+                <router-link to="/mypage">MyPage</router-link>
+              </b-dropdown-item>
+              <b-dropdown-item v-if="userInfo">
+                <a href="#" @click.prevent="onClickLogout">로그아웃</a>
+              </b-dropdown-item>
+              <b-dropdown-item v-else-if="!userInfo">
+                <router-link to="/login">로그인</router-link>
+              </b-dropdown-item>
+              <b-dropdown-item v-if="!userInfo">
+                <router-link to="/user/regist">회원가입</router-link>
+              </b-dropdown-item>
+            </b-dropdown>
+          </div>
         </div>
       </div>
     </div>
@@ -71,6 +96,10 @@ export default {
   background-color: #fff;
   box-shadow: 0 5px 5px -5px #333;
 }
+.row {
+  width: 100%;
+}
+
 .header {
   display: flex;
   align-items: center;
@@ -78,6 +107,7 @@ export default {
 }
 .header div {
   padding: 1em;
+  margin-left: 200px;
 }
 .header div a b {
   font-size: 30px;
@@ -86,6 +116,7 @@ export default {
   font-size: 8px;
 }
 .header nav {
+  margin-right: 200px;
   margin-left: auto;
 }
 .header nav .main-menu {
@@ -114,5 +145,26 @@ export default {
 a {
   text-decoration: none;
   color: #000;
+}
+.drop-button {
+  border-radius: 2px;
+}
+
+@media screen and (min-width: 993px) {
+  .dropdown {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .container {
+    width: 100% !important;
+  }
+  .nav {
+    display: none;
+  }
+  .header .title {
+    margin-left: 0;
+  }
 }
 </style>
