@@ -2,7 +2,7 @@
   <div>
     <div class="plan">
       <div class="planner">
-        <h4>{{ region.cate2 }}여행</h4>
+        <h4 style="margin-top:10px">{{ region.cate2 }}여행</h4>
         <!-- 친구추가기능 -->
         <div class="friends">
           <div class="added">
@@ -10,9 +10,9 @@
               <b-avatar variant="info" :src="f.image? require(`C:/EnjoyTrip/user/${f.image}`):require('../../assets/tmp_profile2.jpg')"></b-avatar>
             </div>
           </div>
-          <input type="text" @keyup="flist" placeholder="친구 검색"/>
+          <input type="text" @keyup="flist" placeholder="친구 검색" style="text-align:center; border-radius:5px"/>
           <div id="userlist" v-for="(friend, index) in friendList" :key="index">
-            <div>{{ friend.name }} <a href="#" @click="addF(index)">추가</a></div>
+            <div><b-avatar variant="info" :src="friend.image? require(`C:/EnjoyTrip/user/${friend.image}`):require('../../assets/tmp_profile2.jpg')"></b-avatar>{{ friend.name }} <a href="#" @click="addF(index)">추가</a></div>
           </div>
         </div>
         <div class="cal">
@@ -50,7 +50,13 @@
 
             <draggable v-model="days[idx - 1]" class="list-group places" :list="days[idx - 1]" group="places">
               <div class="list-group-item" v-for="(p, index) in days[idx - 1]" :key="index">
-                {{ p.place_name }} <a href="#" @click="removeP(idx, index)">제거</a>
+                {{ p.place_name }} <a href="#" @click="memo(idx,index)">메모</a> <a href="#" @click="removeP(idx, index)">제거</a>
+                <div :id="'memo'+idx+'-'+index" style="display:none; border: 1px solid #ebe5e5" >
+                  <div :id="'content'+idx+'-'+index" contenteditable="true">
+                  {{p.comment}} 
+                  </div>
+                  <a href="#" @click="memoSave(idx,index)">완료</a>
+                </div>
               </div>
             </draggable>
           </div>
@@ -77,7 +83,7 @@
       </div>
 
       <div class="result">
-        <h1>목록</h1>
+        <h3 style="margin-top:10px">여행지 목록</h3>
         <ul id="placesList">
           <draggable
             v-model="results"
@@ -88,7 +94,8 @@
             <div class="list-group-item" :id="'r' + index" v-for="(place, index) in results" :key="index">
               <h6>{{ place.place_name }}</h6>
               <p>{{ place.address_name }}</p>
-              <a :href="place.place_url" target="_blank">상세 보기</a>
+              <!-- <a :href="place.place_url" target="_blank">상세 보기</a> -->
+              <a @click="showPopUp(place.place_url)">상세 보기</a>
             </div>
           </draggable>
         </ul>
@@ -172,8 +179,10 @@ export default {
             var y = data.documents[0].y;
             var x = data.documents[0].x;
             this.map.setCenter(new kakao.maps.LatLng(y, x));
-          });
+          }).then(()=>{this.categorySearch('AT4');});
       });
+
+      
     },
 
     async moveMap() {
@@ -220,7 +229,23 @@ export default {
           console.log(data);
           this.results = [];
           data.documents.forEach((element) => {
-            this.results.push(element);
+            // this.results.push(element)
+            this.results.push({
+              address_name : element.address_name,
+              category_group_code : element.category_group_code,
+              category_group_name : element.category_group_name,
+              category_name : element.category_name,
+              distance : element.distance,
+              id : element.id,
+              phone : element.phone,
+              place_name : element.place_name,
+              place_url : element.place_url,
+              road_address_name : element.road_address_name,
+              x: element.x,
+              y: element.y,
+              comment : ""
+            });
+            
           });
           // this.placesSearchCB(this.results);
         });
@@ -305,7 +330,7 @@ export default {
       this.markers = [];
     },
     displayInfowindow(marker, title) {
-      var content = '<div style="padding:5px;z-index:1;">' + title + "</div>";
+      var content = '<div style="padding:5px;z-index:1;" class="infowindow">' + title + "</div>";
 
       this.infowindow.setContent(content);
       this.infowindow.open(this.map, marker);
@@ -373,7 +398,7 @@ export default {
             category_code: place.category_group_code,
             date_index: i + 1,
             index: j + 1,
-            comment: "없는 코멘트",
+            comment: place.comment,
           });
         }
       }
@@ -389,6 +414,39 @@ export default {
         });
       console.log(plan);
     },
+    showPopUp(place_url) {
+      console.log(place_url)
+      //창 크기 지정
+      var width = 900;
+      var height = 500;
+      
+      //pc화면기준 가운데 정렬
+      var left = (window.screen.width / 2) - (width/2);
+      var top = (window.screen.height / 4);
+      
+          //윈도우 속성 지정
+      var windowStatus = 'width='+width+', height='+height+', left='+left+', top='+top+', scrollbars=no, toolbar=no, location=no, status=no, resizable=yes, titlebar=yes';
+      
+          //연결하고싶은url
+          // const url = "https://www.naver.com/";
+          const url = place_url;
+
+      //등록된 url 및 window 속성 기준으로 팝업창을 연다.
+      window.open(url, "hello popup", windowStatus);
+    },
+    memo(idx, index) {
+      console.log(this.days[idx-1][index])
+      var memo = document.querySelector("#memo"+idx+"-"+index);
+      console.log(memo)
+      memo.style.display = "block";
+    },
+    memoSave(idx, index) {
+      var content = document.querySelector("#content"+idx+"-"+index);
+      console.log(content.textContent)
+      this.days[idx-1][index].comment = content.textContent
+      var memo = document.querySelector("#memo"+idx+"-"+index);
+      memo.style.display = "none"
+    }
   },
 };
 </script>
@@ -401,15 +459,18 @@ export default {
 }
 
 .plan .planner {
-  width: 16%;
+  width: 18%;
   height: 100%;
   /* background-color: blue; */
   text-align: center;
+  overflow-y: scroll;
 }
 
 .plan .planner .friends {
   margin-top: 15px;
+  
 }
+.plan .planner .friends .added {display: flex; margin-bottom: 5px;}
 .plan .planner .friends .added img {
   width: 20px;
   height: 20px;
@@ -418,8 +479,10 @@ export default {
 
 .plan .planner .days {
   height: 67.8%;
-  overflow: scroll;
+  /* overflow-y: scroll;
+  scrollbar-width: 0px; */
 }
+
 
 /* .plan .planner .days {overflow-y: scroll} */
 .plan .planner .days .plandays {
@@ -443,14 +506,23 @@ export default {
 
 .plan .planner .days {
   margin-top: 15px;
+
 }
 
+.plan .planner .days .plandays {
+  border : 1px solid #ebe5e5;
+  border-radius: 15px;
+}
+.plan .planner .days .plandays h4 {margin: 5px 0 auto;}
+.plan .planner .days .plandays hr {margin: 0}
+.plan .planner .days .cnt p {margin-bottom: 2px;}
+
 .plan .map {
-  width: 69%;
+  width: 64%;
 }
 
 .plan .result {
-  width: 15%;
+  width: 18%;
   text-align: center;
   height: 100vh;
   overflow-y: scroll;
@@ -653,4 +725,7 @@ export default {
   cursor: default;
   color: #777;
 }
+
+.infowindow {background-color: red;}
+
 </style>
