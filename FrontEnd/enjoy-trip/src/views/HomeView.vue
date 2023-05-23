@@ -20,8 +20,10 @@
         </b-carousel-slide>
         <b-carousel-slide class="imgbox" v-for="(board, index) in weekBoards" :key="index">
           <template #img>
-            <img class="img" :src="require(`C:/EnjoyTrip/board/${board.image}`)" alt="image slot" />
-            <h3 class="board-title">주간 {{ index + 1 }}위 게시글 : {{ board.title }}</h3>
+            <router-link class="link" :to="{ name: 'BoardDetail', params: { idx:board.idx } }">
+              <img class="img" :src="require(`C:/EnjoyTrip/board/${board.image}`)" alt="image slot" />
+              <h3 class="board-title">주간 {{ index + 1 }}위 게시글 : {{ board.title }}</h3>
+            </router-link>
           </template>
         </b-carousel-slide>
       </b-carousel>
@@ -75,12 +77,18 @@ export default {
   height: 100%;
   max-height: 80vh;
   object-fit: cover;
+  text-decoration: none;
 }
-
+.link {
+  text-shadow: rgb(51, 51, 51) 1px 1px 2px;
+  color:rgb(51, 51, 51);
+  text-decoration: none;
+}
 .board-title {
   width: 100%;
   padding-left: 10px;
   background-color: #ababab;
+  
 }
 
 .title {

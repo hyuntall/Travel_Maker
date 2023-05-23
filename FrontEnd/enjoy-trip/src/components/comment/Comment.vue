@@ -5,7 +5,7 @@
         <div class="profilepic">
           <div class="profile_img">
             <div class="image">
-              <img src="../../assets/tmp_profile.jpg" alt="img8" />
+              <img :src="img" alt="img8" />
             </div>
           </div>
         </div>
@@ -42,10 +42,16 @@ export default {
       content: "",
       readonly: true,
       mode: "수정",
+      img: require("../../assets/tmp_profile.jpg"),
     };
   },
   created() {
     this.content = this.comment.content;
+    http.get(`/user/image/${this.comment.user_id}`).then(({data})=>{
+      this.img = require(`C:/EnjoyTrip/user/${data}`);
+    }).catch(()=>{
+      console.log("프로필 이미지 요청 오류");
+    })
   },
   methods: {
     changeMode() {
@@ -133,6 +139,10 @@ body {
   width: 100%;
   border: 1px solid rgb(218, 217, 217);
   border-radius: 5px;
+}
+
+.date {
+  font-size: 15px;
 }
 
 .top {

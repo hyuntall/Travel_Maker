@@ -23,7 +23,7 @@
           </div>
           <div class="date">{{ board.written_date | dateFormat }}</div>
         </div>
-        <div v-if="board.user_id === userInfo.id" class="modify">
+        <div v-if="board && board.user_id === userInfo.id" class="modify">
           <button class="btn btn-1" @click="deleteBoard">삭제</button>
           <router-link class="btn btn-1" :to="{ name: 'BoardModify', params: { idx: board.idx } }">수정</router-link>
         </div>
@@ -73,6 +73,7 @@ export default {
         console.log(data);
         this.board = data;
         this.img = require(`C:/EnjoyTrip/board/${this.board.image}`);
+        this.getProfileImg();
       })
       .catch(() => {
         swal({
@@ -82,10 +83,15 @@ export default {
         });
         this.$router.push("/board");
       });
-    if (this.$route.params.originProfileUrl)
-      this.profileUrl = require(`C:/EnjoyTrip/user/${this.$route.params.originProfileUrl}`);
   },
   methods: {
+    getProfileImg(){
+      http.get(`/user/image/${this.board.user_id}`).then(({data})=>{
+        this.profileUrl = require(`C:/EnjoyTrip/user/${data}`);
+        }).catch(()=>{
+          console.log("프로필 이미지 요청 오류");
+      })
+    },
     deleteBoard() {
       http
         .delete(`/board/delete/${this.board.idx}`)
@@ -361,6 +367,7 @@ body {
 .date {
   width: 100%;
   text-align: right;
+  font-size: 15px;
 }
 
 .imgBx {

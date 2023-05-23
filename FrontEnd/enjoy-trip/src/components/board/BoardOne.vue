@@ -18,7 +18,7 @@
       <div class="swiper">
         <div class="swiper-wrapper">
           <div class="imgBx swiper-slide">
-            <router-link :to="{ name: 'BoardDetail', params: { idx, originProfileUrl: originProfileUrl } }">
+            <router-link :to="{ name: 'BoardDetail', params: { idx } }">
               <img :src="imgUrl" alt="post-1" class="cover" />
             </router-link>
           </div>
