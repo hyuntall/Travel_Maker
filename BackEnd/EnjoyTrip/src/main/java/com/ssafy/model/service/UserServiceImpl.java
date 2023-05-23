@@ -20,13 +20,11 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public UserDto selectById(String id) throws SQLException {
-		// TODO Auto-generated method stub
 		return urepo.selectById(id);
 	}
 
 	@Override
 	public int insertUser(UserDto user) throws SQLException {
-		// TODO Auto-generated method stub
 		return urepo.insertUser(user);
 	}
 
@@ -53,13 +51,11 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public Object getRefreshToken(String id) throws Exception {
-		// TODO Auto-generated method stub
 		return urepo.getRefreshToken(id);
 	}
 
 	@Override
 	public void deleRefreshToken(String id) throws Exception {
-		// TODO Auto-generated method stub
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("id", id);
 		map.put("token", null);
@@ -68,50 +64,52 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public int updateUserImg(UserDto userDto) throws SQLException {
-		// TODO Auto-generated method stub
 		return urepo.updateUserImg(userDto);
 	}
 
 	@Override
 	public String getUserImg(String id) throws SQLException {
-		// TODO Auto-generated method stub
 		return urepo.getUserImg(id);
 	}
 
 	@Override
 	public List<UserDto> searchByKeyword(String keyword) throws SQLException {
-		// TODO Auto-generated method stub
 		return urepo.searchByKeyword(keyword);
 	}
 
 	@Override
 	public List<UserDto> searchNotFollowing(String keyword, String id) throws SQLException {
-		// TODO Auto-generated method stub
 		return urepo.searchNotFollowing(keyword, id);
 	}
 
 	@Override
 	public void follow(Map<String, String> map) throws SQLException {
-		// TODO Auto-generated method stub
 		urepo.follow(map);
 		
 	}
 
 	@Override
 	public List<UserDto> getFollowing(String id) throws SQLException {
-		// TODO Auto-generated method stub
 		return urepo.getFollowing(id);
 	}
 
 	@Override
 	public List<UserDto> getFollowingByKeyword(String id, String keyword) throws SQLException {
-		// TODO Auto-generated method stub
 		return urepo.getFollowingByKeyword(id, keyword);
 	}
 
 	@Override
 	public List<UserDto> planDetail(int plan_idx) throws SQLException {
-		// TODO Auto-generated method stub
 		return urepo.planDetail(plan_idx);
+	}
+
+	@Override
+	public List<UserDto> getFollower(String id) throws SQLException {
+		return urepo.getFollower(id);
+	}
+
+	@Override
+	public void unFollow(Map<String, String> map) throws SQLException {
+		urepo.unFollow(map);
 	};
 }

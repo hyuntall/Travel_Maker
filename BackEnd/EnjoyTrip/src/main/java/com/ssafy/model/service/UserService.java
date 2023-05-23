@@ -30,4 +30,6 @@ public interface UserService {
 	public List<UserDto> getFollowing(String id) throws SQLException; 
 	public List<UserDto> getFollowingByKeyword(String id, String keyword) throws SQLException; 
 	public List<UserDto> planDetail(int plan_idx) throws SQLException; 
+	public List<UserDto> getFollower(String id) throws SQLException;
+	public void unFollow(Map<String, String> map) throws SQLException;
 }

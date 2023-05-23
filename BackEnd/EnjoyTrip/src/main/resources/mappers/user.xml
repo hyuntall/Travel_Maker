@@ -70,7 +70,16 @@
 		select * from user where id in (select following from follower where follower=#{id} and following like concat("%",#{keyword},"%"))
 	</select>
 	
+	<select id="getFollower" resultType="UserDto">
+		select * from user where id in (select follower from follower where following=#{id});
+	</select>
+	
+	<delete id="unFollow" parameterType="map">
+		delete from follower where following=#{following} and follower=#{follower}
+	</delete>
+	
 	<select id="planDetail" resultType="UserDto">
 		select * from user where id in (select user_id from tripmember where plan_idx = #{plan_idx});
 	</select>
+	
 </mapper>

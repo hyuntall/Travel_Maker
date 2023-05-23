@@ -25,13 +25,13 @@
                 </router-link>
               </div>
               <div class="col-3">
-                <router-link class="link" :to="{ name: 'FollowList', params: { type: 'following' } }">
+                <router-link class="link" :to="{ name: 'FollowList', params: { type: 'follower' } }">
                   <font-awesome-icon icon="fa-solid fa-users" size="2x" style="color: #999999" />
                   <p>팔로워</p>
                 </router-link>
               </div>
               <div class="col-3">
-                <router-link class="link" :to="{ name: 'FollowList', params: { type: 'following' } }">
+                <router-link class="link" :to="{ name: 'FollowList', params: { type: 'follow' } }">
                   <font-awesome-icon icon="fa-solid fa-user-plus" size="2x" style="color: #999999" />
                   <p>팔로우</p>
                 </router-link>

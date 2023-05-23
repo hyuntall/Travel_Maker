@@ -18,6 +18,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -222,14 +223,25 @@ public class UserController {
 		
 	}
 	
+	@GetMapping("/follower/{id}")
+	public ResponseEntity<?> getFollower(@PathVariable String id) throws SQLException {
+		System.out.println(id);
+		//사용자 아이디 -> 팔로워 아이디 조회 -> 팔로워 리스트 반환
+		return new ResponseEntity<List<UserDto>>(usvc.getFollower(id), HttpStatus.OK);
+		
+	}
+	
 	@GetMapping("/friend/{id}/{keyword}")
 	public ResponseEntity<?> getFollowingByKeyword(@PathVariable String id, @PathVariable String keyword) throws SQLException {
 //		System.out.println(id);
 //		System.out.println(keyword);
 		
 		//사용자 아이디, 키워드로 친구목록 가져오기
-		
 		return new ResponseEntity<List<UserDto>>(usvc.getFollowingByKeyword(id, keyword), HttpStatus.OK);
-		
+	}
+	@PostMapping("/unfollow")
+	public ResponseEntity<?> unFollow(@RequestBody Map<String, String> params) throws SQLException {
+		usvc.unFollow(params);
+		return new ResponseEntity<String>("팔로우 취소 성공", HttpStatus.OK);
 	}
 }

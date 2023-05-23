@@ -1,7 +1,7 @@
 <template>
   <div class="wrap">
     <div class="container">
-      <div id="board-search">
+      <div v-if="type==='follow'" id="board-search">
         <div class="search-window">
           <form action="">
             <div class="search-wrap">
@@ -43,7 +43,7 @@
       </div>
       <div id="board-search" style="margin-bottom: 20px">
         <div class="search-window first">
-          <h2>팔로잉</h2>
+          <h2>{{this.type}}</h2>
           <div v-if="followed.length === 0">현재 팔로잉하고 있는 유저가 없습니다</div>
           <div class="profile-list">
             <div class="followed_profile profile row" v-for="(follo, index) in followed" :key="index">
@@ -57,9 +57,9 @@
               </div>
               <div class="followed-id col-3">{{ follo.id }}</div>
               <div class="followed-id col-3">{{ follo.name }}</div>
-              <div class="followed-id col-3">
+              <div v-if="type==='follow'" class="followed-id col-3" @click="unFollow(follo.id)">
                 <font-awesome-icon icon="fa-solid fa-user-slash" />
-                친구 삭제
+                팔로우 취소
               </div>
             </div>
           </div>
@@ -84,11 +84,14 @@ export default {
     return {
       friendList: [],
       followed: [],
+      type: "follow"
     };
   },
   created() {
     console.log("sadasdadads");
+    this.type = this.$route.params.type;
     this.getFollowings();
+    console.log(this.type)
   },
   computed: {
     ...mapState(["userInfo"]),
@@ -99,7 +102,7 @@ export default {
   methods: {
     getFollowings() {
       console.log("getfollowing");
-      http.get("user/follow/" + this.userInfo.id).then(({ data }) => {
+      http.get(`user/${this.type}/${this.userInfo.id}`).then(({ data }) => {
         this.followed = [];
         data.forEach((element) => {
           this.followed.push(element);
@@ -143,6 +146,20 @@ export default {
           this.getFollowings();
         });
     },
+    unFollow(following){
+      if(!confirm("팔로우를 취소하시겠습니까?"))return;
+      http.post(`/user/unfollow`, {
+          following,
+          follower: this.userInfo.id,
+        }).then(({data})=>{
+          swal({
+            title: "Success",
+            text: data,
+            icon: "success",
+          });
+          this.getFollowings();
+        })
+    }
   },
 };
 </script>
