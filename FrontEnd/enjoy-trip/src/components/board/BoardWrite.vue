@@ -32,6 +32,7 @@
 <script>
 import http from "@/util/http-common";
 import { mapState } from "vuex";
+import swal from "sweetalert";
 
 export default {
   name: "boardWrite",
@@ -85,11 +86,19 @@ export default {
         })
         .then(({ data }) => {
           console.log(data);
-          alert("게시글 등록 성공");
+          swal({
+            title: "Success",
+            text: "게시글이 등록되었습니다.",
+            icon: "success",
+          });
           this.$router.push("/board");
         })
         .catch(() => {
-          alert("게시글 등록 실패");
+          swal({
+            title: "Error",
+            text: "게시글 등록에 실패했습니다.",
+            icon: "error",
+          });
         });
     },
 
@@ -108,11 +117,20 @@ export default {
         })
         .then(({ data }) => {
           console.log(data);
-          alert("게시글 수정 성공");
+          swal({
+            title: "Success",
+            text: "게시글이 수정 되었습니다.",
+            icon: "success",
+          });
           this.$router.push("/board");
         })
         .catch(() => {
-          alert("게시글 등록 실패");
+          swal({
+            title: "Error",
+            text: "게시글을 수정에 오류가 발생했습니다.",
+            icon: "error",
+          });
+          this.$router.push("/board");
         });
     },
   },

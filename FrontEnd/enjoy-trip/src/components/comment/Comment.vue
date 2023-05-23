@@ -29,6 +29,7 @@
 <script>
 import http from "@/util/http-common";
 import { mapState } from "vuex";
+import swal from "sweetalert";
 export default {
   name: "CommentVue",
   props: {
@@ -57,11 +58,19 @@ export default {
         .delete(`comment/delete/${this.comment.idx}`)
         .then(({ data }) => {
           console.log(data);
-          alert("댓글 삭제 성공");
+          swal({
+            title: "Success",
+            text: "댓글이 성공적으로 삭제 되었습니다.",
+            icon: "success",
+          });
           window.location.reload();
         })
         .catch(() => {
-          alert("댓글 삭제 실패");
+          swal({
+            title: "Error",
+            text: "댓글 삭제에 오류가 발생했습니다.",
+            icon: "error",
+          });
         });
     },
     updateComment() {
@@ -72,11 +81,19 @@ export default {
         })
         .then(({ data }) => {
           console.log(data);
-          alert("댓글 수정 성공");
+          swal({
+            title: "Success",
+            text: "댓글이 성공적으로 수정되었습니다.",
+            icon: "success",
+          });
           window.location.reload();
         })
         .catch(() => {
-          alert("댓글 수정 실패");
+          swal({
+            title: "Error",
+            text: "댓글을 수정할 수 없습니다.",
+            icon: "error",
+          });
         });
     },
   },
@@ -143,7 +160,7 @@ body {
   width: 40px;
   height: 40px;
   /* background: linear-gradient(to right, red, orange); */
-  border: 1px solid rgb(150, 150, 150);;
+  border: 1px solid rgb(150, 150, 150);
   padding: 2px;
   margin-right: 8px;
   cursor: pointer;

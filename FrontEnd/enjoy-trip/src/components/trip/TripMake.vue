@@ -2,17 +2,28 @@
   <div class="main">
     <div class="plan">
       <div class="planner">
-        <h4 style="margin-top:10px">{{ region.cate2 }}여행</h4>
+        <h4 style="margin-top: 10px">{{ region.cate2 }}여행</h4>
         <!-- 친구추가기능 -->
         <div class="friends">
           <div class="added">
             <div class="profile" v-for="f in friends" :key="f.id">
-              <b-avatar variant="info" :src="f.image? require(`C:/EnjoyTrip/user/${f.image}`):require('../../assets/tmp_profile2.jpg')"></b-avatar>
+              <b-avatar
+                variant="info"
+                :src="f.image ? require(`C:/EnjoyTrip/user/${f.image}`) : require('../../assets/tmp_profile2.jpg')"
+              ></b-avatar>
             </div>
           </div>
-          <input type="text" @keyup="flist" placeholder="친구 검색" style="text-align:center; border-radius:5px"/>
+          <input type="text" @keyup="flist" placeholder="친구 검색" style="text-align: center; border-radius: 5px" />
           <div id="userlist" v-for="(friend, index) in friendList" :key="index">
-            <div><b-avatar variant="info" :src="friend.image? require(`C:/EnjoyTrip/user/${friend.image}`):require('../../assets/tmp_profile2.jpg')"></b-avatar>{{ friend.name }} ({{friend.id}}) <a href="#" @click="addF(index)">추가</a></div>
+            <div>
+              <b-avatar
+                variant="info"
+                :src="
+                  friend.image ? require(`C:/EnjoyTrip/user/${friend.image}`) : require('../../assets/tmp_profile2.jpg')
+                "
+              ></b-avatar
+              >{{ friend.name }} ({{ friend.id }}) <a href="#" @click="addF(index)">추가</a>
+            </div>
           </div>
         </div>
         <div class="cal">
@@ -32,7 +43,6 @@
             size="sm"
             @input="makedays"
           ></b-form-datepicker>
-          
         </div>
         <!-- days -->
         <div class="days" v-if="cnt">
@@ -42,7 +52,7 @@
             <p>
               {{ end }}
             </p>
-            <p>{{ cnt }}일 일정 </p>
+            <p>{{ cnt }}일 일정</p>
             <a href="#" @click="makePlan">일정 생성</a>
           </div>
           <div class="plandays" v-for="idx in cnt" :key="idx">
@@ -51,12 +61,13 @@
 
             <draggable v-model="days[idx - 1]" class="list-group places" :list="days[idx - 1]" group="places">
               <div class="list-group-item" v-for="(p, index) in days[idx - 1]" :key="index">
-                {{ p.place_name }} <a href="#" @click="memo(idx,index)">메모</a> <a href="#" @click="removeP(idx, index)">제거</a>
-                <div :id="'memo'+idx+'-'+index" style="display:none; border: 1px solid #ebe5e5" >
-                  <div :id="'content'+idx+'-'+index" contenteditable="true">
-                  {{p.comment}} 
+                {{ p.place_name }} <a href="#" @click="memo(idx, index)">메모</a>
+                <a href="#" @click="removeP(idx, index)">제거</a>
+                <div :id="'memo' + idx + '-' + index" style="display: none; border: 1px solid #ebe5e5">
+                  <div :id="'content' + idx + '-' + index" contenteditable="true">
+                    {{ p.comment }}
                   </div>
-                  <a href="#" @click="memoSave(idx,index)" @keyup.13="memoSave(idx,index)">완료</a>
+                  <a href="#" @click="memoSave(idx, index)" @keyup.13="memoSave(idx, index)">완료</a>
                 </div>
               </div>
             </draggable>
@@ -84,7 +95,7 @@
       </div>
 
       <div class="result">
-        <h3 style="margin-top:10px">여행지 목록</h3>
+        <h3 style="margin-top: 10px">여행지 목록</h3>
         <ul id="placesList">
           <draggable
             v-model="results"
@@ -109,6 +120,8 @@
 import http from "@/util/http-common";
 import draggable from "vuedraggable";
 import { mapState } from "vuex";
+import swal from "sweetalert";
+
 export default {
   name: "TripMake",
   components: {
@@ -154,7 +167,6 @@ export default {
       document.head.appendChild(script);
     }
     console.log(this.$route.params);
-    
   },
   methods: {
     initMap() {
@@ -188,10 +200,11 @@ export default {
             var y = data.documents[0].y;
             var x = data.documents[0].x;
             this.map.setCenter(new kakao.maps.LatLng(y, x));
-          }).then(()=>{this.categorySearch('AT4');});
+          })
+          .then(() => {
+            this.categorySearch("AT4");
+          });
       });
-
-      
     },
 
     async moveMap() {
@@ -240,21 +253,20 @@ export default {
           data.documents.forEach((element) => {
             // this.results.push(element)
             this.results.push({
-              address_name : element.address_name,
-              category_group_code : element.category_group_code,
-              category_group_name : element.category_group_name,
-              category_name : element.category_name,
-              distance : element.distance,
-              id : element.id,
-              phone : element.phone,
-              place_name : element.place_name,
-              place_url : element.place_url,
-              road_address_name : element.road_address_name,
+              address_name: element.address_name,
+              category_group_code: element.category_group_code,
+              category_group_name: element.category_group_name,
+              category_name: element.category_name,
+              distance: element.distance,
+              id: element.id,
+              phone: element.phone,
+              place_name: element.place_name,
+              place_url: element.place_url,
+              road_address_name: element.road_address_name,
               x: element.x,
               y: element.y,
-              comment : ""
+              comment: "",
             });
-            
           });
           // this.placesSearchCB(this.results);
         });
@@ -362,7 +374,7 @@ export default {
       }
     },
     flist(event) {
-      console.log(event.target.value)
+      console.log(event.target.value);
       this.friendList = [];
       if (event.target.value) {
         http.get("/user/friend/" + this.userInfo.id + "/" + event.target.value).then(({ data }) => {
@@ -375,7 +387,7 @@ export default {
     addF(index) {
       this.friends.push(this.friendList[index]);
       this.friendList.splice(index, 1);
-      console.log(this.friends)
+      console.log(this.friends);
     },
     removeP(idx, index) {
       console.log(idx + " " + index);
@@ -383,12 +395,12 @@ export default {
     },
     makePlan() {
       let users = [this.userInfo.id];
-      for (i = 0; i < this.friends.length; i++){
+      for (i = 0; i < this.friends.length; i++) {
         users.push(this.friends[i].id);
       }
       const plan = {
         user_id: users,
-        title: this.region.cate2+" 여행",
+        title: this.region.cate2 + " 여행",
         start_date: new Date(this.start),
         end_date: new Date(this.end),
         content: "없는 내용",
@@ -415,46 +427,63 @@ export default {
         .post("/plan/insert", plan)
         .then(({ data }) => {
           console.log(data);
-          alert("계획 생성 완료");
-          this.$route.push("/");
+          swal({
+            title: "Success",
+            text: "여행 계획이 등록되었습니다.",
+            icon: "success",
+          });
+          this.$router.push("/");
         })
         .catch(() => {
-          console.log("계획 생성 오류");
+          swal({
+            title: "Error",
+            text: "잘못된 계획 정보입니다.",
+            icon: "error",
+          });
         });
       console.log(plan);
     },
     showPopUp(place_url) {
-      console.log(place_url)
+      console.log(place_url);
       //창 크기 지정
       var width = 900;
       var height = 500;
-      
+
       //pc화면기준 가운데 정렬
-      var left = (window.screen.width / 2) - (width/2);
-      var top = (window.screen.height / 4);
-      
-          //윈도우 속성 지정
-      var windowStatus = 'width='+width+', height='+height+', left='+left+', top='+top+', scrollbars=no, toolbar=no, location=no, status=no, resizable=yes, titlebar=yes';
-      
-          //연결하고싶은url
-          // const url = "https://www.naver.com/";
-          const url = place_url;
+      var left = window.screen.width / 2 - width / 2;
+      var top = window.screen.height / 4;
+
+      //윈도우 속성 지정
+      var windowStatus =
+        "width=" +
+        width +
+        ", height=" +
+        height +
+        ", left=" +
+        left +
+        ", top=" +
+        top +
+        ", scrollbars=no, toolbar=no, location=no, status=no, resizable=yes, titlebar=yes";
+
+      //연결하고싶은url
+      // const url = "https://www.naver.com/";
+      const url = place_url;
 
       //등록된 url 및 window 속성 기준으로 팝업창을 연다.
       window.open(url, "hello popup", windowStatus);
     },
     memo(idx, index) {
-      console.log(this.days[idx-1][index])
-      var memo = document.querySelector("#memo"+idx+"-"+index);
-      console.log(memo)
+      console.log(this.days[idx - 1][index]);
+      var memo = document.querySelector("#memo" + idx + "-" + index);
+      console.log(memo);
       memo.style.display = "block";
     },
     memoSave(idx, index) {
-      var content = document.querySelector("#content"+idx+"-"+index);
-      console.log(content.textContent)
-      this.days[idx-1][index].comment = content.textContent
-      var memo = document.querySelector("#memo"+idx+"-"+index);
-      memo.style.display = "none"
+      var content = document.querySelector("#content" + idx + "-" + index);
+      console.log(content.textContent);
+      this.days[idx - 1][index].comment = content.textContent;
+      var memo = document.querySelector("#memo" + idx + "-" + index);
+      memo.style.display = "none";
     },
     setline(idx) {
       this.displayPlaces(this.days[idx-1])
@@ -484,7 +513,9 @@ export default {
 </script>
 
 <style scoped>
-.main {height: 100vh}
+.main {
+  height: 100vh;
+}
 
 .plan {
   padding-top: 80px;
@@ -502,9 +533,11 @@ export default {
 
 .plan .planner .friends {
   margin-top: 15px;
-  
 }
-.plan .planner .friends .added {display: flex; margin-bottom: 5px;}
+.plan .planner .friends .added {
+  display: flex;
+  margin-bottom: 5px;
+}
 .plan .planner .friends .added img {
   width: 20px;
   height: 20px;
@@ -517,7 +550,6 @@ export default {
   scrollbar-width: 0px; */
 }
 
-
 /* .plan .planner .days {overflow-y: scroll} */
 .plan .planner .days .plandays {
   margin: 10px auto;
@@ -525,7 +557,9 @@ export default {
   width: 95%;
 }
 
-.plan .planner .days .plandays a {font-size: 14px;}
+.plan .planner .days .plandays a {
+  font-size: 14px;
+}
 .plan .planner .days .plandays .places {
   min-height: 60px;
 }
@@ -542,16 +576,21 @@ export default {
 
 .plan .planner .days {
   margin-top: 15px;
-
 }
 
 .plan .planner .days .plandays {
-  border : 1px solid #ebe5e5;
+  border: 1px solid #ebe5e5;
   border-radius: 15px;
 }
-.plan .planner .days .plandays h4 {margin: 5px 0 auto;}
-.plan .planner .days .plandays hr {margin: 0}
-.plan .planner .days .cnt p {margin-bottom: 2px;}
+.plan .planner .days .plandays h4 {
+  margin: 5px 0 auto;
+}
+.plan .planner .days .plandays hr {
+  margin: 0;
+}
+.plan .planner .days .cnt p {
+  margin-bottom: 2px;
+}
 
 .plan .map {
   width: 64%;

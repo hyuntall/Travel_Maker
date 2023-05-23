@@ -51,6 +51,7 @@
 import http from "@/util/http-common";
 import { mapState } from "vuex";
 import CommentList from "../comment/CommentList.vue";
+import swal from "sweetalert";
 
 export default {
   name: "BoardDetail",
@@ -74,7 +75,12 @@ export default {
         this.img = require(`C:/EnjoyTrip/board/${this.board.image}`);
       })
       .catch(() => {
-        alert("게시글 호출 실패");
+        swal({
+          title: "Error",
+          text: "게시글을 불러오지 못했습니다.",
+          icon: "error",
+        });
+        this.$router.push("/board");
       });
     if (this.$route.params.originProfileUrl)
       this.profileUrl = require(`C:/EnjoyTrip/user/${this.$route.params.originProfileUrl}`);
@@ -85,11 +91,19 @@ export default {
         .delete(`/board/delete/${this.board.idx}`)
         .then(({ data }) => {
           console.log(data);
-          alert("게시글 삭제 성공");
+          swal({
+            title: "Success",
+            text: "게시글이 성공적으로 삭제되었습니다.",
+            icon: "success",
+          });
           this.$router.push("/board");
         })
         .catch(() => {
-          alert("게시글 삭제 실패");
+          swal({
+            title: "Error",
+            text: "게시글을 삭제하지 못했습니다.",
+            icon: "error",
+          });
         });
     },
     writeComment() {
@@ -105,7 +119,11 @@ export default {
           window.location.reload();
         })
         .catch(() => {
-          alert("댓글 작성 실패");
+          swal({
+            title: "Error",
+            text: "댓글을 작성할 수 없습니다.",
+            icon: "error",
+          });
         });
     },
   },
@@ -289,7 +307,7 @@ body {
   width: 50px;
   height: 50px;
   /* background: linear-gradient(to right, red, orange); */
-  border:1px solid rgb(150, 150, 150);
+  border: 1px solid rgb(150, 150, 150);
   padding: 2px;
   margin-right: 8px;
   cursor: pointer;

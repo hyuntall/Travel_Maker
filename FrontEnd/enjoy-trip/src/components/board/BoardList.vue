@@ -1,14 +1,12 @@
 <template>
   <div class="container row" ref="top">
-    <div class="list" v-if="boards.length>0">
+    <div class="list" v-if="boards.length > 0">
       <board-one v-for="board in boards" :key="board.board_id" :board="board" />
     </div>
-    <div v-else class="nothing">
-      등록된 게시글이 없습니다.
-    </div>
-    <div class="float" >
+    <div v-else class="nothing">등록된 게시글이 없습니다.</div>
+    <div class="float">
       <div class="float-button up" @click="moveUp()">
-        <font-awesome-icon icon="fa-solid fa-arrow-up" size="xl"/>
+        <font-awesome-icon icon="fa-solid fa-arrow-up" size="xl" />
       </div>
       <div class="float-button write" @click="moveWrite()">
         <font-awesome-icon icon="fa-solid fa-plus" size="xl" />
@@ -20,6 +18,7 @@
 <script>
 import http from "@/util/http-common";
 import BoardOne from "./BoardOne.vue";
+import swal from "sweetalert";
 export default {
   name: "BoardList",
   components: { BoardOne },
@@ -32,38 +31,52 @@ export default {
   },
   created() {
     this.getBoardList();
-    http.get("/board/all/cnt").then(({data})=>{
-      this.limit = data;
-    }).catch(()=> {
-      console.log("게시글 전체 갯수 요청 실패")
-    })
+    http
+      .get("/board/all/cnt")
+      .then(({ data }) => {
+        this.limit = data;
+      })
+      .catch(() => {
+        console.log("게시글 전체 갯수 요청 실패");
+        swal({
+          title: "Error",
+          text: "게시글 목록을 불러오지 못했습니다.",
+          icon: "error",
+        });
+        this.$router.push("/");
+      });
   },
-  mounted(){
+  mounted() {
     // 이걸 윈도우 말고 div에 넣을 수는 없을까 생각해보자
-    window.addEventListener('scroll', this.scrollDown);
+    window.addEventListener("scroll", this.scrollDown);
   },
   methods: {
-    scrollDown(){
-      if (this.page * 5 <= this.limit && window.innerHeight + window.scrollY >= document.body.offsetHeight){
+    scrollDown() {
+      if (this.page * 5 <= this.limit && window.innerHeight + window.scrollY >= document.body.offsetHeight) {
         this.getBoardList();
       }
     },
-    getBoardList(){
+    getBoardList() {
       http
-      .get(`/board/list/page/${this.page++}`)
-      .then(({ data }) => {
-        this.boards = this.boards.concat(data);
-      })
-      .catch(() => {
-        alert("게시판 요청 실패");
-      });
+        .get(`/board/list/page/${this.page++}`)
+        .then(({ data }) => {
+          this.boards = this.boards.concat(data);
+        })
+        .catch(() => {
+          swal({
+            title: "Error",
+            text: "게시글 목록을 불러오지 못했습니다.",
+            icon: "error",
+          });
+          this.$router.push("/");
+        });
     },
     moveWrite() {
       this.$router.push({ name: "BoardRegist" });
     },
-    moveUp(){
-      this.$refs.top.scrollIntoView({behavior: "smooth"})
-    }
+    moveUp() {
+      this.$refs.top.scrollIntoView({ behavior: "smooth" });
+    },
   },
 };
 </script>
@@ -90,7 +103,7 @@ export default {
   z-index: 100;
 }
 .float {
-  position: fixed; 
+  position: fixed;
   font-size: 1.8em;
   padding: 0;
   width: 870px;

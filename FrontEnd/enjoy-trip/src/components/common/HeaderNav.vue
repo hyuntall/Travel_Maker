@@ -11,7 +11,7 @@
               <li>
                 <router-link to="/trip">여행지</router-link>
               </li>
-             
+
               <li>
                 <router-link to="/board">자유게시판</router-link>
               </li>
@@ -21,8 +21,8 @@
               <li v-if="userInfo">
                 <a href="#" @click.prevent="onClickLogout">로그아웃</a>
               </li>
-               <li v-if="userInfo">
-                 <router-link to="/mypage">MyPage</router-link>
+              <li v-if="userInfo">
+                <router-link to="/mypage">MyPage</router-link>
               </li>
               <li v-else-if="!userInfo">
                 <router-link to="/login">로그인</router-link>
@@ -49,16 +49,8 @@ export default {
   },
   methods: {
     ...mapActions(["userLogout"]),
-    // ...mapMutations(memberStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
     onClickLogout() {
-      // this.SET_IS_LOGIN(false);
-      // this.SET_USER_INFO(null);
-      // sessionStorage.removeItem("access-token");
-      // if (this.$route.path != "/") this.$router.push({ name: "main" });
       console.log(this.userInfo.id + " ");
-      //vuex actions에서 userLogout 실행(Backend에 저장 된 리프레시 토큰 없애기
-      //+ satate에 isLogin, userInfo 정보 변경)
-      // this.$store.dispatch("userLogout", this.userInfo.userid);
       this.userLogout(this.userInfo.id);
       sessionStorage.removeItem("access-token"); //저장된 토큰 없애기
       sessionStorage.removeItem("refresh-token"); //저장된 토큰 없애기
