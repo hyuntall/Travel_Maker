@@ -17,7 +17,9 @@ public class PlanServiceImpl implements PlanService{
 	
 	@Override
 	public int makePlan(PlanDto plan) throws SQLException {
-		return planRepo.makePlan(plan);
+		planRepo.makePlan(plan);
+		int idx = plan.getIdx();
+		return idx;
 	}
 
 	@Override

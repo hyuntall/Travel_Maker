@@ -51,7 +51,7 @@
 	</select>
 	
 	<select id="searchByKeyword" resultType="UserDto">
-		select * from user where id like concat("%",#{keyword},"%")
+		select * from user where id like concat("%",#{keyword},"%") 
 	</select>
 	
 	<select id="searchNotFollowing" resultType="UserDto">
@@ -64,5 +64,9 @@
 	
 	<select id="getFollowing" resultType="UserDto">
 		select * from user where id in (select following from follower where follower=#{id});
+	</select>
+	
+	<select id="getFollowingByKeyword" resultType="UserDto">
+		select * from user where id in (select following from follower where follower=#{id} and following like concat("%",#{keyword},"%"))
 	</select>
 </mapper>

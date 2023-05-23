@@ -221,4 +221,15 @@ public class UserController {
 		return new ResponseEntity<List<UserDto>>(usvc.getFollowing(id), HttpStatus.OK);
 		
 	}
+	
+	@GetMapping("/friend/{id}/{keyword}")
+	public ResponseEntity<?> getFollowingByKeyword(@PathVariable String id, @PathVariable String keyword) throws SQLException {
+//		System.out.println(id);
+//		System.out.println(keyword);
+		
+		//사용자 아이디, 키워드로 친구목록 가져오기
+		
+		return new ResponseEntity<List<UserDto>>(usvc.getFollowingByKeyword(id, keyword), HttpStatus.OK);
+		
+	}
 }

@@ -28,4 +28,5 @@ public interface UserService {
 	public List<UserDto> searchNotFollowing(String keyword, String id) throws SQLException;
 	public void follow(Map<String, String> map) throws SQLException;
 	public List<UserDto> getFollowing(String id) throws SQLException; 
+	public List<UserDto> getFollowingByKeyword(String id, String keyword) throws SQLException; 
 }

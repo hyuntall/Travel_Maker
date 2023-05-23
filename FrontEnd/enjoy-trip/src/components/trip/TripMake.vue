@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main">
     <div class="plan">
       <div class="planner">
         <h4 style="margin-top:10px">{{ region.cate2 }}여행</h4>
@@ -12,7 +12,7 @@
           </div>
           <input type="text" @keyup="flist" placeholder="친구 검색" style="text-align:center; border-radius:5px"/>
           <div id="userlist" v-for="(friend, index) in friendList" :key="index">
-            <div><b-avatar variant="info" :src="friend.image? require(`C:/EnjoyTrip/user/${friend.image}`):require('../../assets/tmp_profile2.jpg')"></b-avatar>{{ friend.name }} <a href="#" @click="addF(index)">추가</a></div>
+            <div><b-avatar variant="info" :src="friend.image? require(`C:/EnjoyTrip/user/${friend.image}`):require('../../assets/tmp_profile2.jpg')"></b-avatar>{{ friend.name }} ({{friend.id}}) <a href="#" @click="addF(index)">추가</a></div>
           </div>
         </div>
         <div class="cal">
@@ -32,7 +32,7 @@
             size="sm"
             @input="makedays"
           ></b-form-datepicker>
-          <a href="#" @click="makePlan">일정 생성</a>
+          
         </div>
         <!-- days -->
         <div class="days" v-if="cnt">
@@ -42,10 +42,11 @@
             <p>
               {{ end }}
             </p>
-            <p>{{ cnt }}일 일정</p>
+            <p>{{ cnt }}일 일정 </p>
+            <a href="#" @click="makePlan">일정 생성</a>
           </div>
           <div class="plandays" v-for="idx in cnt" :key="idx">
-            <h4>{{ idx }}일차</h4>
+            <h4>{{ idx }}일차 <a href="#" @click="setline(idx)">경로보기</a></h4>
             <hr />
 
             <draggable v-model="days[idx - 1]" class="list-group places" :list="days[idx - 1]" group="places">
@@ -55,7 +56,7 @@
                   <div :id="'content'+idx+'-'+index" contenteditable="true">
                   {{p.comment}} 
                   </div>
-                  <a href="#" @click="memoSave(idx,index)">완료</a>
+                  <a href="#" @click="memoSave(idx,index)" @keyup.13="memoSave(idx,index)">완료</a>
                 </div>
               </div>
             </draggable>
@@ -356,7 +357,7 @@ export default {
       console.log(event.target.value)
       this.friendList = [];
       if (event.target.value) {
-        http.get("/user/searchBykeyword/" + event.target.value).then(({ data }) => {
+        http.get("/user/friend/" + this.userInfo.id + "/" + event.target.value).then(({ data }) => {
           data.forEach((element) => {
             this.friendList.push(element);
           });
@@ -446,12 +447,41 @@ export default {
       this.days[idx-1][index].comment = content.textContent
       var memo = document.querySelector("#memo"+idx+"-"+index);
       memo.style.display = "none"
+    },
+    setline(idx) {
+      this.displayPlaces(this.days[idx-1])
+// 127.046048046817 37.5261262382238
+// TripMake.vue:459 127.042202512988 37.5276413582416
+      console.log("setline idx: "+idx)
+      var linePath = [
+        
+      ]
+      this.days[idx-1].forEach(element => {
+        var x = element.x
+        var y = element.y
+        console.log(x +" " + y)
+        linePath.push(new kakao.maps.LatLng(x,y))
+      });
+      console.log(linePath)
+      // 지도에 표시할 선을 생성합니다
+      var polyline = new kakao.maps.Polyline({
+          path: linePath, // 선을 구성하는 좌표배열 입니다
+          strokeWeight: 5, // 선의 두께 입니다
+          strokeColor: 'red', // 선의 색깔입니다
+          strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+          strokeStyle: 'solid' // 선의 스타일입니다
+      });
+      // 지도에 선을 표시합니다 
+      polyline.setMap(this.map);  
+
     }
   },
 };
 </script>
 
 <style scoped>
+.main {height: 100vh}
+
 .plan {
   padding-top: 80px;
   display: flex;
@@ -490,6 +520,8 @@ export default {
   border: 1px solid black;
   width: 95%;
 }
+
+.plan .planner .days .plandays a {font-size: 14px;}
 .plan .planner .days .plandays .places {
   min-height: 60px;
 }
@@ -524,7 +556,7 @@ export default {
 .plan .result {
   width: 18%;
   text-align: center;
-  height: 100vh;
+  /* height: 100vh; */
   overflow-y: scroll;
 }
 

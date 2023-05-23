@@ -77,6 +77,11 @@ const routes = [
         beforeEnter: onlyAuthUser,
         component: () => import(/* webpackChunkName: "trip" */ "@/components/trip/TripMake"),
       },
+      {
+        path: "detail",
+        name: "TripDetail",
+        component: () => import(/* webpackChunkName: "trip" */ "@/components/trip/TripDetail"),
+      },
     ],
   },
   {

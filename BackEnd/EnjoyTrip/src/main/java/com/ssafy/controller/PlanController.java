@@ -38,18 +38,18 @@ public class PlanController {
 	
 	@PostMapping("/insert")
 	public ResponseEntity<?> insertPlan(@RequestBody PlanDto plan) throws SQLException {
-		int r = planSvc.makePlan(plan);
-		
-		if (r == 1 && plan.getPlaces() != null) {
+		//1. 받아온 pl
+		int planIdx = planSvc.makePlan(plan);
+
+		if (planIdx > 0 && plan.getPlaces() != null) {
 			List<String> users = plan.getUser_id();
-			int idx = planSvc.getCurrentIdx();
 			for (String user_id : users) {
 				System.out.println(user_id + "dsadasdasdsa");
-				TripMemberDto tripMember = new TripMemberDto(idx, user_id);
+				TripMemberDto tripMember = new TripMemberDto(planIdx, user_id);
 				tmSvc.insertUserOfPlan(tripMember);
 			}
 			for (PlaceDto place : plan.getPlaces()) {
-				place.setPlan_idx(idx);
+				place.setPlan_idx(planIdx);
 				System.out.println(place);
 				placeSvc.insertPlace(place);
 			}

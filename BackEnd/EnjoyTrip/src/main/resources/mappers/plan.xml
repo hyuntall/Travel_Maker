@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.model.repository.PlanRepository">
 
-	<insert id="makePlan">
+	<insert id="makePlan" useGeneratedKeys="true"
+    keyProperty="idx">
 		insert into plan(title, start_date, end_date, content)
 		values(#{title}, #{start_date}, #{end_date}, #{content});
 	</insert>
