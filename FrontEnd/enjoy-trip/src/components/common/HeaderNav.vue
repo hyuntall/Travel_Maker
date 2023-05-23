@@ -19,10 +19,10 @@
                 <router-link to="/qna">QnA</router-link>
               </li>
               <li v-if="userInfo">
-                <a href="#" @click.prevent="onClickLogout">로그아웃</a>
+                <router-link to="/mypage">MyPage</router-link>
               </li>
               <li v-if="userInfo">
-                <router-link to="/mypage">MyPage</router-link>
+                <a href="#" @click.prevent="onClickLogout">로그아웃</a>
               </li>
               <li v-else-if="!userInfo">
                 <router-link to="/login">로그인</router-link>
@@ -73,6 +73,8 @@ export default {
 }
 .header {
   display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .header div {
   padding: 1em;
@@ -89,10 +91,10 @@ export default {
 .header nav .main-menu {
   display: flex;
   justify-content: space-around;
+  margin: 0;
 }
 .header nav .main-menu li {
   text-align: center;
-  padding-top: 10px;
 }
 .header nav .main-menu li:hover {
   background-color: #dad7d7;
