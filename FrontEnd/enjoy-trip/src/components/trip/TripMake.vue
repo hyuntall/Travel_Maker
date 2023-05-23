@@ -294,9 +294,6 @@ export default {
       this.displayPlaces(data);
     },
     displayPlaces(places) {
-      //var listEl = document.getElementById("placesList"),
-      //menuEl = document.getElementById("menu_wrap"),
-      //fragment = document.createDocumentFragment(),
       var bounds = new kakao.maps.LatLngBounds();
       // listStr = "";
 
