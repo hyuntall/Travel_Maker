@@ -53,7 +53,6 @@
               {{ end }}
             </p>
             <p>{{ cnt }}일 일정</p>
-            <a href="#" @click="makePlan">일정 생성</a>
           </div>
           <div class="plandays" v-for="idx in cnt" :key="idx">
             <h4>{{ idx }}일차 <a href="#" @click="setline(idx)">경로보기</a></h4>
@@ -71,6 +70,9 @@
                 </div>
               </div>
             </draggable>
+          </div>
+          <div class="make-button">
+            <button @click="makePlan">일정 생성</button>
           </div>
         </div>
       </div>
@@ -178,11 +180,11 @@ export default {
       this.map = new kakao.maps.Map(container, options);
       this.infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
       this.polyline = new kakao.maps.Polyline({
-          path: [], // 선을 구성하는 좌표배열 입니다
-          strokeWeight: 5, // 선의 두께 입니다
-          strokeColor: 'red', // 선의 색깔입니다
-          strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-          strokeStyle: 'solid' // 선의 스타일입니다
+        path: [], // 선을 구성하는 좌표배열 입니다
+        strokeWeight: 5, // 선의 두께 입니다
+        strokeColor: "red", // 선의 색깔입니다
+        strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+        strokeStyle: "solid", // 선의 스타일입니다
       });
       var url = `https://dapi.kakao.com/v2/local/search/address.json?query=${this.$route.params.cate1} ${this.$route.params.cate2}`;
       var key = "KakaoAK 8e2e5c55f8a455204cc6d497c99b6c00";
@@ -494,14 +496,13 @@ export default {
       memo.style.display = "none";
     },
     setline(idx) {
-      this.displayPlaces(this.days[idx-1])
+      this.displayPlaces(this.days[idx - 1]);
       this.linePath = [];
-      this.markers.forEach(element => {
-        this.linePath.push(element.getPosition())
+      this.markers.forEach((element) => {
+        this.linePath.push(element.getPosition());
       });
 
       // console.log("setline idx: "+idx)
-
 
       // this.days[idx-1].forEach(element => {
       //   var x = element.x
@@ -511,11 +512,10 @@ export default {
       // });
       // console.log(linePath)
       // 지도에 표시할 선을 생성합니다
-      this.polyline.setPath(this.linePath)
-      // 지도에 선을 표시합니다 
-      this.polyline.setMap(this.map);  
-
-    }
+      this.polyline.setPath(this.linePath);
+      // 지도에 선을 표시합니다
+      this.polyline.setMap(this.map);
+    },
   },
 };
 </script>
@@ -536,7 +536,6 @@ export default {
   height: 100%;
   /* background-color: blue; */
   text-align: center;
-  overflow-y: scroll;
 }
 
 .plan .planner .friends {
@@ -554,8 +553,10 @@ export default {
 
 .plan .planner .days {
   height: 67.8%;
-  /* overflow-y: scroll;
-  scrollbar-width: 0px; */
+  overflow-y: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  /* scrollbar-width: 0px; */
 }
 
 /* .plan .planner .days {overflow-y: scroll} */
@@ -563,6 +564,10 @@ export default {
   margin: 10px auto;
   border: 1px solid black;
   width: 95%;
+}
+
+.planner .days::-webkit-scrollbar {
+  display: none;
 }
 
 .plan .planner .days .plandays a {
@@ -600,6 +605,23 @@ export default {
   margin-bottom: 2px;
 }
 
+.make-button {
+  background-color: #888;
+  width: 18%;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.make-button button {
+  width: 100%;
+  background-color: #888;
+}
+
 .plan .map {
   width: 64%;
 }
@@ -609,6 +631,12 @@ export default {
   text-align: center;
   /* height: 100vh; */
   overflow-y: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.plan .result::-webkit-scrollbar {
+  display: none;
 }
 
 .plan .result #placesList .list-group-item {
@@ -808,7 +836,4 @@ export default {
   cursor: default;
   color: #777;
 }
-
-
-
 </style>
