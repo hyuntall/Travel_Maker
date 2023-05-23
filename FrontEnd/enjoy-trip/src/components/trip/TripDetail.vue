@@ -2,8 +2,6 @@
     <div class="container">
       <div class="row">
         <div class="detail">
-         
-
           <div class="map">
             <div class="map_wrap">
               <div id="map" style="width: 100%; height: 95vh; position: relative; overflow: hidden"></div>              
@@ -12,13 +10,12 @@
 
           <div class="tog">
             <b-button v-b-toggle.sidebar-1>여행 계획표</b-button>
-            <b-sidebar id="sidebar-1" title="여행 계획" shadow>
+            <b-sidebar id="sidebar-1" :title="plan.title" shadow>
               <div class="px-3 py-2">
-
                 <div class="accordion" role="tablist">
-                  <b-card no-body class="mb-1">
+                  <b-card no-body class="mb-1" v-for="cnt in dayCnt" :key="cnt">
                     <b-card-header header-tag="header" class="p-1" role="tab">
-                      <b-button block v-b-toggle.accordion-1 >1일차 일정</b-button>
+                      <b-button block v-b-toggle.accordion-1 >{{cnt}}일차 일정</b-button>
                       <span style="font-size:14px;"> 2002.03.12 ~ 2005.12.31</span>
                     </b-card-header>
                     <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
@@ -29,29 +26,6 @@
                     </b-collapse>
                   </b-card>
 
-                  <b-card no-body class="mb-1">
-                    <b-card-header header-tag="header" class="p-1" role="tab">
-                      <b-button block v-b-toggle.accordion-2>2일차 일정</b-button>
-                      <span style="font-size:14px;"> 2002.03.12 ~ 2005.12.31</span>
-                    </b-card-header>
-                    <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel">
-                      <b-card-body>
-                        <b-card-text>{{ text }}</b-card-text>
-                      </b-card-body>
-                    </b-collapse>
-                  </b-card>
-
-                  <b-card no-body class="mb-1">
-                    <b-card-header header-tag="header" class="p-1" role="tab">
-                      <b-button block v-b-toggle.accordion-3 >3일차 일정</b-button>
-                      <span style="font-size:14px;"> 2002.03.12 ~ 2005.12.31</span>
-                    </b-card-header>
-                    <b-collapse id="accordion-3" accordion="my-accordion" role="tabpanel">
-                      <b-card-body>
-                        <b-card-text>{{ text }}</b-card-text>
-                      </b-card-body>
-                    </b-collapse>
-                  </b-card>
                 </div>
               </div>
             </b-sidebar>
@@ -147,7 +121,6 @@ export default {
 .detail {margin-top: 80px; position: relative;}
 
 .detail .tog {position: absolute; z-index: 9999; top:0}
-
 
 /* kakao */
 .map_wrap,
