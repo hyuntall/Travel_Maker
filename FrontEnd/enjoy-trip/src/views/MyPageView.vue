@@ -73,6 +73,7 @@ import http from "@/util/http-common";
 import { mapState, mapMutations } from "vuex";
 import MyBoard from "@/components/mypage/MyBoard.vue";
 import MyPlan from "@/components/mypage/MyPlan.vue";
+import swal from "sweetalert";
 
 export default {
   name: "MyPageView",
@@ -100,7 +101,11 @@ export default {
         this.myBoards = data;
       })
       .catch(() => {
-        alert("게시글 목록 요청 실패");
+        swal({
+          title: "Error",
+          text: "게시글 목록 요청 실패",
+          icon: "error",
+        });
       });
 
     http
@@ -140,13 +145,21 @@ export default {
         })
         .then(({ data }) => {
           console.log(data);
-          alert("이미지 변경 성공");
+          swal({
+            title: "Success",
+            text: "프로필 사진이 변경되었습니다.",
+            icon: "success",
+          });
           this.userInfo.image = data;
           this.SET_USER_INFO(this.userInfo);
           window.location.reload();
         })
         .catch(() => {
-          alert("이미지 변경 실패");
+          swal({
+            title: "Error",
+            text: "이미지 변경 실패",
+            icon: "error",
+          });
         });
     },
   },
@@ -169,6 +182,8 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-top: 50px;
+  padding-bottom: 50px;
   /* background: rgba(0, 0, 0, 0.1); */
 }
 .container {
@@ -208,8 +223,8 @@ export default {
 }
 
 .profile-img img {
-  width: 100%;
-  height: 100%;
+  /* width: 100%; */
+  height: 100px;
   object-fit: cover;
 }
 

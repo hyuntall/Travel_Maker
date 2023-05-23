@@ -27,9 +27,9 @@
           <button class="btn btn-1" @click="deleteBoard">삭제</button>
           <router-link class="btn btn-1" :to="{ name: 'BoardModify', params: { idx: board.idx } }">수정</router-link>
         </div>
+        <p class="likes">{{ board.view_count }} views</p>
         <div class="bottom">
           <div class="title">{{ board.title }}</div>
-          <p class="likes">{{ board.view_count }} views</p>
           <div class="message" v-html="enterToBr"></div>
           <div class="addComments">
             <div class="reaction">
@@ -41,7 +41,7 @@
             <a href="#" @click="writeComment">Post</a>
           </div>
         </div>
-        <comment-list :board_idx="board.idx"></comment-list>
+        <comment-list :board_idx="board.idx" ref="commentList"></comment-list>
       </div>
     </div>
   </div>
@@ -116,7 +116,8 @@ export default {
         })
         .then(({ data }) => {
           console.log(data);
-          window.location.reload();
+          this.$refs.commentList.getComments();
+          // window.location.reload();
         })
         .catch(() => {
           swal({
@@ -505,6 +506,9 @@ a {
   width: 100%;
   min-height: 400px;
   margin: 10px 0 15px;
+}
+.likes {
+  margin-right: 15px;
 }
 
 .modify {

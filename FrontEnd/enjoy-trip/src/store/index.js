@@ -4,6 +4,7 @@ import jwtDecode from "jwt-decode";
 import createPersistedState from "vuex-persistedstate";
 import { login, findById, tokenRegeneration, logout } from "@/api/user";
 import router from "@/router";
+import swal from "sweetalert";
 
 Vue.use(Vuex);
 
@@ -80,7 +81,11 @@ export default new Vuex.Store({
           console.log("getUserInfo() error code [토큰 만료되어 사용 불가능.] ::: ", error.response.status);
           commit("SET_IS_VALID_TOKEN", false);
           await dispatch("tokenRegeneration");
-          alert("토큰 만료! 재로그인해주세요!");
+          swal({
+            title: "Warning",
+            text: "토큰 만료! 재로그인 해주세요!",
+            icon: "warning",
+          });
           router.push({ name: "login" });
         }
       );
@@ -110,7 +115,11 @@ export default new Vuex.Store({
                 } else {
                   console.log("리프레시 토큰 제거 실패");
                 }
-                alert("RefreshToken 기간 만료!!! 다시 로그인해 주세요.");
+                swal({
+                  title: "Warning",
+                  text: "RefreshToken 기간 만료!!! 다시 로그인해 주세요.",
+                  icon: "warning",
+                });
                 commit("SET_IS_LOGIN", false);
                 commit("SET_USER_INFO", null);
                 commit("SET_IS_VALID_TOKEN", false);

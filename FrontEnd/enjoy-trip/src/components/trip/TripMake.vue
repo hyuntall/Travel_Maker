@@ -204,7 +204,11 @@ export default {
       var keyword = document.getElementById("keyword").value;
 
       if (!keyword.replace(/^\s+|\s+$/g, "")) {
-        alert("키워드를 입력해주세요!");
+        swal({
+          title: "Warning",
+          text: "키워드를 입력해주세요!",
+          icon: "warning",
+        });
         return false;
       }
       //fetch
@@ -351,7 +355,11 @@ export default {
     makedays() {
       if (this.start !== null && this.end !== null) {
         if (this.start >= this.end) {
-          alert("올바르지 않은 날짜입니다.");
+          swal({
+            title: "Warning",
+            text: "올바르지 않은 날짜입니다!",
+            icon: "warning",
+          });
           return;
         }
         this.days = [];

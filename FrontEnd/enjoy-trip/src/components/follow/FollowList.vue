@@ -15,7 +15,7 @@
               <div class="user-list">
                 <div class="user" v-for="(user, index) in friendList" :key="index">
                   <div class="profile row">
-                    <div class="user-img col-4">
+                    <div class="user-img col-2">
                       <b-avatar
                         variant="info"
                         :src="
@@ -25,11 +25,13 @@
                         "
                       ></b-avatar>
                     </div>
-                    <div class="info col-4">
-                      <p class="name">{{ user.name }}</p>
-                      <p class="id">{{ user.id }}</p>
+                    <div class="info col-2">
+                      <div>
+                        <p class="name">{{ user.name }}</p>
+                        <p class="id">{{ user.id }}</p>
+                      </div>
                     </div>
-                    <div class="icon col-4" @click="follow(index)">
+                    <div class="icon col-8" @click="follow(index)">
                       <font-awesome-icon icon="fa-solid fa-user-plus" size="2x" style="color: #999999" />
                     </div>
                   </div>
@@ -70,6 +72,7 @@
 <script>
 import http from "@/util/http-common";
 import { mapState } from "vuex";
+import swal from "sweetalert";
 
 export default {
   name: "FollowList",
@@ -131,7 +134,11 @@ export default {
           follower: this.userInfo.id,
         })
         .then(({ data }) => {
-          alert(data);
+          swal({
+            title: "Success",
+            text: data,
+            icon: "success",
+          });
           // this.friendList.splice(index, 1);
           this.getFollowings();
         });
@@ -207,6 +214,7 @@ export default {
   background-color: #fff;
   position: absolute;
   width: 100%;
+  z-index: 200;
 }
 .user-list .user {
   padding: 5px;
@@ -215,6 +223,17 @@ export default {
 
 .user .profile {
   display: flex;
+}
+
+.user .profile > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user .profile .icon {
+  justify-content: flex-end;
+  padding-right: 5px;
 }
 
 .user-list .user:hover {

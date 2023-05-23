@@ -21,21 +21,25 @@ export default {
   },
   created() {
     console.log(this.board_idx);
-    http
-      .get(`/comment/board/${this.board_idx}`)
-      .then(({ data }) => {
-        console.log(data);
-        this.comments = data;
-      })
-      .catch(() => {
-        swal({
-          title: "Error",
-          text: "댓글 목록을 불러오지 못했습니다.",
-          icon: "error",
-        });
-      });
+    this.getComments();
   },
-  methods: {},
+  methods: {
+    getComments() {
+      http
+        .get(`/comment/board/${this.board_idx}`)
+        .then(({ data }) => {
+          console.log(data);
+          this.comments = data;
+        })
+        .catch(() => {
+          swal({
+            title: "Error",
+            text: "댓글 목록을 불러오지 못했습니다.",
+            icon: "error",
+          });
+        });
+    },
+  },
 };
 </script>
 

@@ -5,7 +5,7 @@
       <div class="board_input user_id">
         <label for="id" class="label">작성자</label>
         <br />
-        <input type="text" v-model="user_id" name="user_id" id="user_id" readonly/>
+        <input type="text" v-model="user_id" name="user_id" id="user_id" readonly />
       </div>
       <div class="board_input title">
         <label for="title" class="label">제목</label>
@@ -27,6 +27,7 @@
 
 <script>
 import http from "@/util/http-common";
+import swal from "sweetalert";
 
 export default {
   name: "qnaWrite",
@@ -66,7 +67,11 @@ export default {
         })
         .then(({ data }) => {
           console.log(data);
-          alert("게시글이 등록되었습니다.");
+          swal({
+            title: "Success",
+            text: "QnA가 등록되었습니다.",
+            icon: "success",
+          });
           this.$router.push({ name: "QnAList" });
         });
     },
@@ -80,14 +85,22 @@ export default {
         })
         .then(({ data }) => {
           console.log(data);
-          alert("게시글이 수정되었습니다.");
+          swal({
+            title: "Success",
+            text: "QnA가 성공적으로 수정되었습니다.",
+            icon: "success",
+          });
           this.$router.push({ name: "QnAList" });
         });
     },
     deleteQnA() {
       http.delete(`/qna/delete/${this.id}`).then(({ data }) => {
         console.log(data);
-        alert("삭제되었습니다.");
+        swal({
+          title: "Success",
+          text: "QnA가 성공적으로 삭제되었습니다.",
+          icon: "success",
+        });
         this.$router.push({ name: "QnAList" });
       });
     },
