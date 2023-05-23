@@ -1,11 +1,12 @@
 <template>
   <div class="row plan-row">
-    <div class="title col-6">
-      <a href="#">
+    <font-awesome-icon icon="fa-solid fa-plane" fade class="col-2" size="lg" />
+    <div class="title col-4">
+      <a href="#" class="link">
         {{ plan.title }}
       </a>
     </div>
-    <div class="date col-6">{{ plan.start_date | dateFormat }} ~ {{ plan.end_date | dateFormat }}</div>
+    <div class="date col-4">{{ plan.start_date | dateFormat }} ~ {{ plan.end_date | dateFormat }}</div>
   </div>
 </template>
 
@@ -37,7 +38,7 @@ export default {
 <style scoped>
 .plan-row {
   height: 50px;
-  border-top: 1px solid rgb(218, 217, 217);;
+  border-top: 1px solid rgb(218, 217, 217);
   align-items: center;
   justify-content: center;
 }
@@ -46,5 +47,9 @@ export default {
 }
 .date {
   text-align: center;
+}
+.link {
+  text-decoration: none;
+  color: rgb(77, 77, 77);
 }
 </style>

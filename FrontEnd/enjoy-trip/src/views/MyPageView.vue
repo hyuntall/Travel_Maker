@@ -3,7 +3,6 @@
     <div class="container">
       <div class="my-profile">
         <div>
-
           <div class="profile-img">
             <label for="file" class="file-label">
               <img :src="url" />
@@ -15,35 +14,37 @@
           </div>
           <div class="profile">
             <h3>{{ this.userInfo.id }}({{ this.userInfo.name }})님</h3>
-          <p>
-            {{ this.userInfo.phone_number }}
-          </p>
-          <div class="setup row">
-            <div class="col-3">
-              <font-awesome-icon icon="fa-solid fa-pen-to-square" size="2x" style="color: #999999" />
-              <p>게시글 수</p>
+            <p>
+              {{ this.userInfo.phone_number }}
+            </p>
+            <div class="setup row">
+              <div class="col-3">
+                <font-awesome-icon icon="fa-solid fa-pen-to-square" size="2x" style="color: #999999" />
+                <p class="link">게시글 수</p>
+              </div>
+              <div class="col-3">
+                <router-link class="link" :to="{ name: 'FollowList', params: { type: 'following' } }">
+                  <font-awesome-icon icon="fa-solid fa-users" size="2x" style="color: #999999" />
+                  <p>팔로워</p>
+                </router-link>
+              </div>
+              <div class="col-3">
+                <router-link class="link" :to="{ name: 'FollowList', params: { type: 'following' } }">
+                  <font-awesome-icon icon="fa-solid fa-user-plus" size="2x" style="color: #999999" />
+                  <p>팔로우</p>
+                </router-link>
+              </div>
+              <div class="col-3">
+                <router-link class="link" :to="{ name: 'UserModify', params: { user_id: userInfo.id } }">
+                  <!-- <button class="modify-button"> -->
+                  <font-awesome-icon icon="fa-solid fa-gear" size="2x" style="color: #999999" />
+                  <p>내 정보 수정</p>
+                  <!-- </button> -->
+                </router-link>
+              </div>
             </div>
-            <div class="col-3">
-              <font-awesome-icon icon="fa-solid fa-users" size="2x" style="color: #999999" />
-              <p>팔로워</p>
-            </div>
-            <div class="col-3">
-              <router-link :to="{ name: 'FollowList', params: { type: 'following' } }">
-                <font-awesome-icon icon="fa-solid fa-user-plus" size="2x" style="color: #999999" />
-                <p>팔로우</p>
-              </router-link>
-            </div>
-            <div class="col-3">
-            <router-link :to="{ name: 'UserModify', params: { user_id: userInfo.id } }">
-              <!-- <button class="modify-button"> -->
-                <font-awesome-icon icon="fa-solid fa-gear" size="2x" style="color: #999999" />
-                <p>내 정보 수정</p>
-              <!-- </button> -->
-            </router-link>
-          </div>
           </div>
         </div>
-      </div>
       </div>
       <p class="plan-header">내 계획 목록</p>
       <div class="my-plan">
@@ -160,7 +161,7 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'SDGothic', serif;
+  font-family: "SDGothic", serif;
 }
 .wrap {
   width: 100%;
@@ -196,11 +197,10 @@ export default {
   text-align: center;
 }
 
-
 .profile-img {
   width: 100px;
   height: 100px;
-  overflow:hidden;
+  overflow: hidden;
   border: 5px solid lightgray;
   border-radius: 50%;
   margin: auto;
@@ -220,7 +220,7 @@ export default {
   text-align: center;
 }
 
-.setup div p{
+.setup div p {
   width: 100px;
 }
 
@@ -231,7 +231,7 @@ export default {
   margin: auto;
   width: 150px;
   height: 30px;
-  background:  lightgray;
+  background: lightgray;
   border-radius: 10px;
   font-weight: 500;
   cursor: pointer;
@@ -252,7 +252,10 @@ export default {
   display: flex;
   align-items: center;
 }
-
+.link {
+  text-decoration: none;
+  color: rgb(77, 77, 77);
+}
 .plan-header,
 .board-header {
   text-align: center;
@@ -264,14 +267,28 @@ export default {
   border: 1px solid rgb(218, 217, 217);
   width: 100%;
   overflow-y: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
+
+.my-plan::-webkit-scrollbar {
+  display: none;
+}
+
 .my-boards {
   height: 30%;
   background-color: white;
   border: 1px solid rgb(218, 217, 217);
   width: 100%;
   overflow-y: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
+
+.my-boards::-webkit-scrollbar {
+  display: none;
+}
+
 .my-boards-content {
   padding-top: 15px;
 }
