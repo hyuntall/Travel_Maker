@@ -133,10 +133,11 @@ body {
 }
 
 .statuses .status img {
-  /* width: 100%; */
+  width: 100%;
   height: 400px;
   object-fit: contain;
 }
+
 
 .col-3 {
   width: 33%;
@@ -269,8 +270,8 @@ body {
   top: 0;
   left: 0; */
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: 400px;
+  object-fit: contain;
 }
 
 .col-9 .card .top .userDetails h3 {
