@@ -6,4 +6,7 @@
 		insert into place(name, url, latitude, longitude, address, category_code, plan_idx, date_index, `index`, comment)
 	values(#{name}, #{url}, #{latitude}, #{longitude}, #{address}, #{category_code}, #{plan_idx}, #{date_index}, #{index}, #{comment});
 	</insert>
+	<select id="selectByPlanIdx" resultType="PlaceDto">
+		select * from place where plan_idx = #{plan_idx}
+	</select>
 </mapper>

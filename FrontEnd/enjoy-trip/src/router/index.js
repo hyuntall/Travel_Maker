@@ -82,7 +82,7 @@ const routes = [
         component: () => import(/* webpackChunkName: "trip" */ "@/components/trip/TripMake"),
       },
       {
-        path: "detail",
+        path: "detail/:plan_idx",
         name: "TripDetail",
         component: () => import(/* webpackChunkName: "trip" */ "@/components/trip/TripDetail"),
       },

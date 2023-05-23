@@ -107,5 +107,11 @@ public class UserServiceImpl implements UserService{
 	public List<UserDto> getFollowingByKeyword(String id, String keyword) throws SQLException {
 		// TODO Auto-generated method stub
 		return urepo.getFollowingByKeyword(id, keyword);
+	}
+
+	@Override
+	public List<UserDto> planDetail(int plan_idx) throws SQLException {
+		// TODO Auto-generated method stub
+		return urepo.planDetail(plan_idx);
 	};
 }

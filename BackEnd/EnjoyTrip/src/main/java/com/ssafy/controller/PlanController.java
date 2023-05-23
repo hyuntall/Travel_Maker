@@ -2,6 +2,7 @@ package com.ssafy.controller;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import com.ssafy.dto.TripMemberDto;
 import com.ssafy.model.service.PlaceService;
 import com.ssafy.model.service.PlanService;
 import com.ssafy.model.service.TripMemberService;
+import com.ssafy.model.service.UserService;
 
 @Controller
 @RequestMapping("/plan")
@@ -35,6 +37,9 @@ public class PlanController {
 	
 	@Autowired
 	TripMemberService tmSvc;
+	
+	@Autowired
+	UserService userSvc;
 	
 	@PostMapping("/insert")
 	public ResponseEntity<?> insertPlan(@RequestBody PlanDto plan) throws SQLException {
@@ -66,5 +71,22 @@ public class PlanController {
 			plans.add(planSvc.selectByIdx(plan_idx));
 		}
 		return new ResponseEntity<List<PlanDto>>(plans, HttpStatus.OK);
+	}
+	
+	@GetMapping("/detail/{plan_idx}")
+	public ResponseEntity<?> planDetail(@PathVariable int plan_idx) throws SQLException {
+		System.out.println(plan_idx);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		//1.plan 조회
+		PlanDto plan = planSvc.selectByIdx(plan_idx);
+		map.put("plan", plan);
+
+		//2.tripmember 조회 -> user table user 조회
+		//select * from user where id in (select user_id from tripmember where plan_idx = 11);
+		map.put("tripmember", userSvc.planDetail(plan_idx)); 
+		
+		//3.places 조회
+		map.put("places", placeSvc.selectByPlanIdx(plan_idx));
+		return new ResponseEntity<HashMap<String, Object>>(map, HttpStatus.OK);
 	}
 }

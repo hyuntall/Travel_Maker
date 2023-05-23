@@ -2,9 +2,7 @@
   <div class="row plan-row">
     <font-awesome-icon icon="fa-solid fa-plane" fade class="col-2" size="lg" />
     <div class="title col-4">
-      <a href="#" class="link">
-        {{ plan.title }}
-      </a>
+      <router-link :to="'/trip/detail/'+plan.idx" class="link">{{ plan.title }}</router-link>
     </div>
     <div class="date col-4">{{ plan.start_date | dateFormat }} ~ {{ plan.end_date | dateFormat }}</div>
   </div>

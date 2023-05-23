@@ -69,4 +69,8 @@
 	<select id="getFollowingByKeyword" resultType="UserDto">
 		select * from user where id in (select following from follower where follower=#{id} and following like concat("%",#{keyword},"%"))
 	</select>
+	
+	<select id="planDetail" resultType="UserDto">
+		select * from user where id in (select user_id from tripmember where plan_idx = #{plan_idx});
+	</select>
 </mapper>
