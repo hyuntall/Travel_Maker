@@ -1,91 +1,74 @@
 <template>
   <div class="wrap">
     <div class="container">
-
-      <div id="board-search" style="margin-bottom:20px">
-        <div class="search-window first">
-          <h2>팔로잉</h2>
-          <div v-if="followed.length === 0">현재 팔로잉하고 있는 유저가 없습니다</div>
-          <div class="profile">
-            <div v-for="follo, index in followed" :key="index">
-              <b-avatar variant="info" :src="follo.image? require(`C:/EnjoyTrip/user/${follo.image}`):require('../../assets/tmp_profile2.jpg')"></b-avatar>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div id="board-search">
-
         <div class="search-window">
           <form action="">
             <div class="search-wrap">
               <h2>사용자 검색</h2>
-              <b-form-input class="w-70 mt-4 mx-auto" placeholder="사용자를 검색해주세요" @focus="flist" @keyup="flist" ></b-form-input>
-              <!-- <input id="search" type="search" name="" placeholder="검색어를 입력해주세요." value="" @keyup="flist" /> -->
-              <!-- <button type="submit" class="btn btn-dark">검색</button> -->
+              <b-form-input
+                class="w-70 mt-4 mx-auto"
+                placeholder="사용자를 검색해주세요"
+                @focus="flist"
+                @keyup="flist"
+              ></b-form-input>
               <div class="user-list">
-                <div class="user" v-for="(user, index) in friendList" :key="index" >
+                <div class="user" v-for="(user, index) in friendList" :key="index">
                   <div class="profile">
-                    <b-avatar variant="info" :src="user.image? require(`C:/EnjoyTrip/user/${user.image}`):require('../../assets/tmp_profile2.jpg')"></b-avatar>
-                  </div>
-                  <div class="info">
-                    <p class="name">{{user.name}} </p>
-                    <p class="id">{{user.id}}</p>
-                  </div>
-                  <div class="icon" @click="follow(index)">
-                    <font-awesome-icon icon="fa-solid fa-user-plus" size="2x" style="color: #999999" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </form>
-          <!-- <div class="search-window">
-            <form action="">
-              <label for="search" class="search-label">사용자 검색</label>
-              <div class="search-wrap">
-                <h2>사용자 검색</h2>
-                <b-form-input class="w-70 mt-4 mx-auto" placeholder="사용자를 검색해주세요" @focus="flist" @keyup="flist" ></b-form-input>
-               
-                <div class="user-list">
-                  <div class="user" v-for="(user, index) in friendList" :key="index" @click="follow">
-                    <div class="profile">
-                      <b-avatar variant="info" :src="user.image? require(`C:/EnjoyTrip/user/${user.image}`):require('../../assets/tmp_profile2.jpg')"></b-avatar>
-                    </div>
+                    <b-avatar
+                      variant="info"
+                      :src="
+                        user.image
+                          ? require(`C:/EnjoyTrip/user/${user.image}`)
+                          : require('../../assets/tmp_profile2.jpg')
+                      "
+                    ></b-avatar>
+
                     <div class="info">
-                     <p class="name">{{user.name}} </p>
-                     <p class="id">{{user.id}}</p>
+                      <p class="name">{{ user.name }}</p>
+                      <p class="id">{{ user.id }}</p>
                     </div>
-                    <div class="icon">
+                    <div class="icon" @click="follow(index)">
                       <font-awesome-icon icon="fa-solid fa-user-plus" size="2x" style="color: #999999" />
                     </div>
                   </div>
                 </div>
               </div>
-            </form>
-          </div> -->
-      <!-- </div>
-      <div class="resultList">
-        <div v-for="user in userList" :key="user.idx" class="result">
-          <div class="user-image">
-            <div class="user-img">
-              <img :src="user.image? require(`C:/EnjoyTrip/user/${user.image}`):require('../../assets/tmp_profile2.jpg')"/>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div id="board-search" style="margin-bottom: 20px">
+        <div class="search-window first">
+          <h2>팔로잉</h2>
+          <div v-if="followed.length === 0">현재 팔로잉하고 있는 유저가 없습니다</div>
+          <div class="profile-list">
+            <div class="followed_profile profile row" v-for="(follo, index) in followed" :key="index">
+              <div class="col-3">
+                <b-avatar
+                  variant="info"
+                  :src="
+                    follo.image ? require(`C:/EnjoyTrip/user/${follo.image}`) : require('../../assets/tmp_profile2.jpg')
+                  "
+                ></b-avatar>
+              </div>
+              <div class="followed-id col-3">{{ follo.id }}</div>
+              <div class="followed-id col-3">{{ follo.name }}</div>
+              <div class="followed-id col-3">
+                <font-awesome-icon icon="fa-solid fa-user-slash" />
+                친구 삭제
+              </div>
             </div>
           </div>
-          <div class="user-id">{{ user.id }}</div>
-          <div class="user-name">{{ user.name }}</div>
-          <div class="button-add">
-            <button>친구 추가</button>
-          </div> -->
         </div>
-
       </div>
     </div>
-    </div>
+  </div>
 </template>
 
 <script>
 import http from "@/util/http-common";
-import { mapState } from 'vuex';
+import { mapState } from "vuex";
 
 export default {
   name: "FollowList",
@@ -96,40 +79,38 @@ export default {
   data() {
     return {
       friendList: [],
-      followed: []
+      followed: [],
     };
   },
   created() {
     console.log("sadasdadads");
-    this.getFollowings()
+    this.getFollowings();
   },
   computed: {
     ...mapState(["userInfo"]),
-    
   },
   watch: {
-    followed() {
-
-    }
+    followed() {},
   },
   methods: {
     getFollowings() {
-      console.log("getfollowing")
-      http.get("user/follow/"+this.userInfo.id).then(({data})=> {
-      data.forEach(element => {
-        this.followed.push(element)
-        // console.log(element)
+      console.log("getfollowing");
+      http.get("user/follow/" + this.userInfo.id).then(({ data }) => {
+        this.followed = [];
+        data.forEach((element) => {
+          this.followed.push(element);
+          console.log(element);
+        });
       });
-    })
     },
     flist(event) {
-
       console.log(event.target.value);
       this.userList = [];
+      this.friendList = [];
       if (event.target.value) {
         http.get("/user/searchBykeyword/" + event.target.value + "/" + this.userInfo.id).then(({ data }) => {
           data.forEach((element) => {
-            if(element.id !== this.userInfo.id) {
+            if (element.id !== this.userInfo.id) {
               this.friendList.push(element);
             }
             console.log(this.friendList);
@@ -138,21 +119,22 @@ export default {
       }
     },
     clr() {
-      this.friendList = []
+      this.friendList = [];
     },
     follow(index) {
-      console.log("follow")
-      console.log(index)
-      http.post("/user/follow",{
-        following : this.friendList[index].id,
-        follower : this.userInfo.id
-      }).then(({data})=>{
-        alert(data)
-        this.friendList.splice(index,1)
-        this.getFollowings()
-      })
+      console.log("follow");
+      console.log(index);
+      http
+        .post("/user/follow", {
+          following: this.friendList[index].id,
+          follower: this.userInfo.id,
+        })
+        .then(({ data }) => {
+          alert(data);
+          // this.friendList.splice(index, 1);
+          this.getFollowings();
+        });
     },
-
   },
 };
 </script>
@@ -162,7 +144,7 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: "SDGothic", sans-serif;
 }
 .wrap {
   width: 100%;
@@ -220,16 +202,65 @@ export default {
   font-size: 16px;
 }
 
-.user-list {background-color: #fff;}
-.user-list .user {display: flex; padding: 5px; position:relative}
-.user-list .user:hover {background-color: rgb(118, 206, 233);}
-.user-list .user .profile {margin-left: 20px;}
-.user-list .user .info {margin-left: 50px;}
-.user-list .user .info .name {font-weight: 600;font-size: 16px;}
-.user-list .user .info .id {color:#625e5e; font-size: 14px;}
-.user-list .user .icon {position: absolute; left: 500px; padding-top: 5px;}
+.user-list {
+  background-color: #fff;
+  position: absolute;
+  width: 100%;
+}
+.user-list .user {
+  display: flex;
+  padding: 5px;
+  position: relative;
+}
+.user-list .user:hover {
+  background-color: rgb(118, 206, 233);
+}
+.user-list .user .profile {
+  margin-left: 20px;
+}
+.user-list .user .info {
+  margin-left: 50px;
+}
+.user-list .user .info .name {
+  font-weight: 600;
+  font-size: 16px;
+}
+.user-list .user .info .id {
+  color: #625e5e;
+  font-size: 14px;
+}
+.user-list .user .icon {
+  position: absolute;
+  left: 500px;
+  padding-top: 5px;
+}
 
-#board-search .first {align-content: center;}
-#board-search .first .profile {display: flex;}
+#board-search .first {
+  align-content: center;
+}
 
+.profile-list {
+  height: 60vh;
+  overflow-y: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.profile-list::-webkit-scrollbar {
+  display: none;
+}
+
+.followed_profile {
+  margin-top: 15px;
+  display: flex;
+}
+
+.profile-list :hover {
+  background-color: hsl(65, 80%, 65%);
+}
+
+.followed-id {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 </style>
