@@ -142,6 +142,8 @@ export default {
       days: [],
       friendList: [],
       friends: [],
+      polyline: null,
+      linePath: [],
     };
   },
   computed: {
@@ -175,7 +177,13 @@ export default {
       };
       this.map = new kakao.maps.Map(container, options);
       this.infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
-
+      this.polyline = new kakao.maps.Polyline({
+          path: [], // 선을 구성하는 좌표배열 입니다
+          strokeWeight: 5, // 선의 두께 입니다
+          strokeColor: 'red', // 선의 색깔입니다
+          strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+          strokeStyle: 'solid' // 선의 스타일입니다
+      });
       var url = `https://dapi.kakao.com/v2/local/search/address.json?query=${this.$route.params.cate1} ${this.$route.params.cate2}`;
       var key = "KakaoAK 8e2e5c55f8a455204cc6d497c99b6c00";
       console.log(url);
@@ -486,29 +494,28 @@ export default {
       memo.style.display = "none";
     },
     setline(idx) {
-      this.displayPlaces(this.days[idx - 1]);
-      // 127.046048046817 37.5261262382238
-      // TripMake.vue:459 127.042202512988 37.5276413582416
-      console.log("setline idx: " + idx);
-      var linePath = [];
-      this.days[idx - 1].forEach((element) => {
-        var x = element.x;
-        var y = element.y;
-        console.log(x + " " + y);
-        linePath.push(new kakao.maps.LatLng(x, y));
+      this.displayPlaces(this.days[idx-1])
+      this.linePath = [];
+      this.markers.forEach(element => {
+        this.linePath.push(element.getPosition())
       });
-      console.log(linePath);
+
+      // console.log("setline idx: "+idx)
+
+
+      // this.days[idx-1].forEach(element => {
+      //   var x = element.x
+      //   var y = element.y
+      //   console.log(x +" " + y)
+      //   this.linePath.push(new kakao.maps.LatLng(x,y))
+      // });
+      // console.log(linePath)
       // 지도에 표시할 선을 생성합니다
-      var polyline = new kakao.maps.Polyline({
-        path: linePath, // 선을 구성하는 좌표배열 입니다
-        strokeWeight: 5, // 선의 두께 입니다
-        strokeColor: "red", // 선의 색깔입니다
-        strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-        strokeStyle: "solid", // 선의 스타일입니다
-      });
-      // 지도에 선을 표시합니다
-      polyline.setMap(this.map);
-    },
+      this.polyline.setPath(this.linePath)
+      // 지도에 선을 표시합니다 
+      this.polyline.setMap(this.map);  
+
+    }
   },
 };
 </script>
@@ -802,7 +809,6 @@ export default {
   color: #777;
 }
 
-.infowindow {
-  background-color: red;
-}
+
+
 </style>
