@@ -6,6 +6,7 @@ import TripView from "../views/TripView";
 import BoardView from "../views/BoardView";
 import MypageView from "../views/MyPageView";
 import store from "@/store";
+import swal from "sweetalert";
 
 Vue.use(VueRouter);
 
@@ -21,8 +22,11 @@ const onlyAuthUser = async (to, from, next) => {
     await store.dispatch("getUserInfo", token);
   }
   if (!checkToken || checkUserInfo === null) {
-    alert("로그인이 필요한 페이지입니다..");
-    // next({ name: "login" });
+    swal({
+      title: "Warning",
+      text: "로그인이 필요한 페이지입니다..",
+      icon: "warning",
+    });
     router.push({ name: "login" });
   } else {
     console.log("로그인 했다!!!!!!!!!!!!!.");

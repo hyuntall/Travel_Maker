@@ -8,6 +8,7 @@
 <script>
 import http from "@/util/http-common";
 import CommentVue from "./Comment.vue";
+import swal from "sweetalert";
 
 export default {
   name: "CommentList",
@@ -27,7 +28,11 @@ export default {
         this.comments = data;
       })
       .catch(() => {
-        alert("댓글 요청 실패");
+        swal({
+          title: "Error",
+          text: "댓글 목록을 불러오지 못했습니다.",
+          icon: "error",
+        });
       });
   },
   methods: {},

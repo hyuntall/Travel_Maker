@@ -9,7 +9,15 @@
       </div>
       <div class="login_input login_pw">
         <label for="password" class="label">Password</label>
-        <input type="password" v-model="user.password" name="password" id="password" placeholder="Password" required @keyup.enter="confirm" />
+        <input
+          type="password"
+          v-model="user.password"
+          name="password"
+          id="password"
+          placeholder="Password"
+          required
+          @keyup.enter="confirm"
+        />
       </div>
       <div class="submit">
         <button variant="outline-success" @click="confirm">로그인</button>
@@ -19,13 +27,14 @@
 </template>
 <script>
 import { mapState, mapActions } from "vuex";
+import swal from "sweetalert";
 export default {
   name: "LoginForm",
   data() {
     return {
       user: {
         id: null,
-        password: null
+        password: null,
       },
     };
   },
@@ -33,14 +42,18 @@ export default {
     ...mapState(["isLogin", "isLoginError", "userInfo"]),
   },
   methods: {
-   ...mapActions(["userConfirm", "getUserInfo"]),
+    ...mapActions(["userConfirm", "getUserInfo"]),
     async confirm() {
       await this.userConfirm(this.user);
       let token = sessionStorage.getItem("access-token");
       // console.log("1. confirm() token >> " + token);
       if (this.isLogin) {
         await this.getUserInfo(token);
-        // console.log("4. confirm() userInfo :: ", this.userInfo);
+        swal({
+          title: "Success",
+          text: "로그인 성공!",
+          icon: "success",
+        });
         this.$router.push({ name: "home" });
       }
     },

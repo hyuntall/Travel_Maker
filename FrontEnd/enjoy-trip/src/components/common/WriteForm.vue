@@ -1,11 +1,11 @@
 <template>
   <div class="wrap">
     <div class="form">
-      <h2 v-if="type!=='modify'">Sign Up</h2>
+      <h2 v-if="type !== 'modify'">Sign Up</h2>
       <h2 v-else>Modify</h2>
       <div class="form_input user_id">
-        <label for="id" class="label" >ID</label>
-        <input type="text" v-model="user.id" name="id" id="id" placeholder="id" v-bind:readonly="readonly"/>
+        <label for="id" class="label">ID</label>
+        <input type="text" v-model="user.id" name="id" id="id" placeholder="id" v-bind:readonly="readonly" />
       </div>
       <div class="form_input user_pw">
         <label for="password" class="label">Password</label>
@@ -36,7 +36,7 @@
           <option value="false">여</option>
         </select>
       </div>
-      <div class="submit row regist" v-if="type!=='modify'">
+      <div class="submit row regist" v-if="type !== 'modify'">
         <button class="col-5" variant="outline-success" @click="checkValue">SignUp</button>
         <button class="col-5" variant="outline-success">LogIn</button>
       </div>
@@ -50,6 +50,7 @@
 <script>
 import http from "@/util/http-common";
 import { mapState } from "vuex";
+import swal from "sweetalert";
 
 export default {
   name: "WriteForm",
@@ -70,10 +71,10 @@ export default {
     };
   },
   created() {
-    console.log(this.type)
+    console.log(this.type);
     if (this.type === "modify") {
       // url에서 파라미터정보 얻기.
-      console.log(this.userInfo)
+      console.log(this.userInfo);
       this.user.id = this.userInfo.id;
       this.user.name = this.userInfo.name;
       this.user.password = this.userInfo.password;
@@ -93,19 +94,32 @@ export default {
       err && !this.user.name && ((msg = "이름을 입력해주세요"), (err = false));
       err && !this.user.password && ((msg = "패스워드를 입력해주세요"), (err = false));
       err && !this.user.phone_number && ((msg = "휴대폰 번호를 입력해주세요"), (err = false));
-      if (!err) alert(msg);
+      if (!err)
+        swal({
+          title: "Warning",
+          text: msg,
+          icon: "warning",
+        });
       // 만약, 내용이 다 입력되어 있다면 modifyBook 호출
       else this.type === "modify" ? this.modifyUser() : this.registUser();
     },
     registUser() {
       http
         .post("/user/regist", this.user)
-        .then(({ data }) => {
-          alert(data);
+        .then(() => {
+          swal({
+            title: "Success",
+            text: "회원가입 성공!",
+            icon: "success",
+          });
           this.$router.push({ name: "home" });
         })
         .catch((data) => {
-          alert("error! " + data.response.data);
+          swal({
+            title: "Error",
+            text: data.response.data,
+            icon: "error",
+          });
         });
     },
     modifyUser() {
@@ -114,7 +128,7 @@ export default {
   },
   computed: {
     ...mapState(["userInfo"]),
-  }
+  },
 };
 </script>
 
@@ -216,7 +230,7 @@ h2 {
   width: 100%;
 }
 
-.modify button{
+.modify button {
   width: 100%;
 }
 </style>

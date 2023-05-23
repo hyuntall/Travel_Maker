@@ -14,21 +14,22 @@
               ></b-form-input>
               <div class="user-list">
                 <div class="user" v-for="(user, index) in friendList" :key="index">
-                  <div class="profile">
-                    <b-avatar
-                      variant="info"
-                      :src="
-                        user.image
-                          ? require(`C:/EnjoyTrip/user/${user.image}`)
-                          : require('../../assets/tmp_profile2.jpg')
-                      "
-                    ></b-avatar>
-
-                    <div class="info">
+                  <div class="profile row">
+                    <div class="user-img col-4">
+                      <b-avatar
+                        variant="info"
+                        :src="
+                          user.image
+                            ? require(`C:/EnjoyTrip/user/${user.image}`)
+                            : require('../../assets/tmp_profile2.jpg')
+                        "
+                      ></b-avatar>
+                    </div>
+                    <div class="info col-4">
                       <p class="name">{{ user.name }}</p>
                       <p class="id">{{ user.id }}</p>
                     </div>
-                    <div class="icon" @click="follow(index)">
+                    <div class="icon col-4" @click="follow(index)">
                       <font-awesome-icon icon="fa-solid fa-user-plus" size="2x" style="color: #999999" />
                     </div>
                   </div>
@@ -208,33 +209,17 @@ export default {
   width: 100%;
 }
 .user-list .user {
-  display: flex;
   padding: 5px;
   position: relative;
 }
+
+.user .profile {
+  display: flex;
+}
+
 .user-list .user:hover {
   background-color: rgb(118, 206, 233);
 }
-.user-list .user .profile {
-  margin-left: 20px;
-}
-.user-list .user .info {
-  margin-left: 50px;
-}
-.user-list .user .info .name {
-  font-weight: 600;
-  font-size: 16px;
-}
-.user-list .user .info .id {
-  color: #625e5e;
-  font-size: 14px;
-}
-.user-list .user .icon {
-  position: absolute;
-  left: 500px;
-  padding-top: 5px;
-}
-
 #board-search .first {
   align-content: center;
 }

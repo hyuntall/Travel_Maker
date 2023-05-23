@@ -120,6 +120,8 @@
 import http from "@/util/http-common";
 import draggable from "vuedraggable";
 import { mapState } from "vuex";
+import swal from "sweetalert";
+
 export default {
   name: "TripMake",
   components: {
@@ -417,11 +419,19 @@ export default {
         .post("/plan/insert", plan)
         .then(({ data }) => {
           console.log(data);
-          alert("계획 생성 완료");
-          this.$route.push("/");
+          swal({
+            title: "Success",
+            text: "여행 계획이 등록되었습니다.",
+            icon: "success",
+          });
+          this.$router.push("/");
         })
         .catch(() => {
-          console.log("계획 생성 오류");
+          swal({
+            title: "Error",
+            text: "잘못된 계획 정보입니다.",
+            icon: "error",
+          });
         });
       console.log(plan);
     },
