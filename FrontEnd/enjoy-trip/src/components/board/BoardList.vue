@@ -52,7 +52,8 @@ export default {
   },
   methods: {
     scrollDown() {
-      if (this.page * 5 <= this.limit && window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+      console.log(window.scrollY);
+      if (this.page * 5 <= this.limit && window.scrollY >= document.body) {
         this.getBoardList();
       }
     },
@@ -101,6 +102,7 @@ export default {
 
 .list {
   z-index: 100;
+  height: 100%;
 }
 .float {
   position: fixed;

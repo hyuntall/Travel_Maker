@@ -73,7 +73,7 @@ export default {
       tripmembers: [],
       plan: { title: "" },
       dayCnt: null,
-      places : [],
+      places: [],
       polyline: null,
       linePath: [],
     };
@@ -187,7 +187,7 @@ export default {
       for (var i = 0; i < places.length; i++) {
         // 마커를 생성하고 지도에 표시합니다
         var placePosition = new kakao.maps.LatLng(places[i].longitude, places[i].latitude);
-        
+
         var marker = this.addMarker(placePosition, i);
         //var itemEl = this.getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
         // marker.place_name = places[i].place_name;
@@ -265,26 +265,28 @@ export default {
           no.style.display = "none";
         }
       }
-      if(this.places[idx].length >= 1) {
-
+      if (this.places[idx].length >= 1) {
         this.displayPlaces(this.places[idx]);
       }
 
       // https://apis-navi.kakaomobility.com/v1/directions
-      if(this.places[idx].length > 1) {
+      if (this.places[idx].length > 1) {
         let url = `https://apis-navi.kakaomobility.com/v1/waypoints/directions?`;
         //8e2e5c55f8a455204cc6d497c99b6c00  06c33ac07fc44b677e02f424b096640b
         let key = "8e2e5c55f8a455204cc6d497c99b6c00";
 
         //body 객체에 origin destination waypoints
-        let body = {}
-        body.origin = { x : this.places[idx][0].latitude, y : this.places[idx][0].longitude}
-        body.destination = { x : this.places[idx][this.places[idx].length-1].latitude, y : this.places[idx][this.places[idx].length-1].longitude}
-        var waypoints = []
-        for(var j=1; j<this.places[idx].length-1; j++) {
-          waypoints.push({x: this.places[idx][j].latitude, y : this.places[idx][j].longitude})
+        let body = {};
+        body.origin = { x: this.places[idx][0].latitude, y: this.places[idx][0].longitude };
+        body.destination = {
+          x: this.places[idx][this.places[idx].length - 1].latitude,
+          y: this.places[idx][this.places[idx].length - 1].longitude,
+        };
+        var waypoints = [];
+        for (var j = 1; j < this.places[idx].length - 1; j++) {
+          waypoints.push({ x: this.places[idx][j].latitude, y: this.places[idx][j].longitude });
         }
-        body.waypoints = waypoints
+        body.waypoints = waypoints;
 
         fetch(url, {
           method: "post",
@@ -292,44 +294,44 @@ export default {
             "Content-Type": "	application/json;",
             Authorization: "KakaoAK " + key,
           },
-          body: JSON.stringify(body)
-        }).then(response => response.json())
-          .then((data)=>{
-            console.log(data.routes[0].result_code)
+          body: JSON.stringify(body),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data.routes[0].result_code);
 
             //길찾기가 성공했을 때
-            this.linePath = []
-            if(data.routes[0].result_code === 0) {
-              data.routes[0].sections.forEach(element => {
-                let {distance, duration, guides, } = element
-                console.log(distance, duration, guides)
-                
+            this.linePath = [];
+            if (data.routes[0].result_code === 0) {
+              data.routes[0].sections.forEach((element) => {
+                let { distance, duration, guides } = element;
+                console.log(distance, duration, guides);
+
                 // guides.forEach( guide=> {
                 //   var placePosition = new kakao.maps.LatLng(guide.y, guide.x);
                 //   this.linePath.push(placePosition)
                 // });
-                console.log(element)
-                element.roads.forEach( guide=> {
-                  var limit = 0
-                  // 10개 5좌표 
-                  while(guide.vertexes.length > limit) {
-                    var placePosition = new kakao.maps.LatLng(guide.vertexes[limit+1], guide.vertexes[limit]);
-                    this.linePath.push(placePosition)
-                    limit = limit +2;
+                console.log(element);
+                element.roads.forEach((guide) => {
+                  var limit = 0;
+                  // 10개 5좌표
+                  while (guide.vertexes.length > limit) {
+                    var placePosition = new kakao.maps.LatLng(guide.vertexes[limit + 1], guide.vertexes[limit]);
+                    this.linePath.push(placePosition);
+                    limit = limit + 2;
                   }
                 });
 
-               console.log("linepath: "+this.linePath) 
-                 // 지도에 표시할 선을 생성합니다
+                console.log("linepath: " + this.linePath);
+                // 지도에 표시할 선을 생성합니다
                 this.polyline.setPath(this.linePath);
                 // 지도에 선을 표시합니다
                 this.polyline.setMap(this.map);
               });
-
             } else {
-              alert("길찾기 에러 발생")
+              alert("길찾기 에러 발생");
             }
-          })
+          });
       }
       //
     },
