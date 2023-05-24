@@ -18,9 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.ssafy.dto.PlaceDto;
+import com.ssafy.dto.PlanCommentDto;
 import com.ssafy.dto.PlanDto;
 import com.ssafy.dto.TripMemberDto;
 import com.ssafy.model.service.PlaceService;
+import com.ssafy.model.service.PlanCommentService;
 import com.ssafy.model.service.PlanService;
 import com.ssafy.model.service.TripMemberService;
 import com.ssafy.model.service.UserService;
@@ -40,6 +42,9 @@ public class PlanController {
 	
 	@Autowired
 	UserService userSvc;
+	
+	@Autowired
+	PlanCommentService pcSvc;
 	
 	@PostMapping("/insert")
 	public ResponseEntity<?> insertPlan(@RequestBody PlanDto plan) throws SQLException {
@@ -88,5 +93,15 @@ public class PlanController {
 		//3.places 조회
 		map.put("places", placeSvc.selectByPlanIdx(plan_idx));
 		return new ResponseEntity<HashMap<String, Object>>(map, HttpStatus.OK);
+	}
+	
+	@PostMapping("/comment/insert")
+	public ResponseEntity<?> insertComment(@RequestBody PlanCommentDto comment) throws SQLException {
+		return new ResponseEntity<Integer>(pcSvc.insertPlanComment(comment), HttpStatus.OK);
+	}
+	
+	@GetMapping("/comment/{plan_idx}")
+	public ResponseEntity<?> selectByPlanId(@PathVariable int plan_idx) throws SQLException{
+		return new ResponseEntity<List<PlanCommentDto>>(pcSvc.selectByPlanIdx(plan_idx), HttpStatus.OK);
 	}
 }
