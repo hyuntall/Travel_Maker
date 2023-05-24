@@ -291,8 +291,36 @@ export default {
           body: JSON.stringify(body)
         }).then(response => response.json())
           .then((data)=>{
-          console.log(data.routes[0])
+            console.log(data.routes[0].result_code)
 
+            //길찾기가 성공했을 때
+            this.linePath = []
+            if(data.routes[0].result_code === 0) {
+              data.routes[0].sections.forEach(element => {
+                let {distance, duration, guides, } = element
+                console.log(distance, duration, guides)
+                
+                // guides.forEach( guide=> {
+                //   let pos = new window.kakao.maps.LatLng(guide.x, guide.y);
+                //   console.log("pos: "+pos)
+                //   this.linePath.push(pos)
+                // });
+
+                     this.markers.forEach((element) => {
+                      console.log(element.getPosition())
+                  this.linePath.push(element.getPosition());
+                });
+
+               console.log("linepath: "+this.linePath) 
+                 // 지도에 표시할 선을 생성합니다
+                this.polyline.setPath(this.linePath);
+                // 지도에 선을 표시합니다
+                this.polyline.setMap(this.map);
+              });
+
+            } else {
+              alert("길찾기 에러 발생")
+            }
           })
       }
       //
