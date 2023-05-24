@@ -187,6 +187,7 @@ export default {
       for (var i = 0; i < places.length; i++) {
         // 마커를 생성하고 지도에 표시합니다
         var placePosition = new kakao.maps.LatLng(places[i].longitude, places[i].latitude);
+        
         var marker = this.addMarker(placePosition, i);
         //var itemEl = this.getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
         // marker.place_name = places[i].place_name;
@@ -300,15 +301,9 @@ export default {
                 let {distance, duration, guides, } = element
                 console.log(distance, duration, guides)
                 
-                // guides.forEach( guide=> {
-                //   let pos = new window.kakao.maps.LatLng(guide.x, guide.y);
-                //   console.log("pos: "+pos)
-                //   this.linePath.push(pos)
-                // });
-
-                     this.markers.forEach((element) => {
-                      console.log(element.getPosition())
-                  this.linePath.push(element.getPosition());
+                guides.forEach( guide=> {
+                  var placePosition = new kakao.maps.LatLng(guide.y, guide.x);
+                  this.linePath.push(placePosition)
                 });
 
                console.log("linepath: "+this.linePath) 
