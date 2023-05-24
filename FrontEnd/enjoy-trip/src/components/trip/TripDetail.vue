@@ -46,12 +46,31 @@
                           {{ place.comment }}
                           <a href="#" @click="hideComment(idx, index)">접기</a>
                         </div>
-                        <div :id="'pl'+idx+'-'+index" style="color:orange"></div>
+                        <div :id="'pl' + idx + '-' + index" style="color: orange"></div>
                       </b-card-text>
                     </b-card-body>
                   </div>
                 </b-card>
               </div>
+            </div>
+          </b-sidebar>
+        </div>
+        <div class="comment">
+          <b-button v-b-toggle.sidebar-right>상세 내용</b-button>
+          <b-sidebar id="sidebar-right" title="상세 내용" right shadow>
+            <div class="px-3 py-2">
+              <div v-for="(planComment, index) in planComments" :key="index">
+                <div class="comment-user_id">
+                  {{ planComment.user_id }}
+                </div>
+                <div class="comment-content">
+                  {{ planComment.content }}
+                </div>
+              </div>
+              <form class="input-form" @submit="sendComment">
+                <input type="text" v-model="comment" />
+                <img src="@/assets/send.png" class="send-button" />
+              </form>
             </div>
           </b-sidebar>
         </div>
@@ -62,6 +81,7 @@
 
 <script>
 import http from "@/util/http-common";
+import { mapState } from "vuex";
 
 export default {
   name: "TripDetail",
@@ -77,6 +97,8 @@ export default {
       places: [],
       polyline: null,
       linePath: [],
+      comment: "",
+      planComments: [],
     };
   },
   created() {
@@ -108,6 +130,7 @@ export default {
           return a.index - b.index;
         });
       }
+      this.getComments();
     });
   },
   mounted() {
@@ -333,15 +356,16 @@ export default {
                     Math.ceil(duration / 60) +
                     "분"
                 );
-                var sel = document.querySelector("#pl"+idx+"-"+(count-1));
-                sel.innerHTML = this.places[idx][count - 1].name +
-                    "에서 " +
-                    this.places[idx][count].name +
-                    "까지 거리: " +
-                    Math.ceil(distance / 1000) +
-                    "km 시간: " +
-                    Math.ceil(duration / 60) +
-                    "분"
+                var sel = document.querySelector("#pl" + idx + "-" + (count - 1));
+                sel.innerHTML =
+                  this.places[idx][count - 1].name +
+                  "에서 " +
+                  this.places[idx][count].name +
+                  "까지 거리: " +
+                  Math.ceil(distance / 1000) +
+                  "km 시간: " +
+                  Math.ceil(duration / 60) +
+                  "분";
 
                 count = count + 1;
 
@@ -368,6 +392,40 @@ export default {
       }
       //
     },
+    sendComment(event) {
+      event.preventDefault();
+      console.log(this.plan.idx);
+      console.log(this.userInfo.id);
+      console.log(this.comment);
+      http
+        .post("/plan/comment/insert", {
+          user_id: this.userInfo.id,
+          plan_idx: this.plan.idx,
+          content: this.comment,
+        })
+        .then(({ data }) => {
+          console.log(data);
+          this.comment = "";
+          this.getComments();
+        })
+        .catch(() => {
+          console.log("실패");
+        });
+    },
+    getComments() {
+      http
+        .get(`/plan/comment/${this.plan.idx}`)
+        .then(({ data }) => {
+          console.log(data);
+          this.planComments = data;
+        })
+        .catch(() => {
+          console.log("실패");
+        });
+    },
+  },
+  computed: {
+    ...mapState(["userInfo"]),
   },
 };
 </script>
@@ -389,6 +447,14 @@ export default {
 .detail .tog p {
   margin: 2px 0;
 }
+
+.detail .comment {
+  position: absolute;
+  z-index: 9999;
+  top: 15px;
+  right: 20px;
+}
+
 .added {
   display: flex;
   margin-bottom: 15px;
@@ -420,5 +486,29 @@ export default {
   position: relative;
   width: 100%;
   height: 150px;
+}
+
+.input-form {
+  position: absolute;
+  padding: 10px;
+  bottom: 0px;
+  width: 90%;
+  display: flex;
+}
+
+.input-form input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid black;
+  outline: none;
+  font-weight: 400;
+  font-size: 14px;
+  color: #262626;
+  background: none;
+}
+
+.input-form .send-button {
+  margin-left: 15px;
+  width: 30px;
 }
 </style>
