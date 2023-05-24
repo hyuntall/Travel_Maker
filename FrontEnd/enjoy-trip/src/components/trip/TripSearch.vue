@@ -23,7 +23,7 @@
         </ul>
 
         <div class="regions">
-          <div v-for="region in regions" :key="region.idx">
+          <div v-for="region in regions" :key="region.idx" >
             <b-card
               :title="region.cate1_eng"
               :img-src="region.img"

@@ -95,7 +95,7 @@
           <div id="menu_wrap" class="bg_white">
             <div class="option">
               <div>
-                여행 지역 <input type="text" value="" id="keyword" size="10" @keyup.13="moveMap()" />
+                지명 검색 <input type="text" value="" id="keyword" size="10" @keyup.13="moveMap()" />
 
                 <div style="margin-top: 15px">
                   <button @click="categorySearch('AT4')">관광지</button>
@@ -110,6 +110,7 @@
 
       <div class="result">
         <h3 style="margin-top: 10px">여행지 목록</h3>
+        <input type="text" @keyup.13="keywordSearch" placeholder="여행지명 검색" style="text-align: center; border-radius: 5px" />
         <ul id="placesList">
           <draggable
             v-model="results"
@@ -249,6 +250,41 @@ export default {
           var y = data.documents[0].y;
           var x = data.documents[0].x;
           this.map.setCenter(new kakao.maps.LatLng(y, x));
+        });
+    },
+    keywordSearch(event) {
+      console.log("keywordSearch")
+      console.log(event.target.value)
+      let url = `https://dapi.kakao.com/v2/local/search/keyword.json?query=${event.target.value}`;
+      let key = "06c33ac07fc44b677e02f424b096640b";
+      fetch(url, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "KakaoAK " + key,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          this.results = [];
+          data.documents.forEach((element) => {
+            // this.results.push(element)
+            this.results.push({
+              address_name: element.address_name,
+              category_group_code: element.category_group_code,
+              category_group_name: element.category_group_name,
+              category_name: element.category_name,
+              distance: element.distance,
+              id: element.id,
+              phone: element.phone,
+              place_name: element.place_name,
+              place_url: element.place_url,
+              road_address_name: element.road_address_name,
+              x: element.x,
+              y: element.y,
+              comment: "",
+            });
+          });
         });
     },
     categorySearch(category) {
