@@ -39,7 +39,7 @@
           </div>
         </div>
         <div class="cal">
-          <label for="example-datepicker">출발날짜</label>
+          <label for="example-datepicker">출발 날짜</label>
           <b-form-datepicker
             id="example-datepicker"
             v-model="start"
@@ -47,7 +47,7 @@
             size="sm"
             @input="makedays"
           ></b-form-datepicker>
-          <label for="example-datepicker2">도착날짜</label>
+          <label for="example-datepicker2">도착 날짜</label>
           <b-form-datepicker
             id="example-datepicker2"
             v-model="end"
