@@ -177,7 +177,7 @@ export default {
 }
 .body .desc p {
   margin-top: 3px;
-  font-size: 8px;
+  font-size: 12px;
 }
 .body .desc a {
   text-decoration: none;
@@ -188,4 +188,5 @@ export default {
   width: 250px;
   height: 200px;
 }
+
 </style>
