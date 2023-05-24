@@ -358,10 +358,12 @@ export default {
                     "분"
                 );
                 var sel = document.querySelector("#pl" + idx + "-" + (count - 1));
-                sel.innerHTML = "<p>" +
+                sel.innerHTML =
+                  "<p>" +
                   this.places[idx][count - 1].name +
                   " -> " +
-                  this.places[idx][count].name + "</p>"+
+                  this.places[idx][count].name +
+                  "</p>" +
                   " 거리: " +
                   Math.ceil(distance / 1000) +
                   "km 시간: " +

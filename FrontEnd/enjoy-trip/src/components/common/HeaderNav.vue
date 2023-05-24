@@ -1,10 +1,12 @@
 <template>
   <header id="header">
-    <div class="">
+    <div class="wrap">
       <div class="row">
         <div class="header clearfix">
           <div class="title">
-            <router-link to="/"> <b>Travel Maker</b>&nbsp;&nbsp; <span>YOUR TRIP PLAN MANAGER</span> </router-link>
+            <router-link to="/">
+              <b>Travel Maker</b>&nbsp;&nbsp; <span class="sub-title">YOUR TRIP PLAN MANAGER</span>
+            </router-link>
           </div>
           <nav class="nav">
             <ul class="main-menu">
@@ -109,7 +111,17 @@ export default {
 .header div {
   padding: 1em;
   margin-left: 200px;
+  height: 80px;
 }
+
+.wrap {
+  height: 80px;
+}
+
+.wrap .row {
+  height: 80px;
+}
+
 .header div a b {
   font-size: 30px;
 }
@@ -147,8 +159,10 @@ a {
   text-decoration: none;
   color: #000;
 }
+
 .drop-button {
   border-radius: 2px;
+  margin-top: -15px;
 }
 
 @media screen and (min-width: 993px) {
@@ -166,6 +180,9 @@ a {
   }
   .header .title {
     margin-left: 0;
+  }
+  .sub-title {
+    display: none;
   }
 }
 </style>
