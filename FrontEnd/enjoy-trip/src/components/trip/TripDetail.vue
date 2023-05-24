@@ -58,11 +58,9 @@
         <div class="comment">
           <b-button v-b-toggle.sidebar-right>상세 내용</b-button>
           <b-sidebar id="sidebar-right" title="상세 내용" right shadow>
-            <div class="px-3 py-2">
-              <div v-for="(planComment, index) in planComments" :key="index">
-                <div class="comment-user_id">
-                  {{ planComment.user_id }}
-                </div>
+            <div class="comment-list">
+              <div v-for="(planComment, index) in planComments" :key="index" class="planComment">
+                <div class="comment-user_id">{{ planComment.user_id }}님의 메모</div>
                 <div class="comment-content">
                   {{ planComment.content }}
                 </div>
@@ -510,5 +508,23 @@ export default {
 .input-form .send-button {
   margin-left: 15px;
   width: 30px;
+}
+.comment-list {
+  overflow-y: scroll;
+}
+.comment-list::-webkit-scrollbar {
+  display: none;
+}
+
+.planComment {
+  border: 1px solid lightgray;
+  padding: 5px;
+  border-radius: 5px;
+  margin: 5px;
+}
+.comment-user_id {
+}
+.comment-content {
+  font-size: 15px;
 }
 </style>
