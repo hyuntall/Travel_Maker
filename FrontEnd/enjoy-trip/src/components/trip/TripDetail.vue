@@ -522,8 +522,7 @@ export default {
   border-radius: 5px;
   margin: 5px;
 }
-.comment-user_id {
-}
+
 .comment-content {
   font-size: 15px;
 }
