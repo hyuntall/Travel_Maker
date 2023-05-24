@@ -3,11 +3,13 @@
     <div class="container">
       <div class="my-profile">
         <div>
-          <div class="profile-img">
-            <label for="file" class="file-label">
-              <img :src="url" />
-            </label>
-            <input type="file" name="file" id="file" @change="uploadImage" />
+          <div class="profile-img-cover">
+            <div class="profile-img">
+              <label for="file" class="file-label">
+                <img :src="url" />
+              </label>
+              <input type="file" name="file" id="file" @change="uploadImage" />
+            </div>
           </div>
           <div class="file-label">
             <div class="btn-upload" @click="updateImage()">이미지 변경</div>
@@ -51,6 +53,7 @@
       <p class="plan-header">내 계획 목록</p>
       <div class="my-plan">
         <my-plan v-for="myPlan in myPlans" :key="myPlan.idx" :plan="myPlan"></my-plan>
+        <div v-if="myPlans.length === 0" class="nothing">등록된 계획이 없습니다.</div>
       </div>
       <p class="board-header">내가 작성한 글</p>
       <div class="my-boards">
@@ -63,7 +66,7 @@
             :url="originUrl"
           ></my-board>
         </div>
-        <div v-else>작성한 글이 없습니다.</div>
+        <div v-else class="nothing">작성한 글이 없습니다.</div>
         <div></div>
       </div>
     </div>
@@ -83,7 +86,7 @@ export default {
   data() {
     return {
       image: null,
-      url: require("../assets/tmp_profile2.jpg"),
+      url: require("../assets/tmp_profile.jpg"),
       originUrl: "",
       myBoards: [],
       myPlans: [],
@@ -197,7 +200,6 @@ export default {
 }
 .my-profile {
   background-color: white;
-  border: 1px solid rgb(218, 217, 217);
   height: 40%;
   align-items: center;
   justify-content: center;
@@ -215,14 +217,28 @@ export default {
   text-align: center;
 }
 
-.profile-img {
+.profile-img-cover {
   width: 100px;
   height: 100px;
   overflow: hidden;
-  border: 5px solid lightgray;
+  /* border: 1px solid rgb(150, 150, 150); */
   border-radius: 50%;
   margin: auto;
   margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.profile-img {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  border: 5px solid rgb(150, 150, 150);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .profile-img img {
@@ -281,6 +297,7 @@ export default {
 }
 .my-plan {
   height: 20%;
+  min-height: 150px;
   background-color: white;
   border: 1px solid rgb(218, 217, 217);
   width: 100%;
@@ -295,6 +312,7 @@ export default {
 
 .my-boards {
   height: 30%;
+  min-height: 150px;
   background-color: white;
   border: 1px solid rgb(218, 217, 217);
   width: 100%;
@@ -313,5 +331,10 @@ export default {
 .my-board {
   margin-left: 5%;
   margin-bottom: 5%;
+}
+
+.nothing {
+  margin-top: 60px;
+  text-align: center;
 }
 </style>

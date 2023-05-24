@@ -117,7 +117,8 @@ export default {
           });
         });
     },
-    writeComment() {
+    writeComment(event) {
+      event.preventDefault();
       console.log(this.board.idx);
       http
         .post("/comment/write", {

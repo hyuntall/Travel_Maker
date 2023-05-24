@@ -47,11 +47,14 @@ export default {
   },
   created() {
     this.content = this.comment.content;
-    http.get(`/user/image/${this.comment.user_id}`).then(({data})=>{
-      this.img = require(`C:/EnjoyTrip/user/${data}`);
-    }).catch(()=>{
-      console.log("프로필 이미지 요청 오류");
-    })
+    http
+      .get(`/user/image/${this.comment.user_id}`)
+      .then(({ data }) => {
+        this.img = require(`C:/EnjoyTrip/user/${data}`);
+      })
+      .catch(() => {
+        console.log("프로필 이미지 요청 오류");
+      });
   },
   methods: {
     changeMode() {
@@ -131,7 +134,7 @@ body {
   padding: 15px 15px !important;
   margin-top: 15px;
   border: 1px solid rgb(218, 217, 217);
-  height: 160px;
+  height: 180px;
   border-radius: 10px;
 }
 
@@ -199,6 +202,7 @@ body {
   height: 60px;
 }
 .bottom {
+  margin-top: 20px;
   text-align: right;
 }
 .bottom button {
