@@ -25,7 +25,7 @@
               </div>
               <div class="accordion" role="tablist">
                 <b-card no-body class="mb-1" v-for="(cnt, idx) in dayCnt" :key="idx">
-                  <b-card-header header-tag="header" class="p-1" role="tab">
+                  <b-card-header header-tag="header" class="p-1" role="tab" :id="'hd'+idx">
                     <!-- <b-button block v-b-toggle.accordion-1 @click="displayOnMap(idx)">{{cnt}}일차 일정</b-button> -->
                     <b-button block @click="displayOnMap(idx)">{{ cnt }}일차 일정</b-button>
                     <!-- <span style="font-size:14px;"> 2002.03.12 ~ 2005.12.31</span> -->
@@ -340,10 +340,13 @@ export default {
             this.linePath = [];
             if (data.routes[0].result_code === 0) {
               let count = 1;
+              let total_time = 0
+              let total_dist = 0
               data.routes[0].sections.forEach((element) => {
                 let { distance, duration } = element;
                 // console.log(distance, duration, guides)
-
+                total_dist = total_dist + distance
+                total_time = total_time + duration
                 console.log(
                   this.places[idx][count - 1].name +
                     "에서 " +
@@ -383,6 +386,18 @@ export default {
                 // 지도에 선을 표시합니다
                 this.polyline.setMap(this.map);
               });
+              console.log("총 거리 시간: ")
+              console.log(total_dist+" "+total_time)
+              total_dist = Math.ceil(total_dist/1000)
+              total_time = Math.ceil(total_time/60)
+              var hd = document.querySelector("#hd"+idx)
+              var span = document.createElement('span')
+              span.innerHTML = "총 거리:"+total_dist+"km 소요 시간:"+total_time+"분"
+              span.style.fontSize = "12px"
+              span.style.color = "orange"
+              span.style.padding = "0 0 5px 10px"
+
+              hd.appendChild(span) 
             } else {
               alert("길찾기 에러 발생");
             }

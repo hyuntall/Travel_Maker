@@ -409,7 +409,7 @@ export default {
     },
     makedays() {
       if (this.start !== null && this.end !== null) {
-        if (this.start >= this.end) {
+        if (this.start > this.end) {
           swal({
             title: "Warning",
             text: "올바르지 않은 날짜입니다!",
