@@ -73,7 +73,9 @@ export default {
       tripmembers: [],
       plan: { title: "" },
       dayCnt: null,
-      places: [],
+      places : [],
+      polyline: null,
+      linePath: [],
     };
   },
   created() {
@@ -127,6 +129,13 @@ export default {
       };
       this.map = new kakao.maps.Map(container, options);
       this.infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
+      this.polyline = new kakao.maps.Polyline({
+        path: [], // 선을 구성하는 좌표배열 입니다
+        strokeWeight: 5, // 선의 두께 입니다
+        strokeColor: "blue", // 선의 색깔입니다
+        strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+        strokeStyle: "solid", // 선의 스타일입니다
+      });
     },
     showPopUp(place_url) {
       console.log(place_url);
@@ -263,19 +272,28 @@ export default {
         //8e2e5c55f8a455204cc6d497c99b6c00  06c33ac07fc44b677e02f424b096640b
         let key = "8e2e5c55f8a455204cc6d497c99b6c00";
 
-        //origin
-        url += "origin="+this.places[idx][0].latitude+","+this.places[idx][0].longitude+"&"
-        //destination
-        url += "destination="+this.places[idx][1].latitude+","+this.places[idx][1].longitude
+        //body 객체에 origin destination waypoints
+        let body = {}
+        body.origin = { x : this.places[idx][0].latitude, y : this.places[idx][0].longitude}
+        body.destination = { x : this.places[idx][this.places[idx].length-1].latitude, y : this.places[idx][this.places[idx].length-1].longitude}
+        var waypoints = []
+        for(var j=1; j<this.places[idx].length-1; j++) {
+          waypoints.push({x: this.places[idx][j].latitude, y : this.places[idx][j].longitude})
+        }
+        body.waypoints = waypoints
 
         fetch(url, {
+          method: "post",
           headers: {
             "Content-Type": "	application/json;",
-            
             Authorization: "KakaoAK " + key,
           },
-        }).then(response => response.json()).then((data)=>{console.log(data.routes[0].sections[0])})
+          body: JSON.stringify(body)
+        }).then(response => response.json())
+          .then((data)=>{
+          console.log(data.routes[0])
 
+          })
       }
       //
     },
