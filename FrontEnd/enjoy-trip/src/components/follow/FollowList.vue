@@ -1,7 +1,7 @@
 <template>
   <div class="wrap">
     <div class="container">
-      <div v-if="type==='follow'" id="board-search">
+      <div v-if="type === 'follow'" id="board-search">
         <div class="search-window">
           <form action="">
             <div class="search-wrap">
@@ -21,7 +21,7 @@
                         :src="
                           user.image
                             ? require(`C:/EnjoyTrip/user/${user.image}`)
-                            : require('../../assets/tmp_profile2.jpg')
+                            : require('../../assets/tmp_profile.jpg')
                         "
                       ></b-avatar>
                     </div>
@@ -43,7 +43,7 @@
       </div>
       <div id="board-search" style="margin-bottom: 20px">
         <div class="search-window first">
-          <h2>{{this.type}}</h2>
+          <h2>{{ this.type }}</h2>
           <div v-if="followed.length === 0">현재 팔로잉하고 있는 유저가 없습니다</div>
           <div class="profile-list">
             <div class="followed_profile profile row" v-for="(follo, index) in followed" :key="index">
@@ -51,13 +51,13 @@
                 <b-avatar
                   variant="info"
                   :src="
-                    follo.image ? require(`C:/EnjoyTrip/user/${follo.image}`) : require('../../assets/tmp_profile2.jpg')
+                    follo.image ? require(`C:/EnjoyTrip/user/${follo.image}`) : require('../../assets/tmp_profile.jpg')
                   "
                 ></b-avatar>
               </div>
               <div class="followed-id col-3">{{ follo.id }}</div>
               <div class="followed-id col-3">{{ follo.name }}</div>
-              <div v-if="type==='follow'" class="followed-id col-3" @click="unFollow(follo.id)">
+              <div v-if="type === 'follow'" class="followed-id col-3" @click="unFollow(follo.id)">
                 <font-awesome-icon icon="fa-solid fa-user-slash" />
                 팔로우 취소
               </div>
@@ -84,14 +84,14 @@ export default {
     return {
       friendList: [],
       followed: [],
-      type: "follow"
+      type: "follow",
     };
   },
   created() {
     console.log("sadasdadads");
     this.type = this.$route.params.type;
     this.getFollowings();
-    console.log(this.type)
+    console.log(this.type);
   },
   computed: {
     ...mapState(["userInfo"]),
@@ -146,20 +146,22 @@ export default {
           this.getFollowings();
         });
     },
-    unFollow(following){
-      if(!confirm("팔로우를 취소하시겠습니까?"))return;
-      http.post(`/user/unfollow`, {
+    unFollow(following) {
+      if (!confirm("팔로우를 취소하시겠습니까?")) return;
+      http
+        .post(`/user/unfollow`, {
           following,
           follower: this.userInfo.id,
-        }).then(({data})=>{
+        })
+        .then(({ data }) => {
           swal({
             title: "Success",
             text: data,
             icon: "success",
           });
           this.getFollowings();
-        })
-    }
+        });
+    },
   },
 };
 </script>
