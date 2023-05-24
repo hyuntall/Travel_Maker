@@ -11,6 +11,7 @@
                 placeholder="사용자를 검색해주세요"
                 @focus="flist"
                 @keyup="flist"
+                v-model="search"
               ></b-form-input>
               <div class="user-list">
                 <div class="user" v-for="(user, index) in friendList" :key="index">
@@ -85,6 +86,7 @@ export default {
       friendList: [],
       followed: [],
       type: "follow",
+      search: "",
     };
   },
   created() {
@@ -143,6 +145,8 @@ export default {
             icon: "success",
           });
           // this.friendList.splice(index, 1);
+          this.search = "";
+          this.friendList = [];
           this.getFollowings();
         });
     },

@@ -680,8 +680,6 @@ export default {
   display: none;
 }
 
-.plan .result #placesList .list-group-item {
-}
 .plan .result #placesList .list-group-item p {
   font-size: 8px;
 }
