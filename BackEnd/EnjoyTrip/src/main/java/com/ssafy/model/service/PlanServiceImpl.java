@@ -37,4 +37,9 @@ public class PlanServiceImpl implements PlanService{
 	public int getCurrentIdx() throws SQLException {
 		return planRepo.getCurrentIdx();
 	}
+
+	@Override
+	public int deletePlan(int idx) throws SQLException {
+		return planRepo.deletePlan(idx);
+	}
 }

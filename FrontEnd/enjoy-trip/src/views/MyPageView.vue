@@ -52,7 +52,13 @@
       </div>
       <p class="plan-header">내 계획 목록</p>
       <div class="my-plan">
-        <my-plan v-for="myPlan in myPlans" :key="myPlan.idx" :plan="myPlan"></my-plan>
+        <my-plan
+          v-for="myPlan in myPlans"
+          :key="myPlan.idx"
+          :plan="myPlan"
+          :user_id="userInfo.id"
+          @getPlans="getPlans"
+        ></my-plan>
         <div v-if="myPlans.length === 0" class="nothing">등록된 계획이 없습니다.</div>
       </div>
       <p class="board-header">내가 작성한 글</p>
@@ -113,22 +119,25 @@ export default {
         });
       });
 
-    http
-      .get(`/plan/list/${this.userInfo.id}`)
-      .then(({ data }) => {
-        console.log(data);
-        console.log(data);
-        data.sort((a, b) => {
-          return -(a.idx - b.idx);
-        });
-        this.myPlans = data;
-      })
-      .catch(() => {
-        console.log("계획 목록 요청 실패");
-      });
+    this.getPlans();
   },
   methods: {
     ...mapMutations(["SET_USER_INFO"]),
+    getPlans() {
+      http
+        .get(`/plan/list/${this.userInfo.id}`)
+        .then(({ data }) => {
+          console.log(data);
+          console.log(data);
+          data.sort((a, b) => {
+            return -(a.idx - b.idx);
+          });
+          this.myPlans = data;
+        })
+        .catch(() => {
+          console.log("계획 목록 요청 실패");
+        });
+    },
     uploadImage(event) {
       this.image = event.target.files[0];
       // 이미지 업로드 로직

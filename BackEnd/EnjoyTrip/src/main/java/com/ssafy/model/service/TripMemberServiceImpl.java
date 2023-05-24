@@ -23,4 +23,14 @@ public class TripMemberServiceImpl implements TripMemberService {
 	public int insertUserOfPlan(TripMemberDto tripMember) throws SQLException {
 		return tmRepo.insertUserOfPlan(tripMember);
 	}
+
+	@Override
+	public int leavePlan(TripMemberDto tripMember) throws SQLException {
+		return tmRepo.leavePlan(tripMember);
+	}
+
+	@Override
+	public int countPlanUser(int idx) throws SQLException {
+		return tmRepo.countPlanUser(idx);
+	}
 }

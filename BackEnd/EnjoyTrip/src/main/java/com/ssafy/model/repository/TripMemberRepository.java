@@ -11,4 +11,6 @@ import com.ssafy.dto.TripMemberDto;
 public interface TripMemberRepository {
 	public List<Integer> selectPlanIdx(String user_id) throws SQLException;
 	public int insertUserOfPlan(TripMemberDto tripMember) throws SQLException;
+	public int leavePlan(TripMemberDto tripMember) throws SQLException;
+	public int countPlanUser(int idx) throws SQLException;
 }

@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.json.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -103,5 +105,21 @@ public class PlanController {
 	@GetMapping("/comment/{plan_idx}")
 	public ResponseEntity<?> selectByPlanId(@PathVariable int plan_idx) throws SQLException{
 		return new ResponseEntity<List<PlanCommentDto>>(pcSvc.selectByPlanIdx(plan_idx), HttpStatus.OK);
+	}
+	
+	@PostMapping("/leave")
+	public ResponseEntity<?> leavePlan(@RequestBody TripMemberDto tripMember) throws SQLException {
+		System.out.println(tripMember);
+		try {
+			tmSvc.leavePlan(tripMember);
+			if (tmSvc.countPlanUser(tripMember.getPlan_idx()) == 0) {
+				planSvc.deletePlan(tripMember.getPlan_idx());
+			}
+			return new ResponseEntity<Integer>(1, HttpStatus.OK);
+		}
+		catch (Exception e) {
+			System.out.println(e);
+			return new ResponseEntity<Integer>(0, HttpStatus.BAD_REQUEST);
+		}
 	}
 }

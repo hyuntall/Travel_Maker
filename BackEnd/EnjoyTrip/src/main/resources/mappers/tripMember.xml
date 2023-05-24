@@ -9,4 +9,13 @@
 	<select id="selectPlanIdx" resultType="Integer">
 		select plan_idx from tripmember where user_id=#{user_id}
 	</select>
+	
+	<delete id="leavePlan">
+		delete from tripmember where plan_idx=#{plan_idx} and user_id=#{user_id}
+	</delete>
+
+	<select id="countPlanUser" resultType="Integer">
+		select count(*) from tripmember where plan_idx=#{idx}
+	</select>
+	
 </mapper>

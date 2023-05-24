@@ -31,8 +31,8 @@ export default {
   filters: {
     textLengthOverCut(txt) {
       const lastTxt = "...";
-      if (txt.length > 5) {
-        txt = txt.substr(0, 5) + lastTxt;
+      if (txt.length > 4) {
+        txt = txt.substr(0, 4) + lastTxt;
       }
       return txt;
     },

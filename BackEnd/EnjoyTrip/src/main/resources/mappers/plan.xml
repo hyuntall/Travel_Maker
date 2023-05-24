@@ -13,4 +13,7 @@
 	<select id="selectByIdx" resultType="PlanDto">
 		select * from plan where idx=#{idx}
 	</select>
+	<delete id="deletePlan">
+		delete from plan where idx=#{idx}
+	</delete>
 </mapper>
