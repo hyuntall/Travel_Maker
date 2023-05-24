@@ -49,6 +49,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   /* text-align: center; */
   color: #2c3e50;
+  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_-_q84Q4uvLsSnjHH2sj9J3LabQTs0982QA&usqp=CAU");
 }
 
 body {
