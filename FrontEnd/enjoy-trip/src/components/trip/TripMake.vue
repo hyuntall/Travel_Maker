@@ -9,7 +9,7 @@
             <div class="profile" v-for="f in friends" :key="f.id">
               <b-avatar
                 variant="info"
-                :src="f.image ? require(`C:/EnjoyTrip/user/${f.image}`) : require('../../assets/tmp_profile2.jpg')"
+                :src="f.image ? require(`C:/EnjoyTrip/user/${f.image}`) : require('../../assets/tmp_profile.jpg')"
               ></b-avatar>
             </div>
           </div>
@@ -22,7 +22,7 @@
                   :src="
                     friend.image
                       ? require(`C:/EnjoyTrip/user/${friend.image}`)
-                      : require('../../assets/tmp_profile2.jpg')
+                      : require('../../assets/tmp_profile.jpg')
                   "
                 ></b-avatar>
               </div>
@@ -505,14 +505,14 @@ export default {
       memo.style.display = "none";
     },
     setline(idx) {
-      if(this.days[idx-1].length  <= 0 ) alert("여행지를 드래그 해주세요")
+      if (this.days[idx - 1].length <= 0) alert("여행지를 드래그 해주세요");
       else {
         this.displayPlaces(this.days[idx - 1]);
         this.linePath = [];
         this.markers.forEach((element) => {
           this.linePath.push(element.getPosition());
         });
-  
+
         // 지도에 표시할 선을 생성합니다
         this.polyline.setPath(this.linePath);
         // 지도에 선을 표시합니다
