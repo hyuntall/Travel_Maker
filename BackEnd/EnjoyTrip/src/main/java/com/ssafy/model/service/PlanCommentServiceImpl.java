@@ -4,10 +4,12 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.ssafy.dto.PlanCommentDto;
 import com.ssafy.model.repository.PlanCommentRepository;
 
+@Service
 public class PlanCommentServiceImpl implements PlanCommentService{
 
 	@Autowired
