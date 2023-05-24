@@ -5,7 +5,7 @@
         class="slide"
         id="carousel-1"
         v-model="slide"
-        :interval="500"
+        :interval="5000"
         controls
         indicators
         label-next=""
@@ -107,6 +107,9 @@ export default {
   .slide {
     /* margin-top: 50px; */
   }
+  .img {
+    height: 850px;
+  }
 }
 
 @media screen and (max-width: 992px) {
@@ -114,7 +117,8 @@ export default {
     /* margin-top: 10vh; */
   }
   .img {
-    max-height: 60%;
+    /* max-height: 60%; */
+    height: 750px;
   }
 }
 </style>
