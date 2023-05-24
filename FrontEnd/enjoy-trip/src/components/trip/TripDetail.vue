@@ -13,7 +13,7 @@
           <b-sidebar id="sidebar-1" :title="plan.title" shadow>
             <div class="px-3 py-2">
               <!--  -->
-              <div class="added">
+              <div class="added" >
                 <div class="profile" v-for="f in tripmembers" :key="f.id">
                   <b-avatar
                     v-b-tooltip.hover
@@ -132,8 +132,8 @@ export default {
       this.polyline = new kakao.maps.Polyline({
         path: [], // 선을 구성하는 좌표배열 입니다
         strokeWeight: 5, // 선의 두께 입니다
-        strokeColor: "blue", // 선의 색깔입니다
-        strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+        strokeColor: "red", // 선의 색깔입니다
+        strokeOpacity: 0.6, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
         strokeStyle: "solid", // 선의 스타일입니다
       });
     },
@@ -188,7 +188,7 @@ export default {
         // 마커를 생성하고 지도에 표시합니다
         var placePosition = new kakao.maps.LatLng(places[i].longitude, places[i].latitude);
         
-        var marker = this.addMarker(placePosition, i);
+        var marker = this.addMarker(placePosition, i, places[i].category_code);
         //var itemEl = this.getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
         // marker.place_name = places[i].place_name;
         console.log("marker: " + marker);
@@ -221,20 +221,35 @@ export default {
       }
       this.map.setBounds(bounds);
     },
-    addMarker(position, idx, title) {
-      console.log("title " + title);
-      var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png", // 마커 이미지 url, 스프라이트 이미지를 씁니다
-        imageSize = new kakao.maps.Size(36, 37), // 마커 이미지의 크기
+    addMarker(position, idx, code) {
+      console.log("addMarker: "+ code)
+      // console.log("title " + title);
+      var imageSrc, imageSize, markerImage, marker, imgOptions;
+      // if(code === 'AT4') {
+      //   imageSrc = require("C:/SSAFY/ssafy_pjt/final관통/enjoy_trip/FrontEnd/enjoy-trip/src/assets/img/관광지.png") 
+      //   imageSize = new kakao.maps.Size(36, 37), // 마커 이미지의 크기
+      //   markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize),
+      //   marker = new kakao.maps.Marker({
+      //     position: position, // 마커의 위치
+      //     image: markerImage,
+      //   });
+      // }
+      // else 
+      {
+        imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png", // 마커 이미지 url, 스프라이트 이미지를 씁니다
+        imageSize = new kakao.maps.Size(36, 37) // 마커 이미지의 크기
         imgOptions = {
-          spriteSize: new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
-          spriteOrigin: new kakao.maps.Point(0, idx * 46 + 10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
-          offset: new kakao.maps.Point(13, 37), // 마커 좌표에 일치시킬 이미지 내에서의 좌표
-        },
-        markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
-        marker = new kakao.maps.Marker({
-          position: position, // 마커의 위치
-          image: markerImage,
-        });
+            spriteSize: new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
+            spriteOrigin: new kakao.maps.Point(0, idx * 46 + 10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+            offset: new kakao.maps.Point(13, 37), // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+          },
+          markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize,imgOptions),
+          marker = new kakao.maps.Marker({
+            position: position, // 마커의 위치
+            image: markerImage,
+          });
+
+      }
 
       marker.setMap(this.map); // 지도 위에 마커를 표출합니다
       this.markers.push(marker); // 배열에 생성된 마커를 추가합니다
@@ -300,15 +315,14 @@ export default {
             //길찾기가 성공했을 때
             this.linePath = []
             if(data.routes[0].result_code === 0) {
+              let count =1
               data.routes[0].sections.forEach(element => {
-                let {distance, duration, guides, } = element
-                console.log(distance, duration, guides)
+                let {distance, duration } = element
+                // console.log(distance, duration, guides)
                 
-                // guides.forEach( guide=> {
-                //   var placePosition = new kakao.maps.LatLng(guide.y, guide.x);
-                //   this.linePath.push(placePosition)
-                // });
-                console.log(element)
+                console.log(this.places[idx][count-1].name+"에서 "+this.places[idx][count].name+"까지 거리: "+Math.ceil(distance/1000)+"km 시간: "+Math.ceil(duration/60)+"분")
+                count = count + 1
+
                 element.roads.forEach( guide=> {
                   var limit = 0
                   // 10개 5좌표 
@@ -319,7 +333,7 @@ export default {
                   }
                 });
 
-               console.log("linepath: "+this.linePath) 
+              //  console.log("linepath: "+this.linePath) 
                  // 지도에 표시할 선을 생성합니다
                 this.polyline.setPath(this.linePath);
                 // 지도에 선을 표시합니다
