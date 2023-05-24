@@ -13,7 +13,7 @@
               </li>
 
               <li>
-                <router-link to="/board">자유게시판</router-link>
+                <router-link to="/board">여행 게시판</router-link>
               </li>
               <li>
                 <router-link to="/qna">QnA</router-link>
@@ -38,7 +38,7 @@
                 <router-link to="/trip"> 여행지 </router-link>
               </b-dropdown-item>
               <b-dropdown-item>
-                <router-link to="/board">자유게시판</router-link>
+                <router-link to="/board">여행 게시판</router-link>
               </b-dropdown-item>
               <b-dropdown-item>
                 <router-link to="/qna">QnA</router-link>
