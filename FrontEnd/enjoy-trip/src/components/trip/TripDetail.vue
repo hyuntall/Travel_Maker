@@ -46,7 +46,7 @@
                           {{ place.comment }}
                           <a href="#" @click="hideComment(idx, index)">접기</a>
                         </div>
-                        <div :id="'pl' + idx + '-' + index" style="color: orange"></div>
+                        <div :id="'pl' + idx + '-' + index" style="color: orange; margin-top: 20px"></div>
                       </b-card-text>
                     </b-card-body>
                   </div>
@@ -355,11 +355,11 @@ export default {
                     "분"
                 );
                 var sel = document.querySelector("#pl" + idx + "-" + (count - 1));
-                sel.innerHTML =
+                sel.innerHTML = "<p>" +
                   this.places[idx][count - 1].name +
-                  "에서 " +
-                  this.places[idx][count].name +
-                  "까지 거리: " +
+                  " -> " +
+                  this.places[idx][count].name + "</p>"+
+                  " 거리: " +
                   Math.ceil(distance / 1000) +
                   "km 시간: " +
                   Math.ceil(duration / 60) +
