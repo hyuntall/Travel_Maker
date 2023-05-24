@@ -46,6 +46,7 @@
             class="mb-2"
             size="sm"
             @input="makedays"
+            :min="min"
           ></b-form-datepicker>
           <label for="example-datepicker2">도착 날짜</label>
           <b-form-datepicker
@@ -54,6 +55,7 @@
             class="mb-2"
             size="sm"
             @input="makedays"
+            :min="min"
           ></b-form-datepicker>
         </div>
         <!-- days -->
@@ -143,6 +145,10 @@ export default {
     draggable,
   },
   data() {
+    const now = new Date()
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+      // 15th two months prior
+      const minDate = new Date(today)
     return {
       message: "",
       map: null,
@@ -159,6 +165,7 @@ export default {
       friends: [],
       polyline: null,
       linePath: [],
+      min: minDate,
     };
   },
   computed: {
