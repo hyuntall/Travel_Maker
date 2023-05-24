@@ -257,6 +257,28 @@ export default {
           no.style.display = "none"
         }
       }
+
+      // https://apis-navi.kakaomobility.com/v1/directions
+      if(this.places[idx].length > 1) {
+        let url = `https://apis-navi.kakaomobility.com/v1/waypoints/directions?`;
+        //8e2e5c55f8a455204cc6d497c99b6c00  06c33ac07fc44b677e02f424b096640b
+        let key = "8e2e5c55f8a455204cc6d497c99b6c00";
+
+        //origin
+        url += "origin="+this.places[idx][0].latitude+","+this.places[idx][0].longitude+"&"
+        //destination
+        url += "destination="+this.places[idx][1].latitude+","+this.places[idx][1].longitude
+
+        fetch(url, {
+          headers: {
+            "Content-Type": "	application/json;",
+            
+            Authorization: "KakaoAK " + key,
+          },
+        }).then(response => response.json()).then((data)=>{console.log(data.routes[0].sections[0])})
+
+      }
+      //
     },
   },
 };
