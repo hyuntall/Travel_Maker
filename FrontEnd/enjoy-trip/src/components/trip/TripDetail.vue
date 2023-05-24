@@ -9,8 +9,8 @@
         </div>
 
         <div class="tog">
-          <b-button v-b-toggle.sidebar-1>여행 계획표</b-button>
-          <b-sidebar id="sidebar-1" :title="plan.title" shadow>
+          <b-button v-b-toggle.sidebar-1 aria-controls="sidebar-1" aria-expanded="true">여행 계획표</b-button>
+          <b-sidebar id="sidebar-1" :title="plan.title" shadow visible>
             <div class="px-3 py-2">
               <!--  -->
               <div class="added">
@@ -56,7 +56,7 @@
           </b-sidebar>
         </div>
         <div class="comment">
-          <b-button v-b-toggle.sidebar-right>상세 내용</b-button>
+          <b-button v-b-toggle.sidebar-right aria-controls="sidebar-right" aria-expanded="true">상세 내용</b-button>
           <b-sidebar id="sidebar-right" title="상세 내용" right shadow>
             <div class="comment-list">
               <div v-for="(planComment, index) in planComments" :key="index" class="planComment">
