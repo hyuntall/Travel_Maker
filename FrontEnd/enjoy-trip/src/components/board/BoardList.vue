@@ -87,13 +87,13 @@ export default {
 * {
   list-style: none;
   text-decoration: none;
-  padding: 0;
+  /* padding: 0; */
   margin: 0;
   box-sizing: border-box;
 }
 
 .container {
-  margin-top: 100px !important;
+  /* margin-top: 100px !important; */
   min-width: 800px;
   max-width: 800px;
   margin: auto;

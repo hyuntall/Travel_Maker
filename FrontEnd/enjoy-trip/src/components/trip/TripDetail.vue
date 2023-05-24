@@ -1,66 +1,69 @@
 <template>
-    <div class="container">
-      <div class="row">
-        <div class="detail">
-          <div class="map">
-            <div class="map_wrap">
-              <div id="map" style="width: 100%; height: 95vh; position: relative; overflow: hidden"></div>              
-            </div>
+  <div class="container">
+    <div class="row">
+      <div class="detail">
+        <div class="map">
+          <div class="map_wrap">
+            <div id="map" style="width: 100%; height: 95vh; position: relative; overflow: hidden"></div>
           </div>
-          
+        </div>
 
-          <div class="tog">
-            <b-button v-b-toggle.sidebar-1>여행 계획표</b-button>
-            <b-sidebar id="sidebar-1" :title="plan.title" shadow>
-              <div class="px-3 py-2">
-                <!--  -->
-                <div class="added">
-                  <div class="profile" v-for="f in tripmembers" :key="f.id">
-                    <b-avatar v-b-tooltip.hover :title="f.name + ' ' + f.id"
-                      variant="info"
-                      :src="f.image ? require(`C:/EnjoyTrip/user/${f.image}`) : require('../../assets/tmp_profile2.jpg')"
-                    ></b-avatar>
-                  </div>
-                </div>
-                <div class="accordion" role="tablist">
-                  <b-card no-body class="mb-1" v-for="cnt,idx in dayCnt" :key="idx">
-                    <b-card-header header-tag="header" class="p-1" role="tab">
-                      <!-- <b-button block v-b-toggle.accordion-1 @click="displayOnMap(idx)">{{cnt}}일차 일정</b-button> -->
-                      <b-button block  @click="displayOnMap(idx)">{{cnt}}일차 일정</b-button>
-                      <!-- <span style="font-size:14px;"> 2002.03.12 ~ 2005.12.31</span> -->
-                    </b-card-header>
-                    <!-- <b-collapse id="accordion-1" accordion="my-accordion" role="tabpanel" style="display:none"> -->
-                    <div :id="'d'+idx" accordion="my-accordion" role="tabpanel" style="display:none">
-                      <b-card-body>
-                        <b-card-text class="mb-3" v-for="place,index in places[idx]" :key="index">
-                          <p>{{index+1}}. {{ place.name }}</p>
-                          <p>({{place.address}})</p>
-                          <a href="#" @click="showPopUp(place.url)"> 상세 </a> 
-                          <a href="#" @click="showComment(idx, index)"> 메모 </a>
-                          <div class="memo" :id="'memo' + idx + '-' + index" style="display: none; border: 1px solid #ebe5e5">
-                              {{ place.comment }}
-                            <a href="#" @click="hideComment(idx, index)">접기</a>
-                          </div>
-                        </b-card-text>
-                      </b-card-body>
-                    </div>
-                  </b-card>
-
+        <div class="tog">
+          <b-button v-b-toggle.sidebar-1>여행 계획표</b-button>
+          <b-sidebar id="sidebar-1" :title="plan.title" shadow>
+            <div class="px-3 py-2">
+              <!--  -->
+              <div class="added">
+                <div class="profile" v-for="f in tripmembers" :key="f.id">
+                  <b-avatar
+                    v-b-tooltip.hover
+                    :title="f.name + ' ' + f.id"
+                    variant="info"
+                    :src="f.image ? require(`C:/EnjoyTrip/user/${f.image}`) : require('../../assets/tmp_profile2.jpg')"
+                  ></b-avatar>
                 </div>
               </div>
-            </b-sidebar>
-          </div>
-
+              <div class="accordion" role="tablist">
+                <b-card no-body class="mb-1" v-for="(cnt, idx) in dayCnt" :key="idx">
+                  <b-card-header header-tag="header" class="p-1" role="tab">
+                    <!-- <b-button block v-b-toggle.accordion-1 @click="displayOnMap(idx)">{{cnt}}일차 일정</b-button> -->
+                    <b-button block @click="displayOnMap(idx)">{{ cnt }}일차 일정</b-button>
+                    <!-- <span style="font-size:14px;"> 2002.03.12 ~ 2005.12.31</span> -->
+                  </b-card-header>
+                  <!-- <b-collapse id="accordion-1" accordion="my-accordion" role="tabpanel" style="display:none"> -->
+                  <div :id="'d' + idx" accordion="my-accordion" role="tabpanel" style="display: none">
+                    <b-card-body>
+                      <b-card-text class="mb-3" v-for="(place, index) in places[idx]" :key="index">
+                        <p>{{ index + 1 }}. {{ place.name }}</p>
+                        <p>({{ place.address }})</p>
+                        <a href="#" @click="showPopUp(place.url)"> 상세 </a>
+                        <a href="#" @click="showComment(idx, index)"> 메모 </a>
+                        <div
+                          class="memo"
+                          :id="'memo' + idx + '-' + index"
+                          style="display: none; border: 1px solid #ebe5e5"
+                        >
+                          {{ place.comment }}
+                          <a href="#" @click="hideComment(idx, index)">접기</a>
+                        </div>
+                      </b-card-text>
+                    </b-card-body>
+                  </div>
+                </b-card>
+              </div>
+            </div>
+          </b-sidebar>
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
 import http from "@/util/http-common";
 
 export default {
-  name: 'TripDetail',
+  name: "TripDetail",
   components: {},
   data() {
     return {
@@ -68,7 +71,7 @@ export default {
       infowindow: null,
       markers: [],
       tripmembers: [],
-      plan : {title: ""},
+      plan: { title: "" },
       dayCnt: null,
       places : [],
       polyline: null,
@@ -76,39 +79,37 @@ export default {
     };
   },
   created() {
-    console.log(this.$route.params.plan_idx)
-    http.get("/plan/detail/"+this.$route.params.plan_idx).then(({data})=>{
-      console.log(data)
-      this.plan = data.plan
-      this.tripmembers = data.tripmember
+    console.log(this.$route.params.plan_idx);
+    http.get("/plan/detail/" + this.$route.params.plan_idx).then(({ data }) => {
+      console.log(data);
+      this.plan = data.plan;
+      this.tripmembers = data.tripmember;
 
-      const sdate = new Date(this.plan.start_date)
-      console.log(sdate+1)
-      const edate = new Date(this.plan.end_date)
+      const sdate = new Date(this.plan.start_date);
+      console.log(sdate + 1);
+      const edate = new Date(this.plan.end_date);
       this.dayCnt = (edate.getTime() - sdate.getTime()) / (1000 * 60 * 60 * 24) + 1;
-      
-      for(var i=0; i<this.dayCnt; i++) {
-        var arr = []
-        this.places.push(arr)
+
+      for (var i = 0; i < this.dayCnt; i++) {
+        var arr = [];
+        this.places.push(arr);
       }
 
-      data.places.forEach(element => {
-        //date_index : 몇일째인지(1base) , index : 해당 일차 몇번째인지(1base) 
-        console.log(element)
-        this.places[element.date_index-1].push(element)
+      data.places.forEach((element) => {
+        //date_index : 몇일째인지(1base) , index : 해당 일차 몇번째인지(1base)
+        console.log(element);
+        this.places[element.date_index - 1].push(element);
       });
 
-      for(var j=0; j<this.dayCnt; j++) {
-        //정렬 
-        this.places[j].sort(function(a,b){
-          return a.index - b.index
-        })
+      for (var j = 0; j < this.dayCnt; j++) {
+        //정렬
+        this.places[j].sort(function (a, b) {
+          return a.index - b.index;
+        });
       }
-
-     
-    })
+    });
   },
-   mounted() {
+  mounted() {
     if (window.kakao && window.kakao.maps) {
       this.initMap();
     } else {
@@ -116,9 +117,8 @@ export default {
       /* global kakao */
       script.onload = () => kakao.maps.load(this.initMap);
       script.src = "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=915cffed372954b7b44804ed422b9cf0";
-      document.head.appendChild(script);  
-    }    
-    
+      document.head.appendChild(script);
+    }
   },
   methods: {
     initMap() {
@@ -252,17 +252,17 @@ export default {
       this.infowindow.setContent(content);
       this.infowindow.open(this.map, marker);
     },
-    displayOnMap(idx){
+    displayOnMap(idx) {
       this.displayPlaces(this.places[idx]);
-      var div = document.querySelector("#d"+idx);
-      console.log(div)
-      if(div.style.display === "block") div.style.display = "none"
-      else div.style.display = "block"
+      var div = document.querySelector("#d" + idx);
+      console.log(div);
+      if (div.style.display === "block") div.style.display = "none";
+      else div.style.display = "block";
 
-      for(var i=0;i<this.dayCnt;i++) {
-        if(i!==idx) {
-          var no = document.querySelector("#d"+i);
-          no.style.display = "none"
+      for (var i = 0; i < this.dayCnt; i++) {
+        if (i !== idx) {
+          var no = document.querySelector("#d" + i);
+          no.style.display = "none";
         }
       }
 
@@ -302,11 +302,22 @@ export default {
 </script>
 
 <style scoped>
-.container {height:100vh}
-.detail {margin-top: 80px; position: relative;}
+.container {
+  height: 100vh;
+}
+.detail {
+  position: relative;
+}
 
-.detail .tog {position: absolute; z-index: 9999; top:15px; left: 20px}
-.detail .tog p {margin: 2px 0;}
+.detail .tog {
+  position: absolute;
+  z-index: 9999;
+  top: 15px;
+  left: 20px;
+}
+.detail .tog p {
+  margin: 2px 0;
+}
 .added {
   display: flex;
   margin-bottom: 15px;
@@ -339,8 +350,4 @@ export default {
   width: 100%;
   height: 150px;
 }
-
-
-
-
 </style>

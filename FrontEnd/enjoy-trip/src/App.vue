@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <header-nav :user="user" @logout="logout" />
-    <router-view @login="login" />
+    <router-view @login="login" class="body-content" />
   </div>
 </template>
 
@@ -44,7 +44,7 @@ export default {
 @import "./assets/css/reset.css";
 
 #app {
-  font-family: 'SDGothic', serif;
+  font-family: "SDGothic", serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* text-align: center; */
@@ -66,5 +66,9 @@ body {
 /* / 로우 영역 */
 .row {
   padding: 0 28px;
+}
+.body-content {
+  height: 100vh;
+  padding-top: 80px;
 }
 </style>

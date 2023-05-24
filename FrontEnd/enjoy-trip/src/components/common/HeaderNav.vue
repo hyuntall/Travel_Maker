@@ -4,9 +4,7 @@
       <div class="row">
         <div class="header clearfix">
           <div class="title">
-            <router-link to="/"> 
-              <b>Travel Maker</b>&nbsp;&nbsp;
-              <span>YOUR TRIP PLAN MANAGER</span> </router-link>
+            <router-link to="/"> <b>Travel Maker</b>&nbsp;&nbsp; <span>YOUR TRIP PLAN MANAGER</span> </router-link>
           </div>
           <nav class="nav">
             <ul class="main-menu">
@@ -94,6 +92,7 @@ export default {
   position: fixed;
   top: 0;
   width: 100%;
+  height: 80px;
   border-bottom: 1px solid #c6c6c6;
   background-color: #fff;
   box-shadow: 0 5px 5px -5px #333;
