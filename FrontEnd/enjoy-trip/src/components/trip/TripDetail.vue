@@ -254,7 +254,6 @@ export default {
       this.infowindow.open(this.map, marker);
     },
     displayOnMap(idx) {
-      this.displayPlaces(this.places[idx]);
       var div = document.querySelector("#d" + idx);
       console.log(div);
       if (div.style.display === "block") div.style.display = "none";
@@ -265,6 +264,10 @@ export default {
           var no = document.querySelector("#d" + i);
           no.style.display = "none";
         }
+      }
+      if(this.places[idx].length >= 1) {
+
+        this.displayPlaces(this.places[idx]);
       }
 
       // https://apis-navi.kakaomobility.com/v1/directions
@@ -301,9 +304,19 @@ export default {
                 let {distance, duration, guides, } = element
                 console.log(distance, duration, guides)
                 
-                guides.forEach( guide=> {
-                  var placePosition = new kakao.maps.LatLng(guide.y, guide.x);
-                  this.linePath.push(placePosition)
+                // guides.forEach( guide=> {
+                //   var placePosition = new kakao.maps.LatLng(guide.y, guide.x);
+                //   this.linePath.push(placePosition)
+                // });
+                console.log(element)
+                element.roads.forEach( guide=> {
+                  var limit = 0
+                  // 10개 5좌표 
+                  while(guide.vertexes.length > limit) {
+                    var placePosition = new kakao.maps.LatLng(guide.vertexes[limit+1], guide.vertexes[limit]);
+                    this.linePath.push(placePosition)
+                    limit = limit +2;
+                  }
                 });
 
                console.log("linepath: "+this.linePath) 
