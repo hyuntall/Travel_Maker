@@ -20,7 +20,7 @@
         </b-carousel-slide>
         <b-carousel-slide class="imgbox" v-for="(board, index) in weekBoards" :key="index">
           <template #img>
-            <router-link class="link" :to="{ name: 'BoardDetail', params: { idx:board.idx } }">
+            <router-link class="link" :to="{ name: 'BoardDetail', params: { idx: board.idx } }">
               <img class="img" :src="require(`C:/EnjoyTrip/board/${board.image}`)" alt="image slot" />
               <h3 class="board-title">주간 {{ index + 1 }}위 게시글 : {{ board.title }}</h3>
             </router-link>
@@ -61,12 +61,12 @@ export default {
 
 <style scoped>
 .wrap {
-  height: 100vh;
+  height: 100%;
   overflow: hidden;
 }
 
 .slide {
-  height: 100vh;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -80,17 +80,15 @@ export default {
   text-decoration: none;
 }
 
-
 .link {
   text-shadow: rgb(51, 51, 51) 1px 1px 2px;
-  color:rgb(51, 51, 51);
+  color: rgb(51, 51, 51);
   text-decoration: none;
 }
 .board-title {
   width: 100%;
   padding-left: 10px;
   /* background-color: #ababab; */
-  
 }
 
 .title {
@@ -107,16 +105,16 @@ export default {
 }
 @media screen and (min-width: 993px) {
   .slide {
-    margin-top: 50px;
+    /* margin-top: 50px; */
   }
 }
 
 @media screen and (max-width: 992px) {
-  .slide{
-    margin-top: 10vh;
+  .slide {
+    /* margin-top: 10vh; */
   }
   .img {
-    max-height: 60vh;
+    max-height: 60%;
   }
 }
 </style>

@@ -74,11 +74,11 @@ export default {
     writeBoard() {
       if (this.image == null) {
         swal({
-            title: "Warning",
-            text: "이미지를 필수로 등록해야합니다.",
-            icon: "warning",
-          });
-          return;
+          title: "Warning",
+          text: "이미지를 필수로 등록해야합니다.",
+          icon: "warning",
+        });
+        return;
       }
       const formData = new FormData();
       formData.append("user_id", this.userInfo.id);
@@ -149,7 +149,7 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: "SDGothic", sans-serif;
 }
 
 a {

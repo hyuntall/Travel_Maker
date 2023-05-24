@@ -17,24 +17,24 @@
           <div id="userlist" v-for="(friend, index) in friendList" :key="index">
             <div class="row search-user">
               <div class="col-4 search-result">
-
                 <b-avatar
-                variant="info"
-                :src="
-                  friend.image ? require(`C:/EnjoyTrip/user/${friend.image}`) : require('../../assets/tmp_profile2.jpg')
+                  variant="info"
+                  :src="
+                    friend.image
+                      ? require(`C:/EnjoyTrip/user/${friend.image}`)
+                      : require('../../assets/tmp_profile2.jpg')
                   "
-              ></b-avatar>
-            </div>
-            <div class="col-4 search-result" style="font-size:12px;text-align: center;">
-                {{ friend.name }} 
-                ({{ friend.id }}) 
-              
-            </div>
-              
-            <div class="col-4 search-result" >
-              <font-awesome-icon icon="fa-solid fa-user-plus" size="2x" style="color: #999999" @click="addF(index)" />
-              <!-- <a href="#" @click="addF(index)">추가</a> -->
-            </div>
+                ></b-avatar>
+              </div>
+              <div class="col-4 search-result" style="font-size: 12px; text-align: center">
+                {{ friend.name }}
+                ({{ friend.id }})
+              </div>
+
+              <div class="col-4 search-result">
+                <font-awesome-icon icon="fa-solid fa-user-plus" size="2x" style="color: #999999" @click="addF(index)" />
+                <!-- <a href="#" @click="addF(index)">추가</a> -->
+              </div>
             </div>
           </div>
         </div>
@@ -535,7 +535,7 @@ export default {
 }
 
 .plan {
-  padding-top: 80px;
+  /* padding-top: 80px; */
   display: flex;
   height: 100vh;
 }
@@ -655,17 +655,17 @@ export default {
 .plan .result #placesList .list-group-item p {
   font-size: 8px;
 }
-.search-result{
+.search-result {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.search-user{
+.search-user {
   padding-top: 5px;
   padding-bottom: 5px;
 }
 
-.search-user:hover{
+.search-user:hover {
   background-color: #777;
 }
 

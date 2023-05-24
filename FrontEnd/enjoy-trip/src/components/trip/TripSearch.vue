@@ -78,34 +78,37 @@ export default {
     };
   },
   created() {
-    http.get("/region/all").then(({ data }) => {
-      console.log(data);
-      data.forEach((region) => {
-        console.log(region);
-        this.regions.push(region);
-      });
-    }).catch((error)=>console.log(error));
+    http
+      .get("/region/all")
+      .then(({ data }) => {
+        console.log(data);
+        data.forEach((region) => {
+          console.log(region);
+          this.regions.push(region);
+        });
+      })
+      .catch((error) => console.log(error));
   },
   methods: {
     search1(event) {
       console.log(event.target.value);
-      http.get(`/region/keyword/${event.target.value}`).then(({data})=>{
-        console.log(data)
-        this.regions=[]
-        data.forEach(element => {
-          this.regions.push(element)
+      http.get(`/region/keyword/${event.target.value}`).then(({ data }) => {
+        console.log(data);
+        this.regions = [];
+        data.forEach((element) => {
+          this.regions.push(element);
         });
-      })
+      });
     },
     search2(event) {
       console.log(event.target.textContent);
-      http.get(`/region/keyword/${event.target.textContent}`).then(({data})=>{
-        console.log(data)
-        this.regions=[]
-        data.forEach(element => {
-          this.regions.push(element)
+      http.get(`/region/keyword/${event.target.textContent}`).then(({ data }) => {
+        console.log(data);
+        this.regions = [];
+        data.forEach((element) => {
+          this.regions.push(element);
         });
-      })
+      });
     },
     openModal(event) {
       this.$bvModal.show(Number(event.target.id));
@@ -116,7 +119,7 @@ export default {
 
 <style scoped>
 .search {
-  margin-top: 100px;
+  /* margin-top: 100px; */
   text-align: center;
 }
 .search h2 {

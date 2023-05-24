@@ -174,7 +174,7 @@ export default {
 <style scoped>
 * {
   margin: 0;
-  padding: 0;
+  /* padding: 0; */
   box-sizing: border-box;
   font-family: "SDGothic", serif;
 }
@@ -191,8 +191,8 @@ export default {
 .container {
   max-width: 720px;
   min-width: 720px;
-  height: 100vh;
-  min-height: 1000px;
+  /* height: 100vh; */
+  /* min-height: 1000px; */
   padding-top: 100px;
 }
 .my-profile {
@@ -204,6 +204,7 @@ export default {
   display: flex;
   border-radius: 2px;
   border: 1px solid rgb(218, 217, 217);
+  padding-top: 30px;
 }
 
 .profile {

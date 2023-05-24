@@ -32,17 +32,17 @@
           <div class="title">{{ board.title }}</div>
           <div class="message" v-html="enterToBr"></div>
           <form @submit="writeComment">
-          <div class="addComments">
-            <div class="reaction">
-              <h3>
-                <i class="far fa-smile"></i>
-              </h3>
-            </div>
+            <div class="addComments">
+              <div class="reaction">
+                <h3>
+                  <i class="far fa-smile"></i>
+                </h3>
+              </div>
               <input type="text" class="text" v-model="comment" placeholder="Add a comment..." />
               <a href="#" @click="writeComment">Post</a>
             </div>
           </form>
-          </div>
+        </div>
         <comment-list :board_idx="board.idx" ref="commentList"></comment-list>
       </div>
     </div>
@@ -87,12 +87,15 @@ export default {
       });
   },
   methods: {
-    getProfileImg(){
-      http.get(`/user/image/${this.board.user_id}`).then(({data})=>{
-        this.profileUrl = require(`C:/EnjoyTrip/user/${data}`);
-        }).catch(()=>{
+    getProfileImg() {
+      http
+        .get(`/user/image/${this.board.user_id}`)
+        .then(({ data }) => {
+          this.profileUrl = require(`C:/EnjoyTrip/user/${data}`);
+        })
+        .catch(() => {
           console.log("프로필 이미지 요청 오류");
-      })
+        });
     },
     deleteBoard() {
       http
@@ -337,8 +340,8 @@ body {
 
 .profilepic .profile_img img {
   /* width: 100%; */
-  height: 400px;
-  object-fit: contain;
+  height: 100%;
+  object-fit: cover;
 }
 
 .cover {
