@@ -112,7 +112,12 @@
 
       <div class="result">
         <h3 style="margin-top: 10px">여행지 목록</h3>
-        <input type="text" @keyup.13="keywordSearch" placeholder="여행지명 검색" style="text-align: center; border-radius: 5px" />
+        <input
+          type="text"
+          @keyup.13="keywordSearch"
+          placeholder="여행지명 검색"
+          style="text-align: center; border-radius: 5px"
+        />
         <ul id="placesList">
           <draggable
             v-model="results"
@@ -145,10 +150,10 @@ export default {
     draggable,
   },
   data() {
-    const now = new Date()
-      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-      // 15th two months prior
-      const minDate = new Date(today)
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    // 15th two months prior
+    const minDate = new Date(today);
     return {
       message: "",
       map: null,
@@ -260,8 +265,8 @@ export default {
         });
     },
     keywordSearch(event) {
-      console.log("keywordSearch")
-      console.log(event.target.value)
+      console.log("keywordSearch");
+      console.log(event.target.value);
       let url = `https://dapi.kakao.com/v2/local/search/keyword.json?query=${event.target.value}`;
       let key = "06c33ac07fc44b677e02f424b096640b";
       fetch(url, {
@@ -465,7 +470,6 @@ export default {
         title: this.region.cate2 + " 여행",
         start_date: new Date(this.start),
         end_date: new Date(this.end),
-        content: "없는 내용",
         places: [],
       };
       for (var i = 0; i < this.days.length; i++) {

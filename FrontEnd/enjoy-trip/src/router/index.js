@@ -108,35 +108,13 @@ const routes = [
       {
         path: "detail/:idx",
         name: "BoardDetail",
+        beforeEnter: onlyAuthUser,
         component: () => import(/* webpackChunkName: "board" */ "@/components/board/BoardDetail"),
       },
       {
         path: "modify",
         name: "BoardModify",
         component: () => import(/* webpackChunkName: "board" */ "@/components/board/BoardWrite"),
-      },
-    ],
-  },
-  {
-    path: "/qna",
-    name: "QnAView",
-    component: BoardView,
-    redirect: "/qna/list",
-    children: [
-      {
-        path: "list",
-        name: "QnAList",
-        component: () => import(/* webpackChunkName: "qna" */ "@/components/qna/QnAList"),
-      },
-      {
-        path: "regist",
-        name: "QnARegist",
-        component: () => import(/* webpackChunkName: "qna" */ "@/components/qna/QnAWrite"),
-      },
-      {
-        path: "detail/:id",
-        name: "QnADetail",
-        component: () => import(/* webpackChunkName: "qna" */ "@/components/qna/QnAWrite"),
       },
     ],
   },

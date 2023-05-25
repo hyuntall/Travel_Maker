@@ -17,9 +17,6 @@
               <li>
                 <router-link to="/board">여행 게시판</router-link>
               </li>
-              <li>
-                <router-link to="/qna">QnA</router-link>
-              </li>
               <li v-if="userInfo">
                 <router-link to="/mypage">MyPage</router-link>
               </li>
@@ -41,9 +38,6 @@
               </b-dropdown-item>
               <b-dropdown-item>
                 <router-link to="/board">여행 게시판</router-link>
-              </b-dropdown-item>
-              <b-dropdown-item>
-                <router-link to="/qna">QnA</router-link>
               </b-dropdown-item>
               <b-dropdown-item v-if="userInfo">
                 <router-link to="/mypage">MyPage</router-link>
