@@ -153,6 +153,9 @@ export default new Vuex.Store({
         }
       );
     },
+    modify({ commit }, user) {
+      commit("SET_USER_INFO", user);
+    },
   },
   modules: {},
   plugins: [

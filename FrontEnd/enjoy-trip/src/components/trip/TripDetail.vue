@@ -388,18 +388,22 @@ export default {
                 // 지도에 선을 표시합니다
                 this.polyline.setMap(this.map);
               });
-              console.log("총 거리 시간: ")
-              console.log(total_dist+" "+total_time)
-              total_dist = Math.ceil(total_dist/1000)
-              total_time = Math.ceil(total_time/60)
-              var hd = document.querySelector("#hd"+idx)
-              var span = document.createElement('span')
-              span.innerHTML = "총 거리:"+total_dist+"km 소요 시간:"+total_time+"분"
-              span.style.fontSize = "12px"
-              span.style.color = "orange"
-              span.style.padding = "0 0 5px 10px"
 
-              hd.appendChild(span) 
+              var hd = document.querySelector("#hd"+idx)
+              if(hd.childElementCount === 1) {
+
+                console.log("총 거리 시간: ")
+                console.log(total_dist+" "+total_time)
+                total_dist = Math.ceil(total_dist/1000)
+                total_time = Math.ceil(total_time/60)
+                var span = document.createElement('span')
+                span.innerHTML = "총 거리:"+total_dist+"km 소요 시간:"+total_time+"분"
+                span.style.fontSize = "12px"
+                span.style.color = "orange"
+                span.style.padding = "0 0 5px 10px"
+  
+                hd.appendChild(span) 
+              }
             } else {
               alert("길찾기 에러 발생");
             }

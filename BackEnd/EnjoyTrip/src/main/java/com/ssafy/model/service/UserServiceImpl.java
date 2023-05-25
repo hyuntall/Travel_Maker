@@ -111,5 +111,11 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public void unFollow(Map<String, String> map) throws SQLException {
 		urepo.unFollow(map);
+	}
+
+	@Override
+	public void modifyUser(UserDto user) throws SQLException {
+		urepo.modifyUser(user);
+		
 	};
 }

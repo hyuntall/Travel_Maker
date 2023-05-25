@@ -82,4 +82,8 @@
 		select * from user where id in (select user_id from tripmember where plan_idx = #{plan_idx});
 	</select>
 	
+	<update id="modifyUser">
+		update user set name=#{name}, password=#{password}, phone_number=#{phone_number}, gender=#{gender}, age=#{age}, is_admin=#{is_admin}, image=#{image} where id=#{id}
+	</update>
+	
 </mapper>

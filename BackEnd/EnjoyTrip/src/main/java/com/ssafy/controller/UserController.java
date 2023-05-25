@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -243,5 +244,12 @@ public class UserController {
 	public ResponseEntity<?> unFollow(@RequestBody Map<String, String> params) throws SQLException {
 		usvc.unFollow(params);
 		return new ResponseEntity<String>("팔로우 취소 성공", HttpStatus.OK);
+	}
+	
+	@PutMapping("/modify")
+	public ResponseEntity<?> modifyUser(@RequestBody UserDto user) throws SQLException {
+//		System.out.println("modifyUser: "+user);
+		usvc.modifyUser(user);
+		return new ResponseEntity<String>("회원정보 수정 성공", HttpStatus.OK);
 	}
 }

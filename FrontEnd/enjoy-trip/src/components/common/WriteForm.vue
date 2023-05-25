@@ -41,7 +41,7 @@
         <button class="col-5" variant="outline-success">LogIn</button>
       </div>
       <div class="submit modify" v-else>
-        <button variant="outline-success" @click="checkValue">Modify</button>
+        <button variant="outline-success" @click="modifyUser">Modify</button>
       </div>
     </div>
   </div>
@@ -49,7 +49,7 @@
 
 <script>
 import http from "@/util/http-common";
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 import swal from "sweetalert";
 
 export default {
@@ -85,6 +85,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(["modify"]),
     checkValue() {
       // 사용자 입력값 체크하기
       // isbn, 제목, 저자, 가격, 설명이 없을 경우 각 항목에 맞는 메세지를 출력
@@ -124,6 +125,24 @@ export default {
     },
     modifyUser() {
       //Todo
+      http
+        .put("/user/modify", this.user)
+        .then(() => {
+          swal({
+            title: "Success",
+            text: "수정 성공!",
+            icon: "success",
+          });
+          this.modify(this.user)
+          this.$router.push({ name: "MyPage" });
+        })
+        .catch((data) => {
+          swal({
+            title: "Error",
+            text: data.response.data,
+            icon: "error",
+          });
+        });
     },
   },
   computed: {
