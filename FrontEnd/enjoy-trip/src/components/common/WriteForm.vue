@@ -66,6 +66,7 @@ export default {
         phone_number: "",
         gender: "M",
         age: 0,
+        image: null,
       },
       readonly: false,
     };
@@ -133,6 +134,7 @@ export default {
             text: "수정 성공!",
             icon: "success",
           });
+          this.user.image = this.userInfo.image
           this.modify(this.user)
           this.$router.push({ name: "MyPage" });
         })

@@ -83,7 +83,7 @@
 	</select>
 	
 	<update id="modifyUser">
-		update user set name=#{name}, password=#{password}, phone_number=#{phone_number}, gender=#{gender}, age=#{age}, is_admin=#{is_admin}, image=#{image} where id=#{id}
+		update user set name=#{name}, password=#{password}, phone_number=#{phone_number}, gender=#{gender}, age=#{age}, is_admin=#{is_admin} where id=#{id}
 	</update>
 	
 </mapper>
